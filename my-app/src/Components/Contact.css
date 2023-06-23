@@ -1,0 +1,115 @@
+/* Contact.css */
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mb-3{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin: 1rem;
+
+}
+
+.mb-4{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    color: #333;
+
+}
+
+.mb-5{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin: 1rem;
+}
+.
+
+
+  
+  p {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  textarea.form-control {
+    resize: vertical;
+  }
+  
+  button[type="submit"],
+  button[type="reset"] {
+    margin-right: 10px;
+  }
+  
+  .alert {
+    margin-top: 20px;
+  }
+  
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+  
+  /* input */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  textarea:focus {
+    border-color: #a7bbc7;
+    outline: none;
+  }
+  
+  button[type="submit"],
+  button[type="reset"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover,
+  button[type="reset"]:hover {
+    background-color: #0056b3;
+  }
+  

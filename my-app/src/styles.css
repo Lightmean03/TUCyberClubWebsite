@@ -1,20 +1,25 @@
-/*Header*/
-body{
+*{
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
+
+/*Header*/
 .Header{
     color: black;
 }
 
-.container {
+/*.container {
     margin: 1rem;
     text-align: center;
 
-}
+}*/
 
+/*Nav Bar*/
 .nav {
-    background-color: #333;
-    color: white;
+    background-color: transparent;
+    color: black;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -23,7 +28,7 @@ body{
 }
 
 .site-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .nav ul {
@@ -44,9 +49,46 @@ body{
 }
 
 .nav li.active {
-    background-color: #555;
+
 }
 
 .nav li:hover {
     background-color: #777;
 }
+
+
+/*Home Page*/
+.home-container {
+    text-align: center;
+    
+  }
+  
+  .home-header {
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
+    color: #3f51b5;
+}
+  
+  .home-title {
+   margin-top: 100px;
+   max-width: 600px;
+}
+  
+  .home-content {
+  }
+  
+  .home-text {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .valid-control {
+    border-color: #28a745; /* Green border color */
+  }
+  
+  /* Add this class to the form control elements when they have errors */
+  .invalid-control {
+    border-color: #dc3545; /* Red border color */
+  }

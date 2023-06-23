@@ -1,0 +1,11 @@
+import React from 'react';
+
+export default function Resources() {
+  return (
+    <div>
+      <h1 className="Header">
+        Resources
+      </h1>
+    </div>
+  );
+}
