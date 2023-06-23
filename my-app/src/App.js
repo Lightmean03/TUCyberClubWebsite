@@ -7,8 +7,8 @@ import Signin from './Components/Signin';
 import Navbar from './NavBar';
 import Resources from './Components/Resources';
 import News from './Components/News';
-import Contact from './Components/Contact'; // Import the Contact component
-import SignUp from './Components/SignUp';
+import Contact from './Components/Contact';
+import SignUp from './Components/Signup'; // Import the SignUp component
 
 function App() {
   return (
@@ -21,9 +21,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/News" element={<News />} />
           <Route path="/Resources" element={<Resources />} />
-          <Route path="/Contact" element={<Contact />} /> {/* Add the Contact route */}
-          <Route path="/SignUp" element={<SignUp /> } />
-          
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/Signup" element={<SignUp />} /> {/* Add the element prop */}
         </Routes>
       </div>
     </>
@@ -31,3 +30,4 @@ function App() {
 }
 
 export default App;
+
