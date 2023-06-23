@@ -8,6 +8,7 @@ import Navbar from './NavBar';
 import Resources from './Components/Resources';
 import News from './Components/News';
 import Contact from './Components/Contact'; // Import the Contact component
+import SignUp from './Components/SignUp';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/News" element={<News />} />
           <Route path="/Resources" element={<Resources />} />
           <Route path="/Contact" element={<Contact />} /> {/* Add the Contact route */}
+          <Route path="/SignUp" element={<SignUp /> } />
           
         </Routes>
       </div>

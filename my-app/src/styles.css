@@ -5,6 +5,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body{
+    overflow-y: scroll;
+}
+
 /*Header*/
 .Header{
     color: black;
@@ -25,7 +29,15 @@
     align-items: stretch;
     gap: 2rem;
     padding: 0 1rem;
+    position: sticky;
+    z-index: 1000;
 }
+
+.nav.home {
+    background-color: white; /* Change the navbar color for the home page */
+    color: white; /* Change the navbar text color for the home page */
+}
+
 
 .site-title {
     font-size: 1.5rem;
@@ -55,40 +67,3 @@
 .nav li:hover {
     background-color: #777;
 }
-
-
-/*Home Page*/
-.home-container {
-    text-align: center;
-    
-  }
-  
-  .home-header {
-    font-size: 25px;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 20px;
-    color: #3f51b5;
-}
-  
-  .home-title {
-   margin-top: 100px;
-   max-width: 600px;
-}
-  
-  .home-content {
-  }
-  
-  .home-text {
-    font-size: 18px;
-    line-height: 1.5;
-    color: #555;
-  }
-  
-  .valid-control {
-    border-color: #28a745; /* Green border color */
-  }
-  
-  /* Add this class to the form control elements when they have errors */
-  .invalid-control {
-    border-color: #dc3545; /* Red border color */
-  }
