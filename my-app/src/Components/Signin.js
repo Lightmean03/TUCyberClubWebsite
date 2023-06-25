@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import { isEmail } from 'validator';
-import './Contact.css';
+import './Signin.css';
 import Signup from './Signup';
 
 const Signin = () => {
@@ -36,11 +36,15 @@ const Signin = () => {
     setErrors({ ...errors, [name]: undefined });
   };
 
+  const handleSignIn = () => {
+    // Your sign-in logic goes here
+    console.log('Sign-in data:', signInData);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Sign-in data:', signInData);
-      // Handle sign-in logic
+      handleSignIn();
     }
     setValidated(true);
   };
@@ -62,10 +66,10 @@ const Signin = () => {
     <Container>
       {!showSignup ? (
         <>
-          <h3>Sign In</h3>
-          <Form noValidate validated={validated} onSubmit={handleSubmit} onReset={handleReset} id="Sign-in">
+          <h3 className="signin-title">Sign In</h3>
+          <Form noValidate validated={validated} onSubmit={handleSubmit} onReset={handleReset} id="Sign-in" className="signin-form">
             <Form.Group className="mb-3" controlId="Email">
-              <Form.Label>Email Address:</Form.Label>
+              <Form.Label className="form-label">Email Address:</Form.Label>
               <Form.Control
                 type="email"
                 name="submitter_email"
@@ -73,13 +77,14 @@ const Signin = () => {
                 onChange={handleChange}
                 required
                 isInvalid={validated && !!errors.submitter_email}
+                className="form-control"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="form-control-feedback">
                 {errors.submitter_email}
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-5" controlId="password">
-              <Form.Label>Password: </Form.Label>
+              <Form.Label className="form-label">Password:</Form.Label>
               <Form.Control
                 type="password"
                 name="submitter_password"
@@ -87,23 +92,24 @@ const Signin = () => {
                 value={signInData.submitter_password}
                 required
                 isInvalid={validated && !!errors.submitter_password}
+                className="form-control"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="form-control-feedback">
                 {errors.submitter_password}
               </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit">Submit</Button>
-            <Button type="reset">Reset</Button>
-            <div>
+            <Button type="submit" className="signin-submit-btn">Submit</Button>
+            <Button type="reset" className="signin-reset-btn">Reset</Button>
+            <div className="signin-signup-link">
               Don't have an account?{' '}
-              <Button variant="link" onClick={handleSignupLink}>
+              <Button variant="link" onClick={handleSignupLink} className="signin-signup-btn">
                 Sign Up
               </Button>
             </div>
           </Form>
         </>
       ) : (
-        <SignUp />
+        <Signup showSignup={showSignup} setShowSignup={setShowSignup} />
       )}
     </Container>
   );

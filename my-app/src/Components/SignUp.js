@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Modal, Button } from 'react-bootstrap';
 import { isEmail } from 'validator';
-import './Contact.css';
+import './Signup.css'; // Import the CSS file
 
 const Signup = ({ showSignup, setShowSignup }) => {
   const [validated, setValidated] = useState(false);
@@ -69,12 +69,18 @@ const Signup = ({ showSignup, setShowSignup }) => {
   return (
     <Modal show={showSignup} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Sign Up</Modal.Title>
+        <Modal.Title className="signup-title">Sign Up</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Container>
-          <p>Create Account</p>
-          <Form noValidate validated={validated} onSubmit={handleSubmit} onReset={handleReset} id="Sign-up">
+        <Container className="signup-container">
+          <p className="signup-subtitle">Create Account</p>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            onReset={handleReset}
+            className="signup-form"
+          >
             <Row>
               <Col>
                 <Form.Group className="mb-3" controlId="Email">
@@ -112,9 +118,16 @@ const Signup = ({ showSignup, setShowSignup }) => {
                 </Form.Group>
               </Col>
             </Row>
-            <Button type="submit">Submit</Button>
-            <Button type="reset">Reset</Button>
+            <Button type="submit" className="signup-submit-btn">
+              Submit
+            </Button>
+            <Button type="reset" className="signup-reset-btn">
+              Reset
+            </Button>
           </Form>
+          <Button variant="outline-secondary" onClick={handleClose} className="signup-cancel-btn">
+          Cancel
+        </Button>
         </Container>
       </Modal.Body>
     </Modal>
