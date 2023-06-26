@@ -1,5 +1,6 @@
 import React from 'react';
 import './Home.css'
+import { Footer } from './footer';
 export default function Home() {
   return (
     <div className="home-container">
@@ -19,6 +20,8 @@ export default function Home() {
           Customize the content and design.
         </p>
       </section>
+      <Footer/>
     </div>
+
   );
 }
