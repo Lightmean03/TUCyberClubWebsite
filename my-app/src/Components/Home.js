@@ -1,12 +1,13 @@
 import React from 'react';
 import './Home.css'
-import { Footer } from './footer';
+import Spaceman from './SpaceMan.png'
 export default function Home() {
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1 className="home-title">Welcome to Towson CyberSecurity Club</h1>
+        <h1 className="home-title">Welcome to Towson <br/>CyberSecurity<br/> Club<br/></h1>
       </header>
+      <img src={Spaceman} alt="Welcome"/>
       <section className="home-content">
         <p className="home-text">
           This is the home page of our website. You can provide a brief introduction
@@ -14,13 +15,17 @@ export default function Home() {
         </p>
         <p className="home-text">
           You can include various sections, such as features, services, testimonials,
-          or a call-to-action to encourage visitors to take a specific action.
+         
         </p>
+        <p className="home-text">
+          You can include various sections, such as features, services, testimonials,
+         
+        </p>
+        
         <p className="home-text">
           Customize the content and design.
         </p>
       </section>
-      <Footer/>
     </div>
 
   );

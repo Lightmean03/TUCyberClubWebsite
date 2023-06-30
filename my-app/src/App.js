@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import About from './Components/About';
 import Home from './Components/Home';
@@ -8,26 +8,30 @@ import Navbar from './NavBar';
 import Resources from './Components/Resources';
 import News from './Components/News';
 import Contact from './Components/Contact';
-import SignUp from './Components/Signup'; // Import the SignUp component
+import SignUp from './Components/Signup';
+import Layout from './Components/Layout';
+import { Footer } from './Components/footer';
 
 function App() {
   return (
     <>
       <Navbar />
-      <div className="container">
-        <Routes>
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Signin" element={<Signin />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/News" element={<News />} />
-          <Route path="/Resources" element={<Resources />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/Signup" element={<SignUp />} /> {/* Add the element prop */}
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate to="/home" />} // Redirect from "/" to "/home"
+        />
+        <Route path="/home" element={<Layout><Home /></Layout>} />
+        <Route path="/signin" element={<Layout><Signin /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/news" element={<Layout><News /></Layout>} />
+        <Route path="/resources" element={<Layout><Resources /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+      </Routes>
+      <Footer/>
     </>
   );
 }
 
 export default App;
-

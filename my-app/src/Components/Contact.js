@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Alert, Button } from 'react-bootstrap';
 import './Contact.css';
 import { isEmail } from 'validator';
 
@@ -80,102 +79,100 @@ const Contact = () => {
   };
 
   return (
-    <Container>
+    <div className="container">
       <h3 className="mb-4">CONTACT US</h3>
       <p>
         Please use the form below to send comments or suggestions. Your contact information is optional unless you desire a response.
       </p>
-      <Form
+      <form
         noValidate
-        validated={validated}
         onSubmit={handleSubmit}
         onReset={handleReset}
         id="contact-form"
       >
-        <Row>
-          <Col>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Name:</Form.Label>
-              <Form.Control
+        <div className="row">
+          <div className="col">
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
                 required
                 type="text"
                 name="submitter_name"
                 value={newContact.submitter_name}
                 onChange={handleChange}
-                isInvalid={validated && !!errors.submitter_name}
+                className={`form-control ${validated && errors.submitter_name ? 'is-invalid' : ''}`}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.submitter_name}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email Address:</Form.Label>
-              <Form.Control
+              {validated && errors.submitter_name && (
+                <div className="invalid-feedback">{errors.submitter_name}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email Address:</label>
+              <input
                 type="email"
                 name="submitter_email"
                 value={newContact.submitter_email}
                 onChange={handleChange}
                 required
-                isInvalid={validated && !!errors.submitter_email}
+                className={`form-control ${validated && errors.submitter_email ? 'is-invalid' : ''}`}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.submitter_email}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="phone">
-              <Form.Label>Phone Number:</Form.Label>
-              <Form.Control
+              {validated && errors.submitter_email && (
+                <div className="invalid-feedback">{errors.submitter_email}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone">Phone Number:</label>
+              <input
                 type="tel"
                 name="submitter_phone"
                 onChange={handleChange}
                 value={newContact.submitter_phone}
                 required
-                isInvalid={validated && !!errors.submitter_phone}
+                className={`form-control ${validated && errors.submitter_phone ? 'is-invalid' : ''}`}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.submitter_phone}
-              </Form.Control.Feedback>
-              <Form.Text className="text-muted">
+              {validated && errors.submitter_phone && (
+                <div className="invalid-feedback">{errors.submitter_phone}</div>
+              )}
+              <small className="text-muted">
                 Specify country code, area code, etc., as applicable.
-              </Form.Text>
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group className="mb-5" controlId="message">
-              <Form.Label>Message:</Form.Label>
-              <Form.Control
-                as="textarea"
+              </small>
+            </div>
+          </div>
+          <div className="col">
+            <div className="form-group">
+              <label htmlFor="message">Message:</label>
+              <textarea
                 rows={5}
                 name="submitter_message"
                 onChange={handleChange}
                 value={newContact.submitter_message}
-                isInvalid={validated && !!errors.submitter_message}
+                className={`form-control ${validated && errors.submitter_message ? 'is-invalid' : ''}`}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.submitter_message}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="mt-3">
-          <Col md={2}>
-            <Button variant="primary" type="submit">
+              {validated && errors.submitter_message && (
+                <div className="invalid-feedback">{errors.submitter_message}</div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="col-md-2">
+            <button className="btn btn-primary" type="submit">
               Send Message
-            </Button>
-          </Col>
-          <Col md={2}>
-            <Button variant="outline-primary" type="reset">
+            </button>
+          </div>
+          <div className="col-md-2">
+            <button className="btn btn-outline-primary" type="reset">
               Reset
-            </Button>
-          </Col>
-        </Row>
+            </button>
+          </div>
+        </div>
         {validated && (
-          <Alert variant="danger" className="mt-3">
+          <div className="alert alert-danger mt-3">
             Please fill out all required fields.
-          </Alert>
+          </div>
         )}
-      </Form>
-    </Container>
+      </form>
+    </div>
   );
 };
 

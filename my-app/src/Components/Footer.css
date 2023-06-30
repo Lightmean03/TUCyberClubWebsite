@@ -1,80 +1,82 @@
-/* Footer.css */
+
 .footer {
-    background-color: #f8f9fa;
-    padding: 20px 0;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+  background-color: transparent;
+  padding: 2.5rem 3rem;
+  position: relative;
+  width: 100%;
   
-  .footer-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-  }
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   
-  .footer .text-dark {
-    color: #343a40;
-  }
+  /* Set the desired transparency value */
+}
+
+.footer-section {
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px; /* Adjust the font size as desired */
+  color: white; /* Adjust the font color as desired */
+  text-transform: uppercase; /* Add text transformation for a stylish look */
+  letter-spacing: 1px; /* Add letter spacing for better readability */
+}
+
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+}
+
+.footer-logo-text {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.footer-social {
+  margin-top: 20px;
+}
+
+.footer-social-link {
+  display: inline-block;
+  color: #000;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.footer-heading {
+  font-weight: bold;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.footer-list li {
+  margin-bottom: 5px;
   
-  .footer img {
-    vertical-align: middle;
-  }
+}
+
+.footer-list li a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.footer-text {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
   
-  .footer a {
-    color: #343a40;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .footer a:hover {
-    color: #007bff;
-  }
-  
-  .footer .social-icons a {
-    font-size: 1.2rem;
-    margin-right: 10px;
-  }
-  
-  .footer .text-center {
-    text-align: center;
-  }
-  
-  .footer .text-md-start {
-    text-align: start;
-  }
-  
-  .footer .list-unstyled {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-  
-  .footer .list-unstyled li {
-    margin-bottom: 10px;
-  }
-  
-  .footer .mb-4 {
-    margin-bottom: 1rem;
-  }
-  
-  .footer .mt-5 {
-    margin-top: 3rem;
-  }
-  
-  .footer .mb-md-0 {
-    margin-bottom: 0;
-  }
-  
-  .footer small {
-    display: block;
-    margin-top: 20px;
-    font-size: 0.8rem;
-    color: #6c757d;
-  }
-  
+}

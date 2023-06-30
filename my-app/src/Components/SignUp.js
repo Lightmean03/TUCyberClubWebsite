@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Modal, Button } from 'react-bootstrap';
-import { isEmail } from 'validator';
 import './Signup.css'; // Import the CSS file
+import { isEmail } from 'validator';
 
 const Signup = ({ showSignup, setShowSignup }) => {
   const [validated, setValidated] = useState(false);
@@ -67,70 +66,82 @@ const Signup = ({ showSignup, setShowSignup }) => {
   };
 
   return (
-    <Modal show={showSignup} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title className="signup-title">Sign Up</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Container className="signup-container">
-          <p className="signup-subtitle">Create Account</p>
-          <Form
-            noValidate
-            validated={validated}
-            onSubmit={handleSubmit}
-            onReset={handleReset}
-            className="signup-form"
-          >
-            <Row>
-              <Col>
-                <Form.Group className="mb-3" controlId="Email">
-                  <Form.Label>Email Address:</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="submitter_email"
-                    value={newSign.submitter_email}
-                    onChange={handleChange}
-                    required
-                    isInvalid={validated && !!errors.submitter_email}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.submitter_email}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="mb-5" controlId="password">
-                  <Form.Label>Password: </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="submitter_password"
-                    onChange={handleChange}
-                    value={newSign.submitter_password}
-                    required
-                    isInvalid={validated && !!errors.submitter_password}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.submitter_password}
-                  </Form.Control.Feedback>
-                  <Form.Text muted>
-                    Password must be at least 8 characters long.
-                  </Form.Text>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Button type="submit" className="signup-submit-btn">
-              Submit
-            </Button>
-            <Button type="reset" className="signup-reset-btn">
-              Reset
-            </Button>
-          </Form>
-          <Button variant="outline-secondary" onClick={handleClose} className="signup-cancel-btn">
-          Cancel
-        </Button>
-        </Container>
-      </Modal.Body>
-    </Modal>
+    <div className={`modal ${showSignup ? 'show' : ''}`} onClick={handleClose}>
+      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title signup-title">Sign Up</h5>
+            <button type="button" className="close" onClick={handleClose}>
+              <span>&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <div className="signup-container">
+              <p className="signup-subtitle">Create Account</p>
+              <form
+                noValidate
+                onSubmit={handleSubmit}
+                onReset={handleReset}
+                className="signup-form"
+              >
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group mb-3">
+                      <label htmlFor="Email">Email Address:</label>
+                      <input
+                        type="email"
+                        name="submitter_email"
+                        value={newSign.submitter_email}
+                        onChange={handleChange}
+                        required
+                        className={`form-control ${
+                          validated && errors.submitter_email ? 'is-invalid' : ''
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.submitter_email}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="form-group mb-5">
+                      <label htmlFor="password">Password:</label>
+                      <input
+                        type="password"
+                        name="submitter_password"
+                        onChange={handleChange}
+                        value={newSign.submitter_password}
+                        required
+                        className={`form-control ${
+                          validated && errors.submitter_password
+                            ? 'is-invalid'
+                            : ''
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.submitter_password}
+                      </div>
+                      <small className="form-text text-muted">
+                        Password must be at least 8 characters long.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary signup-submit-btn">
+                  Submit
+                </button>
+                <button type="reset" className="btn btn-secondary signup-reset-btn">
+                  Reset
+                </button>
+              </form>
+              <button type="button" className="btn btn-outline-secondary signup-cancel-btn" onClick={handleClose}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
