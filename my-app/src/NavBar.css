@@ -1,0 +1,6 @@
+.nav{
+  background-color: purple;
+}
+.nav ul:hover(){
+  background-color: red;
+}
