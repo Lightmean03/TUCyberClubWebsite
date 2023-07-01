@@ -36,8 +36,23 @@ const Signin = () => {
   };
 
   const handleSignIn = () => {
-    // Your sign-in logic goes here
-    console.log('Sign-in data:', signInData);
+    fetch('/api/users/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(signInData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Sign-in response:', data);
+        // Handle the response from the backend
+        // For example, you can redirect to another page or show a success message
+      })
+      .catch((error) => {
+        console.error('Error signing in:', error);
+        // Handle the error, such as displaying an error message to the user
+      });
   };
 
   const handleSubmit = (e) => {

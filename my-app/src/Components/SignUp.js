@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Signup.css'; // Import the CSS file
+import './Signup.css';
 import { isEmail } from 'validator';
 
 const Signup = ({ showSignup, setShowSignup }) => {
@@ -12,27 +12,27 @@ const Signup = ({ showSignup, setShowSignup }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const validateForm = () => {
-      let newErrors = {};
-
-      if (!newSign.submitter_email) {
-        newErrors.submitter_email = 'Please provide an email address.';
-      } else if (!isEmail(newSign.submitter_email)) {
-        newErrors.submitter_email = 'Please provide a valid email address.';
-      }
-
-      if (!newSign.submitter_password) {
-        newErrors.submitter_password = 'Please provide a password.';
-      } else if (newSign.submitter_password.length < 8) {
-        newErrors.submitter_password =
-          'Password must be at least 8 characters long.';
-      }
-
-      setErrors(newErrors);
-    };
-
     validateForm();
   }, [newSign.submitter_email, newSign.submitter_password]);
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!newSign.submitter_email) {
+      newErrors.submitter_email = 'Please provide an email address.';
+    } else if (!isEmail(newSign.submitter_email)) {
+      newErrors.submitter_email = 'Please provide a valid email address.';
+    }
+
+    if (!newSign.submitter_password) {
+      newErrors.submitter_password = 'Please provide a password.';
+    } else if (newSign.submitter_password.length < 8) {
+      newErrors.submitter_password =
+        'Password must be at least 8 characters long.';
+    }
+
+    setErrors(newErrors);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +47,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
       e.stopPropagation();
     } else {
       try {
-        const response = await axios.post('/api/signup/', newSign);
+        const response = await axios.post('/api/signup', newSign); // Update the endpoint URL
         console.log('Account Created', response.data);
         handleReset();
       } catch (error) {
@@ -93,7 +93,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
                 <div className="row">
                   <div className="col">
                     <div className="form-group mb-3">
-                      <label htmlFor="Email">Email Address:</label>
+                      <label htmlFor="submitter_email">Email Address:</label>
                       <input
                         type="email"
                         name="submitter_email"
@@ -104,14 +104,16 @@ const Signup = ({ showSignup, setShowSignup }) => {
                           validated && errors.submitter_email ? 'is-invalid' : ''
                         }`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.submitter_email}
-                      </div>
+                      {validated && errors.submitter_email && (
+                        <div className="invalid-feedback">
+                          {errors.submitter_email}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col">
                     <div className="form-group mb-5">
-                      <label htmlFor="password">Password:</label>
+                      <label htmlFor="submitter_password">Password:</label>
                       <input
                         type="password"
                         name="submitter_password"
@@ -124,9 +126,11 @@ const Signup = ({ showSignup, setShowSignup }) => {
                             : ''
                         }`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.submitter_password}
-                      </div>
+                      {validated && errors.submitter_password && (
+                        <div className="invalid-feedback">
+                          {errors.submitter_password}
+                        </div>
+                      )}
                       <small className="form-text text-muted">
                         Password must be at least 8 characters long.
                       </small>
@@ -140,7 +144,11 @@ const Signup = ({ showSignup, setShowSignup }) => {
                   Reset
                 </button>
               </form>
-              <button type="button" className="btn btn-outline-secondary signup-cancel-btn" onClick={handleClose}>
+              <button
+                type="button"
+                className="btn btn-outline-secondary signup-cancel-btn"
+                onClick={handleClose}
+              >
                 Cancel
               </button>
             </div>
@@ -152,3 +160,4 @@ const Signup = ({ showSignup, setShowSignup }) => {
 };
 
 export default Signup;
+
