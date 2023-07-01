@@ -11,10 +11,14 @@ import Contact from './Components/Contact';
 import SignUp from './Components/Signup';
 import Layout from './Components/Layout';
 import { Footer } from './Components/footer';
-
+import Curveys from './Components/Curveys';
+import User from './Components/User';
 function App() {
+  
   return (
     <>
+    
+      <Curveys />
       <Navbar />
       <Routes>
         <Route
@@ -30,7 +34,7 @@ function App() {
         <Route path="/signup" element={<Layout><SignUp /></Layout>} />
       </Routes>
       <Footer/>
-    </>
+      </>
   );
 }
 

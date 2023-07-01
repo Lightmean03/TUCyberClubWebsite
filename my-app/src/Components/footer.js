@@ -1,6 +1,6 @@
 import React from 'react';
 import './Footer.css';
-import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
+import {  FaTwitter, FaInstagram, FaDiscord } from 'react-icons/fa';
 
 export const Footer = () => {
   return (
@@ -8,8 +8,8 @@ export const Footer = () => {
       <div className="footer-container">
         <div className="footer-section">
           <div className="footer-social">
-            <a href="/" className="footer-social-link">
-              <FaFacebookF className="footer-social-icon" />
+            <a href="https://discord.gg/8X6YQU8N9P" className="footer-social-link">
+              <FaDiscord className="footer-social-icon" />
             </a>
             <a href="/" className="footer-social-link">
               <FaTwitter className="footer-social-icon" />
@@ -31,9 +31,6 @@ export const Footer = () => {
             </li>
             <li>
               <a href="/">Contact</a>
-            </li>
-            <li>
-              <a href="/">Blog</a>
             </li>
           </ul>
         </div>

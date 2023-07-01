@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Signup.css'; // Import the CSS file
 import { isEmail } from 'validator';
 
@@ -39,14 +40,19 @@ const Signup = ({ showSignup, setShowSignup }) => {
     setErrors({ ...errors, [name]: undefined });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      console.log('Account Created', newSign);
-      handleReset();
+      try {
+        const response = await axios.post('/api/signup/', newSign);
+        console.log('Account Created', response.data);
+        handleReset();
+      } catch (error) {
+        console.error('Error creating account:', error);
+      }
     }
     setValidated(true);
   };

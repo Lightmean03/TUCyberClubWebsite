@@ -8,6 +8,7 @@ export default function Home() {
         <h1 className="home-title">Welcome to Towson <br/>CyberSecurity<br/> Club<br/></h1>
       </header>
       <img src={Spaceman} alt="Welcome"/>
+      
       <section className="home-content">
         <p className="home-text">
           This is the home page of our website. You can provide a brief introduction

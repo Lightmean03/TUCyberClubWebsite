@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #000;
+  color: #ffffff;
 }
 
 .footer-logo-text {
@@ -67,7 +67,7 @@
 }
 
 .footer-list li a {
-  color: #000;
+  color: #ffffff;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
