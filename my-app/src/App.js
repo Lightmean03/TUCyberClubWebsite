@@ -1,3 +1,4 @@
+// App.js
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
@@ -12,19 +13,16 @@ import SignUp from './Components/Signup';
 import Layout from './Components/Layout';
 import { Footer } from './Components/footer';
 import Curveys from './Components/Curveys';
-import User from './Components/User';
+import ImageComponent from './Components/Image';
+import logoImg from './Images/Logo.png';
+
 function App() {
-  
   return (
     <>
-    
       <Curveys />
-      <Navbar />
+      <Navbar logo={logoImg} />
       <Routes>
-        <Route
-          path="/"
-          element={<Navigate to="/home" />} // Redirect from "/" to "/home"
-        />
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/signin" element={<Layout><Signin /></Layout>} />
         <Route path="/about" element={<Layout><About /></Layout>} />
@@ -33,8 +31,8 @@ function App() {
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
         <Route path="/signup" element={<Layout><SignUp /></Layout>} />
       </Routes>
-      <Footer/>
-      </>
+      <Footer />
+    </>
   );
 }
 

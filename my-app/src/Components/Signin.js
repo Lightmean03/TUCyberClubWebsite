@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { isEmail } from 'validator';
 import './Signin.css';
 import Signup from './Signup';
+import axios from 'axios';
 
 const Signin = () => {
   const [showSignup, setShowSignup] = useState(false);
@@ -36,23 +37,17 @@ const Signin = () => {
   };
 
   const handleSignIn = () => {
-    fetch('/api/users/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(signInData),
+    axios
+    .post('http://localhost:9000/Signin', signInData)
+    .then((response) => {
+      console.log('Sign-in response:', response.data);
+      // Handle the response from the backend
+      // For example, you can redirect to another page or show a success message
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Sign-in response:', data);
-        // Handle the response from the backend
-        // For example, you can redirect to another page or show a success message
-      })
-      .catch((error) => {
-        console.error('Error signing in:', error);
-        // Handle the error, such as displaying an error message to the user
-      });
+    .catch((error) => {
+      console.error('Error signing in:', error);
+      // Handle the error, such as displaying an error message to the user
+    });
   };
 
   const handleSubmit = (e) => {

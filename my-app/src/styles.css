@@ -4,7 +4,7 @@
     background-color: transparent;
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-direction: row;
     align-items: stretch;
     gap: 2rem;
@@ -14,8 +14,24 @@
     width: 100%;
 }
 
-
-
+.logo {
+    margin-top: 10px;
+    position: relative;
+    bottom: 6rem;
+    right: -1rem;
+    width: 150px; /* Adjust the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 50px; /* Add some right margin for spacing */
+    
+  }
+/* Media breakpoint for logo */
+@media screen and (max-width: 768px) {
+    .logo {
+      width: 100px; 
+      margin-right: 20px; 
+      
+    }
+  }
 .site-title {
     font-size: 1.5rem;
 }
@@ -42,5 +58,5 @@
 }
 
 .nav li:hover {
-    background-color: #777;
+   
 }

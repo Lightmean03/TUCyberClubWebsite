@@ -1,6 +1,5 @@
 .home-container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   min-height: 100vh;
   width: 900px;
@@ -10,15 +9,17 @@
   text-align: center;
   height: 100%;
   margin: 0 auto;
+   /* Added property */
+
 }
 
 /* Img */
 .home-container img {
   margin-left: auto;
   position: relative;
-  margin-bottom: auto;
   height: 463px;
   width: 511px;
+  
 }
 
 .home-header {
@@ -43,6 +44,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  align-items: flex-start;
 }
 
 .home-text {

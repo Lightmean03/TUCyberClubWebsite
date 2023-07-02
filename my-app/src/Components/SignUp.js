@@ -40,19 +40,24 @@ const Signup = ({ showSignup, setShowSignup }) => {
     setErrors({ ...errors, [name]: undefined });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = () => {
+    axios
+      .post('http://localhost:3000/Signin', newSign)
+      .then((response) => {
+        console.log('Signup response:', response.data);
+        // Handle the response from the backend
+        // For example, you can redirect to another page or show a success message
+      })
+      .catch((error) => {
+        console.error('Error signing up:', error);
+        // Handle the error, such as displaying an error message to the user
+      });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-    } else {
-      try {
-        const response = await axios.post('/api/signup', newSign); // Update the endpoint URL
-        console.log('Account Created', response.data);
-        handleReset();
-      } catch (error) {
-        console.error('Error creating account:', error);
-      }
+    if (validateForm()) {
+      handleSignUp();
     }
     setValidated(true);
   };
@@ -72,7 +77,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   };
 
   return (
-    <div className={`modal ${showSignup ? 'show' : ''}`} onClick={handleClose}>
+    <div className={`modal ${showSignup ? 'show' : ''}`}>
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
@@ -101,7 +106,9 @@ const Signup = ({ showSignup, setShowSignup }) => {
                         onChange={handleChange}
                         required
                         className={`form-control ${
-                          validated && errors.submitter_email ? 'is-invalid' : ''
+                          validated && errors.submitter_email
+                            ? 'is-invalid'
+                            : ''
                         }`}
                       />
                       {validated && errors.submitter_email && (
@@ -137,7 +144,9 @@ const Signup = ({ showSignup, setShowSignup }) => {
                     </div>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary signup-submit-btn">
+                <button type="submit" className="btn btn-primary signup-submit-btn"
+                onClick={handleSignUp}
+                >
                   Submit
                 </button>
                 <button type="reset" className="btn btn-secondary signup-reset-btn">
@@ -160,4 +169,3 @@ const Signup = ({ showSignup, setShowSignup }) => {
 };
 
 export default Signup;
-
