@@ -1,45 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Dashboard = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const history = useHistory();
+function Dashboard() {
+  const navigate = useNavigate();
 
-  // Simulating user authentication
   useEffect(() => {
-    // Check if the user is authenticated (e.g., by checking a token in local storage)
-    const isAuthenticated = localStorage.getItem('token');
-    if (!isAuthenticated) {
-      // If the user is not authenticated, redirect to the sign-in page
-      history.push('/');
-    } else {
-      // Fetch user information from an API or local storage
-      const user = JSON.parse(localStorage.getItem('user'));
-      setUserInfo(user);
-    }
-  }, [history]);
+    const token = localStorage.getItem('token');
 
-  // Function to handle sign out
-  const handleSignOut = () => {
-    // Clear user data and token from local storage
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    // Redirect to the sign-in page
-    history.push('/');
-  };
+    if (!token) {
+      // Redirect to the login page if token is not found
+      navigate('/');
+    } else {
+      // Send a GET request to the dashboard endpoint
+      axios
+        .get('http://localhost:9000/dashboard', {
+          headers: { Authorization: token },
+        })
+        .then((response) => {
+          console.log(response.data);
+          // Handle the dashboard data here
+        })
+        .catch((error) => {
+          console.error('Error accessing dashboard:', error);
+          // Redirect to the login page if there's an error
+          navigate('/');
+        });
+    }
+  }, [navigate]);
 
   return (
     <div>
-      <h1>Welcome to the Dashboard</h1>
-      {userInfo && (
-        <div>
-          <p>Hello, {userInfo.name}</p>
-          <p>Email: {userInfo.email}</p>
-        </div>
-      )}
-      <button onClick={handleSignOut}>Sign Out</button>
+      <h1>Dashboard</h1>
+      <p>Welcome to the dashboard!</p>
     </div>
   );
-};
+}
 
 export default Dashboard;

@@ -42,7 +42,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
 
   const handleSignUp = () => {
     axios
-      .post('http://localhost:3000/Signin', newSign)
+      .post('http://localhost:9000/Signup', newSign)
       .then((response) => {
         console.log('Signup response:', response.data);
         // Handle the response from the backend

@@ -46,7 +46,9 @@ function CustomLinkWithHoverableDropdown({ label, children }) {
 
   return (
     <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <button className="btn">{label}</button>
+      {!isDropdownOpen && (
+        <button className="btn dropdown-label">{label}</button>
+      )}
       {isDropdownOpen && <ul className="submenu">{children}</ul>}
     </li>
   );
