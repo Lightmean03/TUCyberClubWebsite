@@ -1,5 +1,8 @@
 import React from "react";
 import './About.css'
+import image1 from '../Images/TUClubPic3.png'
+import image2 from '../Images/TUClubPic2.png'
+import image3 from '../Images/TUClubPic4.png';
 export default function About() {
   return (
     <div className="about-container">
@@ -23,16 +26,19 @@ export default function About() {
       </section>
       <section className="about-content">
       <p className="about-text">
+      <img src={image1} loading="lazy" alt="Group" className="images"/>
         Welcome to the About Me page! This is where you can learn more about who we are.
         Feel free to explore and get to know us better.
       </p>
       <p className="about-text">
+      <img src={image2} loading="lazy" alt="Group" className="images"/>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac ligula auctor, volutpat mi vel, feugiat mi.
         Curabitur tristique dapibus lacus, nec molestie lectus pellentesque a. Sed accumsan, sem vitae aliquet feugiat,
         purus dolor ultrices elit, a congue enim tortor vitae enim. Ut facilisis, nisl nec elementum lobortis,
         justo mauris laoreet ex, et ullamcorper mauris nisl in sem. 
         </p>
         <p className="about-text">
+        <img src={image3} loading="lazy" alt="Group" className="images"/>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac ligula auctor, volutpat mi vel, feugiat mi.
         Curabitur tristique dapibus lacus, nec molestie lectus pellentesque a. Sed accumsan, sem vitae aliquet feugiat,
         purus dolor ultrices elit, a congue enim tortor vitae enim. Ut facilisis, nisl nec elementum lobortis,

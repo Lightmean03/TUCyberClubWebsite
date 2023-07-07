@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { isEmail } from 'validator';
 import './Signin.css';
 import Signup from './Signup';
+import axios from 'axios';
+
 
 const Signin = () => {
+  //Hooks 
   const [showSignup, setShowSignup] = useState(false);
   const [validated, setValidated] = useState(false);
   const [signInData, setSignInData] = useState({
@@ -31,13 +34,23 @@ const Signin = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSignInData({ ...signInData, [name]: value });
-    setErrors({ ...errors, [name]: undefined });
+    setSignInData((prevState) => ({ ...prevState, [name]: value }));
+    setErrors((prevState) => ({ ...prevState, [name]: undefined }));
   };
 
   const handleSignIn = () => {
-    // Your sign-in logic goes here
-    console.log('Sign-in data:', signInData);
+    axios
+      .post('http://localhost:9000/Signin', signInData)
+      .then((response) => {
+        console.log('Sign-in response:', response.data);
+        // Handle the response from the backend
+        // For example, you can redirect to another page or show a success message
+      })
+      .catch((error) => {
+        console.error('Error signing in:', error);
+        // Handle the error, such as displaying an error message to the user
+        setErrors({ submitter_email: 'Error signing in. Please try again.' });
+      });
   };
 
   const handleSubmit = (e) => {

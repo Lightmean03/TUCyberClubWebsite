@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Signup.css'; // Import the CSS file
+import './Signup.css';
 import { isEmail } from 'validator';
 
 const Signup = ({ showSignup, setShowSignup }) => {
@@ -12,27 +12,27 @@ const Signup = ({ showSignup, setShowSignup }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const validateForm = () => {
-      let newErrors = {};
-
-      if (!newSign.submitter_email) {
-        newErrors.submitter_email = 'Please provide an email address.';
-      } else if (!isEmail(newSign.submitter_email)) {
-        newErrors.submitter_email = 'Please provide a valid email address.';
-      }
-
-      if (!newSign.submitter_password) {
-        newErrors.submitter_password = 'Please provide a password.';
-      } else if (newSign.submitter_password.length < 8) {
-        newErrors.submitter_password =
-          'Password must be at least 8 characters long.';
-      }
-
-      setErrors(newErrors);
-    };
-
     validateForm();
   }, [newSign.submitter_email, newSign.submitter_password]);
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!newSign.submitter_email) {
+      newErrors.submitter_email = 'Please provide an email address.';
+    } else if (!isEmail(newSign.submitter_email)) {
+      newErrors.submitter_email = 'Please provide a valid email address.';
+    }
+
+    if (!newSign.submitter_password) {
+      newErrors.submitter_password = 'Please provide a password.';
+    } else if (newSign.submitter_password.length < 8) {
+      newErrors.submitter_password =
+        'Password must be at least 8 characters long.';
+    }
+
+    setErrors(newErrors);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,19 +40,24 @@ const Signup = ({ showSignup, setShowSignup }) => {
     setErrors({ ...errors, [name]: undefined });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = () => {
+    axios
+      .post('http://localhost:9000/Signup', newSign)
+      .then((response) => {
+        console.log('Signup response:', response.data);
+        // Handle the response from the backend
+        // For example, you can redirect to another page or show a success message
+      })
+      .catch((error) => {
+        console.error('Error signing up:', error);
+        // Handle the error, such as displaying an error message to the user
+      });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-    } else {
-      try {
-        const response = await axios.post('/api/signup/', newSign);
-        console.log('Account Created', response.data);
-        handleReset();
-      } catch (error) {
-        console.error('Error creating account:', error);
-      }
+    if (validateForm()) {
+      handleSignUp();
     }
     setValidated(true);
   };
@@ -72,7 +77,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   };
 
   return (
-    <div className={`modal ${showSignup ? 'show' : ''}`} onClick={handleClose}>
+    <div className={`modal ${showSignup ? 'show' : ''}`}>
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
@@ -93,7 +98,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
                 <div className="row">
                   <div className="col">
                     <div className="form-group mb-3">
-                      <label htmlFor="Email">Email Address:</label>
+                      <label htmlFor="submitter_email">Email Address:</label>
                       <input
                         type="email"
                         name="submitter_email"
@@ -101,17 +106,21 @@ const Signup = ({ showSignup, setShowSignup }) => {
                         onChange={handleChange}
                         required
                         className={`form-control ${
-                          validated && errors.submitter_email ? 'is-invalid' : ''
+                          validated && errors.submitter_email
+                            ? 'is-invalid'
+                            : ''
                         }`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.submitter_email}
-                      </div>
+                      {validated && errors.submitter_email && (
+                        <div className="invalid-feedback">
+                          {errors.submitter_email}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col">
                     <div className="form-group mb-5">
-                      <label htmlFor="password">Password:</label>
+                      <label htmlFor="submitter_password">Password:</label>
                       <input
                         type="password"
                         name="submitter_password"
@@ -124,23 +133,31 @@ const Signup = ({ showSignup, setShowSignup }) => {
                             : ''
                         }`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.submitter_password}
-                      </div>
+                      {validated && errors.submitter_password && (
+                        <div className="invalid-feedback">
+                          {errors.submitter_password}
+                        </div>
+                      )}
                       <small className="form-text text-muted">
                         Password must be at least 8 characters long.
                       </small>
                     </div>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary signup-submit-btn">
+                <button type="submit" className="btn btn-primary signup-submit-btn"
+                onClick={handleSignUp}
+                >
                   Submit
                 </button>
                 <button type="reset" className="btn btn-secondary signup-reset-btn">
                   Reset
                 </button>
               </form>
-              <button type="button" className="btn btn-outline-secondary signup-cancel-btn" onClick={handleClose}>
+              <button
+                type="button"
+                className="btn btn-outline-secondary signup-cancel-btn"
+                onClick={handleClose}
+              >
                 Cancel
               </button>
             </div>
