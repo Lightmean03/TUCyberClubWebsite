@@ -21,21 +21,7 @@ import { Donut } from 'react-awesome-shapes/dist/shapes/donut';
 function App() {
   return (
     <>
-   <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '100px' }}>
-  <CircleGrid
-    color="rgb(255, 255, 255)"
-    size="150px"
-    zIndex={2}
-    style={{ opacity: 0.8, borderRadius: '50%', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}
-  />
-</div>
-<Donut
-  color="rgba(255, 255, 255, 0.83)"
-  size="140px"
-  width={['20px', '20px', '40px', '40px']}
-  zIndex={2}
-  style={{ opacity: 0.9, borderRadius: '50%', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}
-/>
+   
 
 
       <Curveys />
