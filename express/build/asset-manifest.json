@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d6ba381e.css",
+    "main.js": "/static/js/main.f592b188.js",
+    "static/js/787.28cb0dcd.chunk.js": "/static/js/787.28cb0dcd.chunk.js",
+    "static/media/TUClubPic2.png": "/static/media/TUClubPic2.9d0d07fe82fbce4761c7.png",
+    "static/media/TUClubPic3.png": "/static/media/TUClubPic3.611bcb309f2f636578e4.png",
+    "static/media/TUClubPic4.png": "/static/media/TUClubPic4.0baaaf046d711f05f538.png",
+    "static/media/SpaceMan.png": "/static/media/SpaceMan.87dad45905a8703bcc9f.png",
+    "static/media/Logo.png": "/static/media/Logo.b7c102be3fe886790420.png",
+    "index.html": "/index.html",
+    "main.d6ba381e.css.map": "/static/css/main.d6ba381e.css.map",
+    "main.f592b188.js.map": "/static/js/main.f592b188.js.map",
+    "787.28cb0dcd.chunk.js.map": "/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d6ba381e.css",
+    "static/js/main.f592b188.js"
+  ]
+}
