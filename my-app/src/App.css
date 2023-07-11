@@ -22,5 +22,131 @@ body {
 
 }
 .box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  top:  14rem;
+  right: -5rem;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.box::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+/* Add more shape styles as needed */
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+}
+
+.stars::before,
+.stars::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px; /* Adjust the left position as needed */
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+}
+
+.stars::before {
+  border-bottom-color: #fff;
+  border-left-color: #fff;
+  transform: translate(-50%, -50%) rotate(45deg);
   
 }
+
+.stars::after {
+  border-top-color: #fff;
+  border-right-color: #fff;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Add more stars */
+.stars::before,
+.stars::after,
+.stars .star {
+  left: 3rem; /* Adjust the left position as needed */
+}
+
+.star {
+  position: absolute;
+  top: 10rem;
+  left: 3rem; /* Adjust the left position as needed */
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-bottom-color: #fff;
+  border-left-color: #fff;
+  transform: translate(-50%, -50%) rotate(60deg);
+}
+
+
+
+@keyframes shootingStar {
+  0% {
+    opacity: 0;
+    transform: translate(-100%, -100%) rotate(-45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(100%, 100%) rotate(45deg);
+  }
+}
+
+.shooting-star {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 50%;
+  animation: shootingStar 4s linear infinite;
+}
+
+
+.line {
+  position: relative;
+  width: 50%;
+    height: 2px;
+    background-color: #ffffff;
+    border: none;
+    border-top: 2px solid #fff;
+    right: -30rem;
+    transform: rotate(20deg);
+  }

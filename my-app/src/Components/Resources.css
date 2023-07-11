@@ -8,6 +8,15 @@
     text-align: center;
 }
 
+.p-text{
+    position: relative;
+    bottom: 7em;
+    right: 18em;
+    font-size: 32px;
+    font-weight: 400;
+  }
+
+
 
 .title {
     position: relative;
@@ -26,5 +35,14 @@
     line-height: 1.2;
     padding: 1rem;
     border: 1px solid #000;
-    flex: 1;
 }
+
+.resource-content{
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    margin: 10px;
+    
+}
+
+
