@@ -1,30 +1,30 @@
 
 .footer {
   background-color: transparent;
-  padding: 2.5rem 3rem;
   position: relative;
   width: 100%;
+
   
 }
 
 .footer-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  
-  /* Set the desired transparency value */
+  justify-content: space-evenly;
+
+  background: #FFE133;
+
 }
 
 .footer-section {
   padding: 10px;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 16px; /* Adjust the font size as desired */
-  color: white; /* Adjust the font color as desired */
-  text-transform: uppercase; /* Add text transformation for a stylish look */
-  letter-spacing: 1px; /* Add letter spacing for better readability */
+  font-size: 16px;
+  color: black; 
+  text-transform: uppercase;
+  letter-spacing: 1px; 
 }
 
 
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #ffffff;
+  color: black;
 }
 
 .footer-logo-text {
@@ -67,7 +67,7 @@
 }
 
 .footer-list li a {
-  color: #ffffff;
+  color: black;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
@@ -76,7 +76,6 @@
 .footer-text {
   display: block;
   text-align: center;
-  margin-top: 20px;
-  color: #888;
-  
+  margin-top: zpx;
+  color: #ffffff;  
 }

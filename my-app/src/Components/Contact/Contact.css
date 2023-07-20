@@ -7,10 +7,10 @@
   font-size: 1.6rem;
   font-family: "Aktiv Grotesk", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #ffffff;
-  max-width: 30rem; /* Adjust the value to make the container wider */
+  max-width: 35rem; /* Adjust the value to make the container wider */
   margin: 0 auto; /* Center the container horizontally */
-  z-index: 1;
-
+  margin-bottom: 15px;
+  border: #D3D3D3 2px solid;
 }
 
 .mb-5 {
@@ -21,7 +21,20 @@
   margin: 1rem;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
+
+.btn-reset{
+  width: 200px;
+}
+.btn-submit{
+  width: 200px;
+}
 .form-group {
   margin-bottom: 20px;
 }
@@ -41,6 +54,7 @@ textarea.form-control {
 
 .alert-danger {
   color: #721c24;
+  border-radius: 5px;
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
@@ -61,6 +75,8 @@ button[type="reset"] {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+
 
 button[type="submit"]:hover,
 button[type="reset"]:hover {

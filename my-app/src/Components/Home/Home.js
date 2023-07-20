@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.css'
-import Spaceman from './SpaceMan.png'
+import Spaceman from '../Images/SpaceMan.png';
 export default function Home() {
   return (
     <div className="home-container">
@@ -11,8 +11,7 @@ export default function Home() {
       
       <section className="home-content">
         <p className="home-text">
-          This is the home page of our website. You can provide a brief introduction
-          or overview of your website here.
+       We are a group of students who are interested in learning about cyber security and participating in cyber defense competitions. We are open to all majors and skill levels. We meet every Thursday at 5:00pm in Smith Hall room 356.
         </p>
         <p className="home-text">
           You can include various sections, such as features, services, testimonials,

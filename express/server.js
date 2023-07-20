@@ -140,6 +140,13 @@ const connectDB = async () => {
   }
 };
 
+//Give me an example of a function that is used for getting data from a contact page.
+//
+app.post('/contact', async (req, res) => {
+  
+});
+
+
 // Connect to MongoDB and start the server
 connectDB();
 

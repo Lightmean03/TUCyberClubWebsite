@@ -154,20 +154,20 @@ const Contact = () => {
             </div>
           </div>
         </div>
-        <div className="row mt-3">
-          <div className="col-md-2">
-            <button className="btn btn-primary" type="submit">
+        <div className="button-container">
+          <div className="submit">
+            <button className="btn-submit" type="submit">
               Send Message
             </button>
           </div>
-          <div className="col-md-2">
-            <button className="btn btn-outline-primary" type="reset">
+          <div className="reset">
+            <button className="btn-reset" type="reset">
               Reset
             </button>
           </div>
         </div>
         {validated && (
-          <div className="alert alert-danger mt-3">
+          <div className="alert alert-danger">
             Please fill out all required fields.
           </div>
         )}

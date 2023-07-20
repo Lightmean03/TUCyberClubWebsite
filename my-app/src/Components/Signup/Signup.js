@@ -82,9 +82,6 @@ const Signup = ({ showSignup, setShowSignup }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title signup-title">Sign Up</h5>
-            <button type="button" className="close" onClick={handleClose}>
-              <span>&times;</span>
-            </button>
           </div>
           <div className="modal-body">
             <div className="signup-container">
@@ -98,7 +95,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
                 <div className="row">
                   <div className="col">
                     <div className="form-group mb-3">
-                      <label htmlFor="submitter_email">Email Address:</label>
+                      <label htmlFor="submitter_email" className='email'>Email Address:</label>
                       <input
                         type="email"
                         name="submitter_email"
@@ -120,7 +117,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
                   </div>
                   <div className="col">
                     <div className="form-group mb-5">
-                      <label htmlFor="submitter_password">Password:</label>
+                      <label htmlFor="submitter_password"  className='password'>Password:</label>
                       <input
                         type="password"
                         name="submitter_password"
@@ -153,13 +150,9 @@ const Signup = ({ showSignup, setShowSignup }) => {
                   Reset
                 </button>
               </form>
-              <button
-                type="button"
-                className="btn btn-outline-secondary signup-cancel-btn"
-                onClick={handleClose}
-              >
-                Cancel
-              </button>
+              <button type="button" className="close-btn" onClick={handleClose}>
+              <span>&times;</span>
+            </button>
             </div>
           </div>
         </div>

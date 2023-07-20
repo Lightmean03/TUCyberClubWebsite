@@ -1,19 +1,37 @@
 .signup-container {
+  position: relative;
+  top: -3rem;
   max-width: 40rem;
   margin: 0 auto;
   padding: 2.5rem;
   background-color: #f8f8f8;
   border-radius: 0.5rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+
 }
+
+/*Close button*/
+.close-btn {
+  font-size: 2rem;
+  color: #333;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem; 
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
 
 .signup-title {
   padding: 4rem;
   text-align: center;
   font-size: 2.4rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: #ffffff;
 }
+
+
 
 .signup-subtitle {
   text-align: center;
@@ -24,6 +42,7 @@
 
 .signup-form .form-group {
   margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .signup-form .form-label {
@@ -33,7 +52,7 @@
 .signup-form .form-control {
   border: none;
   border-radius: 0.3rem;
-  background-color: #f3f3f3;
+  background-color: #555;
   color: #555;
   padding: 1rem;
   transition: background-color 0.3s ease;
@@ -84,4 +103,12 @@
   .signup-container {
     padding: 1rem;
   }
+}
+
+
+.email{
+  color: #333;
+}
+.password{
+  color: #333;
 }

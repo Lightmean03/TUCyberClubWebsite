@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { isEmail } from 'validator';
 import './Signin.css';
-import Signup from './Signup';
+import Signup from'../Signup/Signup';
 import axios from 'axios';
 
 
