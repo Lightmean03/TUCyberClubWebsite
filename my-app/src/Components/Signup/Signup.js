@@ -59,7 +59,7 @@ const Signup = ({showSignup, setShowSignup}) => {
         console.log('Signup response:', response.data);
         // Handle the response from the backend
         // For example, you can redirect to another page or show a success message
-        
+        navigate('/signin');
 
 
       })
