@@ -1,0 +1,114 @@
+.signup-container {
+  position: relative;
+  top: -3rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background-color: #f8f8f8;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+
+}
+
+/*Close button*/
+.close-btn {
+  font-size: 2rem;
+  color: #333;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem; 
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+
+.signup-title {
+  padding: 4rem;
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+
+
+.signup-subtitle {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.signup-form .form-group {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.signup-form .form-label {
+  color: #666;
+}
+
+.signup-form .form-control {
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #555;
+  color: #555;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.signup-form .form-control:focus {
+  outline: none;
+  background-color: #e0e0e0;
+}
+
+.signup-form .form-control.is-invalid {
+  background-color: #ffebee;
+}
+
+.signup-form .form-control-feedback {
+  color: #f44336;
+  font-size: 1.2rem;
+}
+
+.signup-submit-btn,
+.signup-reset-btn,
+.signup-cancel-btn {
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-submit-btn:hover {
+  background-color: #45a049;
+}
+
+.signup-reset-btn:hover {
+  background-color: #d32f2f;
+}
+
+
+
+.signup-cancel-btn:hover {
+  color: #777;
+}
+
+@media (max-width: 36rem) {
+  .signup-container {
+    padding: 1rem;
+  }
+}
+
+
+.email{
+  color: #333;
+}
+.password{
+  color: #333;
+}

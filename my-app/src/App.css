@@ -17,10 +17,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   background-color: #0c0c0c;
-  background-image: linear-gradient( black); /* Set a gradient background */
-  
-
 }
+
+/* Add more shape styles as needed */
+
 .box {
   position: absolute;
   top: 0;
@@ -38,7 +38,7 @@ body {
   transform: translate(-50%, -50%);
   width: 200px;
   height: 200px;
-  border: 2px solid #fff;
+  border: 2px solid grey;
   border-radius: 50%;
   background-color: transparent;
 }
@@ -51,12 +51,10 @@ body {
   transform: translate(-50%, -50%);
   width: 150px;
   height: 150px;
-  border: 2px solid #fff;
+  border: 2px solid grey;
   border-radius: 50%;
   background-color: transparent;
 }
-
-/* Add more shape styles as needed */
 
 .stars {
   position: absolute;
@@ -80,15 +78,15 @@ body {
 }
 
 .stars::before {
-  border-bottom-color: #fff;
-  border-left-color: #fff;
+  border-bottom-color: grey;
+  border-left-color: grey;
   transform: translate(-50%, -50%) rotate(45deg);
   
 }
 
 .stars::after {
-  border-top-color: #fff;
-  border-right-color: #fff;
+  border-top-color: grey;
+  border-right-color:grey;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
@@ -141,12 +139,12 @@ body {
 
 
 .line {
-  position: relative;
-  width: 50%;
-    height: 2px;
-    background-color: #ffffff;
-    border: none;
-    border-top: 2px solid #fff;
-    right: -30rem;
-    transform: rotate(20deg);
-  }
+position: relative;
+width: 50%;
+height: 2px;
+background-color:grey;
+border: none;
+border-top: 1px solid grey;
+right: -30rem;
+transform: rotate(20deg);
+}
