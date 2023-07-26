@@ -3,7 +3,8 @@ import { isEmail } from 'validator';
 import './Signin.css';
 import Signup from'../Signup/Signup';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
   //Hooks 
@@ -37,19 +38,24 @@ const Signin = () => {
     setSignInData((prevState) => ({ ...prevState, [name]: value }));
     setErrors((prevState) => ({ ...prevState, [name]: undefined }));
   };
+  const navigate  = useNavigate();
 
   const handleSignIn = () => {
     axios
-      .post('http://localhost:9000/Signin', signInData)
+      .post('http://localhost:9000/auth/signin/', signInData)
       .then((response) => {
         console.log('Sign-in response:', response.data);
-        // Handle the response from the backend
-        // For example, you can redirect to another page or show a success message
+        // Store the token in a cookie
+        Cookies.set('token', response.data.token, { expires: 1 }); // Expires in 1 day (adjust as needed)
+  
+        // Redirect to the dashboard page
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.error('Error signing in:', error);
         // Handle the error, such as displaying an error message to the user
         setErrors({ submitter_email: 'Error signing in. Please try again.' });
+        navigate('/signin');
       });
   };
 

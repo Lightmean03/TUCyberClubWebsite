@@ -15,7 +15,7 @@
   text-align: center;
   font-size: 24px;
   padding: 4rem;
-  color: #333;
+  color: #ffffff;
 }
 
 .signin-form {
@@ -23,7 +23,7 @@
 }
 
 .form-label {
-  color: #666;
+  color: #ffffff;
 }
 
 .form-control {
@@ -82,12 +82,13 @@
 .signin-signup-link {
   text-align: center;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 15px;
+  color: #ffffff
 }
 
 .signin-signup-link .signin-signup-btn {
   background-color: transparent;
-  color: #999;
+  color: #555;
   border: none;
   padding: 10px 0;
   font-size: 14px;
@@ -96,7 +97,7 @@
 }
 
 .signin-signup-link .signin-signup-btn:hover {
-  color: #777;
+  color: #fff;
 }
 
 @media (max-width: 576px) {

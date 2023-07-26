@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     font-family: Arial, sans-serif;
   }
   
@@ -61,15 +61,17 @@
   }
   
   .react-calendar__month-view__weekdays__weekday {
-    flex: 1;
     padding: 8px 5px;
     border-bottom: 2px solid #ccc;
-  }
+
+}
   
   .react-calendar__month-view__days {
     margin-top: 10px;
   }
-  
+  abbr{
+    text-decoration: none;
+  }
   .react-calendar__tile {
     width: 111px; /* Set width to 111 pixels */
     height: 90px; /* Set height to 90 pixels */

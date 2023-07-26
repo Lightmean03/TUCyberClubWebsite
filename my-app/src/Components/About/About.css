@@ -57,7 +57,6 @@
 
 /*About-info*/
 .about-info {
-  width: 400px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly; 
@@ -66,16 +65,24 @@
   
   
   .layout {
-    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 300px;
     margin: 1rem;
     text-align: center;
     border: 1px solid #000000;
     padding: 1rem;
   }
   
+  
   .value {
+    
     font-size: 1.5rem;
     font-weight: bold;
+    margin-bottom: 10px;
+
   }
   
   .label {

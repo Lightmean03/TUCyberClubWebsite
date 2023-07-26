@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Signup.css';
 import { isEmail } from 'validator';
+import { useNavigate } from 'react-router-dom';
 
-const Signup = ({ showSignup, setShowSignup }) => {
+
+const Signup = ({showSignup, setShowSignup}) => {
   const [validated, setValidated] = useState(false);
   const [newSign, setNewSign] = useState({
     submitter_email: '',
     submitter_password: '',
   });
   const [errors, setErrors] = useState({});
+
 
   useEffect(() => {
     validateForm();
@@ -29,9 +32,17 @@ const Signup = ({ showSignup, setShowSignup }) => {
     } else if (newSign.submitter_password.length < 8) {
       newErrors.submitter_password =
         'Password must be at least 8 characters long.';
+    } 
+    if(newSign.submitter_email === ""){
+      newErrors.submitter_email = 'Please provide an email address.';
+    }
+    if(newSign.submitter_password === ""){
+      newErrors.submitter_password = 'Please provide a password.';
     }
 
     setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+
   };
 
   const handleChange = (e) => {
@@ -39,14 +50,18 @@ const Signup = ({ showSignup, setShowSignup }) => {
     setNewSign({ ...newSign, [name]: value });
     setErrors({ ...errors, [name]: undefined });
   };
+  const navigate  = useNavigate();
 
   const handleSignUp = () => {
     axios
-      .post('http://localhost:9000/Signup', newSign)
+      .post('http://localhost:9000/auth/Signup', newSign)
       .then((response) => {
         console.log('Signup response:', response.data);
         // Handle the response from the backend
         // For example, you can redirect to another page or show a success message
+        
+
+
       })
       .catch((error) => {
         console.error('Error signing up:', error);
