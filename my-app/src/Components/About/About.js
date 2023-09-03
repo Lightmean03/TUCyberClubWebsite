@@ -3,6 +3,7 @@ import './About.css'
 import image1 from '../Images/TUClubPic3.png'
 import image2 from '../Images/TUClubPic2.png'
 import image3 from '../Images/TUClubPic4.png';
+import image4 from '../Images/Mitch.png';
 
 export default function About() {
   return (
@@ -16,7 +17,8 @@ export default function About() {
       <section className="about-content">
         <p className="about-text">
           <img src={image1} loading="lazy" alt="Group" className="images"/>
-          <h3 className="h3">Kaden Pirmonhamed (Club Leader)</h3>
+          <h3 className="h3">Kaden Pirmonhamed</h3>
+          Club Leader Sophomore Computer Science Major.
         </p>
       
         <p className="about-text">
@@ -26,7 +28,13 @@ export default function About() {
 
         <p className="about-text">
           <img src={image3} loading="lazy" alt="Group" className="images"/>
-          <h3 className="h3">Danny (Competition Team Leader)</h3>        
+          <h3 className="h3">Danny</h3>     
+          Competition Team Leader.   
+        </p>
+        <p className="about-text">
+          <img src={image4} loading="lazy" alt="Group" className="images"/>
+          <h3 className="h3">Mitch Sneckenberger</h3>
+          Sophomore Computer Science Major. The treasurer of our club.         
         </p>
       </section>
 

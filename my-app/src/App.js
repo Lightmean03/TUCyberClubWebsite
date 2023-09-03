@@ -15,6 +15,7 @@ import { Footer } from './Components/Footer/footer';
 import Curveys from './Components/Curvey/Curveys';
 import logoImg from './Components/Images/Logo.png';
 import Dashboard from './Components/Dashboard/Dashboard';
+import AdminPanel from './Components/Admin/Admin';
 function App() {
   return (
     <>
@@ -38,7 +39,7 @@ function App() {
         <Route path="/resources" element={<Layout><Resources /></Layout>} />
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
         <Route path="/signup" element={<Layout><Signup /></Layout>} />
-        <Route path="/dashboard" element={<Dashboard/>}/>      
+        <Route path="/dashboard" element={<Layout><AdminPanel /></Layout>} />
       </Routes>
       <Footer />
     </>

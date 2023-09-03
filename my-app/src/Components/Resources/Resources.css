@@ -10,7 +10,7 @@
 
 .p-text {
   position: relative;
-  bottom: 7em;
+  bottom: 9em;
   right: 18em;
   font-size: 32px;
   font-weight: 400;
@@ -22,17 +22,19 @@
   font-weight: 900;
   line-height: 1;
   z-index: 1;
-  bottom: 4em;
+  bottom: 5em;
   right: 10.9em;
 }
 
 .resource-content {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   padding: 2px;
   margin: 10px;
+  bottom: 10em;
 }
 
 .arrow-container {
@@ -93,6 +95,14 @@
   .cyber-image {
     width: 150px;
     height: 150px;
+  }
+  .resource-container{
+    position: relative;;
+    padding: 0;
+    width: 150px;
+    height: 150px;
+    bottom: 10em;
+
   }
   
   

@@ -85,7 +85,7 @@
   position: relative;
   width: 400px;
   height: 400px;
-  animation: floatAnimation 3s ease-in-out infinite;
+  /*animation: floatAnimation 3s ease-in-out infinite;*/
 }
 
 .h3 {

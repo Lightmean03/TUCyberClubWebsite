@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const crypto = require('crypto');
-const uri = 'mongodb+srv://trecottman60:Bobby@towsonclub.ja3qb7f.mongodb.net/';
+const uri = 'mongodb+srv://trecottman60:Cottman55@towsonclub.ja3qb7f.mongodb.net/?retryWrites=true&w=majority';
 const dbName = 'TowsonClub';
 const client = new MongoClient(uri, { useUnifiedTopology: true });
 const db = client.db(dbName);

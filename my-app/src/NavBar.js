@@ -10,15 +10,16 @@ export default function Navbar({ logo }) {
         <ImageComponent src={logo} alt="Logo" className="logo" />
       </Link>
       <nav className="nav">
+        
       <ul>
-          <CustomLinkWithHoverableDropdown label={<VscMenu />} >
+         
             <CustomLink to="/home">Home</CustomLink>
             <CustomLink to="/signin">Sign-In</CustomLink>
             <CustomLink to="/about">About</CustomLink>
             <CustomLink to="/news">News</CustomLink>
             <CustomLink to="/resources">Resources</CustomLink>
             <CustomLink to="/contact">Contact</CustomLink>
-          </CustomLinkWithHoverableDropdown>
+         
         </ul>
       </nav>
     </>

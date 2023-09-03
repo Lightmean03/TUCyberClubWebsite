@@ -1,59 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import AdminPanel from '../Admin/Admin';
 
 function Dashboard() {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
   const [cookies] = useCookies(['token']);
-  const [isAuthChecked, setIsAuthChecked] = useState(false); // New state for checking authentication completion
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = cookies.token;
     console.log('Token from cookies:', token);
     if (!token) {
-      // Redirect to the home page if the token is not found
-      navigate('/');
+      navigate('/'); // Redirect to the home page if the token is not found
     } else {
-      // Send a GET request to the dashboard endpoint
       axios
-        .get('http://localhost:9000/auth/dashboard', {
+        .get('http://localhost:9000/auth/admin/dashboard/', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         })
         .then((response) => {
           console.log('Dashboard response:', response.data);
-          // If the response is successful, the user is authenticated
           setAuthenticated(true);
+          setUserRole(response.data.role);
         })
         .catch((error) => {
           console.error('Error accessing dashboard:', error);
-          // If there's an error, the user is not authenticated
           setAuthenticated(false);
         })
         .finally(() => {
-          // Set the authentication check completion flag to true
           setIsAuthChecked(true);
+          setLoading(false);
         });
     }
   }, [cookies.token, navigate]);
 
-  // Check if the authentication check is completed before rendering
-  if (!isAuthChecked) {
+  if (loading) {
     return <p>Loading...</p>;
   }
 
-  // Handle the authenticated and not authenticated cases
-  return authenticated ? (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to the dashboard!</p>
-      {/* Your dashboard content goes here */}
-    </div>
-  ) : (
-    <p>You are not authenticated. Redirecting... </p>
-  );
+  // Render different content based on authentication and role
+  if (authenticated) {
+    return (
+      <div>
+        <h1>Dashboard</h1>
+        {userRole === 'admin' ? (
+          <div>
+            <p>Welcome to the dashboard! You are signed in as an admin.</p>
+            <AdminPanel /> {/* Render the AdminPanel component */}
+          </div>
+        ) : (
+          <p>Welcome to the dashboard! You are signed in as a user.</p>
+          /* Render User Dashboard Content Here */
+        )}
+      </div>
+    );
+  } else {
+    // Redirect to the home page if the user is not authenticated
+    navigate('/');
+    return null;
+  }
 }
 
 export default Dashboard;

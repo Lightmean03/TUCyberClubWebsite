@@ -9,7 +9,7 @@ const saltRounds = 10;
 const secretKey = process.env.JWT_SECRET_KEY;
 
 // Middleware to verify the JWT token
-const verifyToken = (req, res, next) => {
+const verifyTokenAndRole = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -23,6 +23,18 @@ const verifyToken = (req, res, next) => {
     console.log('Decoded Payload:', decoded);
 
     req.user = decoded;
+
+    // Check the user's role in the database
+    const user = await db.collection('users').findOne({ submitter_email: req.user.email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    console.log('User Role:', user.role); // Add this line
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Access Forbidden' });
+    }
+
     next();
   } catch (error) {
     console.error('Error decoding token:', error);
@@ -30,7 +42,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// User Signup Route
+
 router.post('/signup', async (req, res) => {
   const { submitter_email, submitter_password } = req.body;
 
@@ -49,12 +61,9 @@ router.post('/signup', async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(submitter_password, salt);
 
-    const newUser = { submitter_email, submitter_password: hashedPassword };
+    // Set the role to "user" by default
+    const newUser = { submitter_email, submitter_password: hashedPassword, role: "user" };
     await db.collection('users').insertOne(newUser);
-    
-    // Create a default dashboard entry for the new user
-    const newDashboardData = { userId: submitter_email, someData: 'Default Data' };
-    await db.collection('data').insertOne(newDashboardData);
 
     res.json({ message: 'User created successfully' });
   } catch (error) {
@@ -62,6 +71,7 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 // User sign in Route
 router.post('/signin', async (req, res) => {
@@ -82,7 +92,7 @@ router.post('/signin', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'strict',
       maxAge: 3600000,
       path: '/',
@@ -98,22 +108,78 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// Dashboard route
-router.get('/dashboard', verifyToken, async (req, res) => {
+// New route to get all users (requires admin access)
+router.get('/admin/users', verifyTokenAndRole, async (req, res) => {
   try {
-    console.log('User Email:', req.user.email);
-
-    const dashboardData = await db.collection('data').findOne({ userId: req.user.email });
-    console.log('Dashboard Data:', dashboardData);
-
-
-    if (!dashboardData) {
-      return res.status(404).json({ message: 'Dashboard data not found' });
+    const currentUser = await db.collection('users').findOne({ submitter_email: req.user.email });
+    if (currentUser.role !== 'admin') {
+      return res.status(403).json({ error: 'Forbidden' });
     }
 
-    res.json(dashboardData);
+    const users = await db.collection('users').find().toArray();
+    res.json(users);
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+// Dashboard List Route for react-admin
+router.get('/admin/dashboard', verifyTokenAndRole, async (req, res) => {
+  try {
+    // Fetch all dashboard data from the database for react-admin list operation
+    const dashboardData = await db.collection('data').find().toArray();
+    res.json({ data: dashboardData });
   } catch (error) {
     console.error('Error retrieving dashboard data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Dashboard Update Route for react-admin
+router.put('/admin/dashboard/:id', verifyTokenAndRole, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    // Update the dashboard data in your database based on the ID
+    await db.collection('data').updateOne({ _id: ObjectId(id) }, { $set: updatedData });
+
+    res.json({ message: 'Data updated successfully' });
+  } catch (error) {
+    console.error('Error updating dashboard data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Dashboard Create Route for react-admin
+router.post('/admin/dashboard', verifyTokenAndRole, async (req, res) => {
+  try {
+    const newData = req.body;
+
+    // Insert the new dashboard data into your database
+    await db.collection('data').insertOne(newData);
+
+    res.json({ message: 'Data created successfully' });
+  } catch (error) {
+    console.error('Error creating dashboard data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Dashboard Delete Route for react-admin
+router.delete('/admin/dashboard/:id', verifyTokenAndRole, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Delete the dashboard data from your database based on the ID
+    await db.collection('data').deleteOne({ _id: ObjectId(id) });
+
+    res.json({ message: 'Data deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting dashboard data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import './Footer.css';
 import {  FaTwitter, FaInstagram, FaDiscord } from 'react-icons/fa';
 
+
 export const Footer = () => {
   return (
     <footer className="footer">
@@ -24,41 +25,37 @@ export const Footer = () => {
           <h5 className="footer-heading">Towson CyberClub</h5>
           <ul className="footer-list">
             <li>
-              <a href="/">Resources</a>
+              <a href="/Resources">Resources</a>
             </li>
             <li>
-              <a href="/">About Us</a>
+              <a href="/About">About Us</a>
             </li>
             <li>
-              <a href="/">Contact</a>
+              <a href="/Contact">Contact</a>
             </li>
           </ul>
         </div>
-        <div className="footer-section">
-          <h5 className="footer-heading">Products</h5>
-          <ul className="footer-list">
-            <li>
-              <a href="/">Windframe</a>
-            </li>
-            <li>
-              <a href="/">Loop</a>
-            </li>
-            <li>
-              <a href="/">Contrast</a>
-            </li>
-          </ul>
-        </div>
+        
         <div className="footer-section">
           <h5 className="footer-heading">Help</h5>
           <ul className="footer-list">
-            <li>
-              <a href="/">Support</a>
+          <li>
+              <a href="/Home">Home</a>
             </li>
             <li>
-              <a href="/">Sign Up</a>
+            <a href="/Signin">Sign In</a>
             </li>
             <li>
-              <a href="/">Sign In</a>
+              <a href="/Signup">Sign Up</a>
+            </li>
+            
+          </ul>
+        </div>
+        <div className="footer-section">
+          <h5 className="footer-heading">Mailing Address</h5>
+          <ul className="footer-list">
+            <li>
+            <h3>7800 York Road Towson, MD 21252</h3>
             </li>
           </ul>
         </div>

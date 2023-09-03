@@ -12,29 +12,26 @@
     z-index: 1000;
     top: 0;
     width: 100%;
+    font-size: 16px;
 }
+
 
 .logo {
     margin-top: 10px;
     position: relative;
-    bottom: 6rem;
+    bottom: 13rem;
     right: -1rem;
-    width: 150px; /* Adjust the width of the logo */
+    width: 300px; /* Adjust the width of the logo */
     height: auto; /* Maintain aspect ratio */
     margin-right: 50px; /* Add some right margin for spacing */
-    
+    z-index: 1;
   }
-/* Media breakpoint for logo */
-@media screen and (max-width: 768px) {
-    .logo {
-      width: 100px; 
-      margin-right: 20px; 
-      
-    }
-  }
-.site-title {
-    font-size: 1.5rem;
+
+.site-title{
+  position: relative;
+  z-index: 2;
 }
+
 
 .nav ul {
     padding: 0;
@@ -55,6 +52,8 @@
     align-items: center;
     padding: .25rem;
     font-weight: 1000;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
 .nav li:hover {
@@ -65,10 +64,10 @@
 /*Nav Dropdown*/
 
  .submenu {
-  font-size: 17px;
+  font-size: 20px;
   border: none;
   outline: none;
-  color: white;
+  color: black;
   padding: 14px 16px;
   background-color: inherit;
   font-family: inherit;
@@ -82,4 +81,53 @@
   border: none;
   cursor: pointer;
   color: #ffffff;
+}
+
+
+/* Media queries for different screen sizes */
+@media screen and (max-width: 1440px) {
+  .logo {
+    margin-right: 40px;
+  }
+  .site-title {
+      font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 1170px) {
+  .logo {
+    margin-right: 30px;
+  }
+  .site-title {
+    font-size: 1rem;
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .logo {
+      margin-bottom: 20px;
+  }
+  .site-title {
+      font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+     
+      margin-right: 20px;
+  }
+  .site-title {
+      font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+      width: 80px;
+      margin-right: 10px;
+  }
+  .site-title {
+      font-size: 1rem;
+  }
 }
