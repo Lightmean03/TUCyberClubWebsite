@@ -43,7 +43,7 @@ function Dashboard() {
     return <p>Loading...</p>;
   }
 
-  // Render different content based on authentication and role
+  // Render content based on authentication and role
   if (authenticated) {
     return (
       <div>
@@ -55,12 +55,12 @@ function Dashboard() {
           </div>
         ) : (
           <p>Welcome to the dashboard! You are signed in as a user.</p>
-          /* Render User Dashboard Content Here */
+          /* Render  Dashboard Content Here */
         )}
       </div>
     );
   } else {
-    // Redirect to the home page if the user is not authenticated
+   
     navigate('/');
     return null;
   }
