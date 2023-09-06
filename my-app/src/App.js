@@ -19,10 +19,10 @@ import AdminPanel from './Components/Admin/Admin';
 function App() {
   return (
     <>
-    
+
     <div className='shooting-star'></div>
 
-      <Curveys />
+      <Curveys /> 
       <Navbar logo={logoImg} />
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
