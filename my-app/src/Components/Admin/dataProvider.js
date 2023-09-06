@@ -1,6 +1,6 @@
 import { fetchUtils } from 'react-admin';
 
-const apiUrl = 'http://localhost:9000'; // Replace with your backend API URL
+const apiUrl = 'http://localhost:9000'; 
 const httpClient = fetchUtils.fetchJson;
 
 const dataProvider = {
@@ -18,10 +18,10 @@ const dataProvider = {
     return httpClient(url, {
       method: 'GET',
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', // To include cookies in the request
+      credentials: 'include',
     }).then(({ json }) => ({
       data: json.data,
-      total: json.total || json.data.length, // You may need to adjust this based on your API response
+      total: json.total || json.data.length, 
     }));
   },
 
@@ -30,7 +30,7 @@ const dataProvider = {
     return httpClient(url, {
       method: 'GET',
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', // To include cookies in the request
+      credentials: 'include', 
     }).then(({ json }) => ({
       data: json,
     }));
@@ -41,10 +41,10 @@ const dataProvider = {
     return httpClient(url, {
       method: 'POST',
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', // To include cookies in the request
+      credentials: 'include',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
-      data: { ...params.data, id: json.id }, // Assuming your API returns an object with an "id" field
+      data: { ...params.data, id: json.id },
     }));
   },
 

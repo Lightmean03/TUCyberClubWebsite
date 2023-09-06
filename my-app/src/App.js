@@ -19,13 +19,7 @@ import AdminPanel from './Components/Admin/Admin';
 function App() {
   return (
     <>
-   
-    {/*}
-    <div className='box'></div>
-    <div className='stars'></div>
-    <div className='star'></div>
-  <div className='line'></div>*/}
-
+    
     <div className='shooting-star'></div>
 
       <Curveys />

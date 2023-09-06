@@ -6,13 +6,13 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import { fetchUtils } from 'react-admin';
 import UserList from './UserList';
 import { useNavigate } from 'react-router-dom';
-import dataProvider from './dataProvider'; // Import the custom dataProvider
+import dataProvider from './dataProvider'; 
 
 const AdminPanel = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [cookies, , removeCookie] = useCookies(['token']);
-  const [userRole, setUserRole] = useState('user'); // Set default value to 'user'
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [userRole, setUserRole] = useState('user'); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = cookies.token;
@@ -51,9 +51,8 @@ const AdminPanel = () => {
   };
 
   if (!authenticated) {
-    // If not authenticated, redirect to sign-in page
     navigate('/signin');
-    return null; // Render nothing until the redirect takes place
+    return null; 
   }
 
   return (
@@ -63,9 +62,9 @@ const AdminPanel = () => {
         <button onClick={handleSignOut}>Sign Out</button>
       </div>
       <Admin dataProvider={dataProvider}>
-        <Resource name="users" list={UserList} /> {/* Use the custom UserList component */}
-        <Resource name="dashboard" list={ListGuesser} /> {/* Use ListGuesser for basic dashboard list view */}
-        {/* Add more resources as needed */}
+        <Resource name="users" list={UserList} /> 
+        <Resource name="dashboard" list={ListGuesser} />
+        
       </Admin>
     </div>
   );
