@@ -4,69 +4,62 @@ import './Signup.css';
 import { isEmail } from 'validator';
 import { useNavigate } from 'react-router-dom';
 
-
-const Signup = ({showSignup, setShowSignup}) => {
+const Signup = ({ showSignup, setShowSignup }) => {
   const [validated, setValidated] = useState(false);
-  const [newSign, setNewSign] = useState({
-    submitter_email: '',
-    submitter_password: '',
+  const [form, setForm] = useState({
+   email: '',
+   password: '',
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  const MIN_PASSWORD_LENGTH = 8;
 
+  // Error messages 
+  const errorMessages = {
+    email: {
+      required: 'Please provide an email address.',
+      invalid: 'Please provide a valid email address.',
+    },
+    password: {
+      required: 'Please provide a password.',
+      minLength: 'Password must be at least 8 characters long.',
+    },
+  };
 
-  useEffect(() => {
-    validateForm();
-  }, [newSign.submitter_email, newSign.submitter_password]);
-
+  // Validation function
   const validateForm = () => {
     let newErrors = {};
 
-    if (!newSign.submitter_email) {
-      newErrors.submitter_email = 'Please provide an email address.';
-    } else if (!isEmail(newSign.submitter_email)) {
-      newErrors.submitter_email = 'Please provide a valid email address.';
+    if (!form.email) {
+      newErrors.email = 'required';
+    } else if (!isEmail(form.email)) {
+      newErrors.email = 'invalid';
     }
 
-    if (!newSign.submitter_password) {
-      newErrors.submitter_password = 'Please provide a password.';
-    } else if (newSign.submitter_password.length < 8) {
-      newErrors.submitter_password =
-        'Password must be at least 8 characters long.';
-    } 
-    if(newSign.submitter_email === ""){
-      newErrors.submitter_email = 'Please provide an email address.';
-    }
-    if(newSign.submitter_password === ""){
-      newErrors.submitter_password = 'Please provide a password.';
+    if (!form.password) {
+      newErrors.password = 'required';
+    } else if (form.password.length < MIN_PASSWORD_LENGTH) {
+      newErrors.password = 'minLength';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewSign({ ...newSign, [name]: value });
-    setErrors({ ...errors, [name]: undefined });
-  };
-  const navigate  = useNavigate();
-
+  // Sign-up function
   const handleSignUp = () => {
     axios
-      .post('http://localhost:9000/auth/Signup', newSign)
+      .post('http://localhost:9000/auth/Signup', form)
       .then((response) => {
-        console.log('Signup response:', response.data);  
-        navigate('/signin');
-
-
+        console.log('Signup response:', response.data);
+        navigate('/sign');
       })
       .catch((error) => {
-        console.error('Error signing up:', error)
-       
+        console.error('Error signing up:', error);
       });
   };
 
+  // Form submission handler
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -75,22 +68,31 @@ const Signup = ({showSignup, setShowSignup}) => {
     setValidated(true);
   };
 
+  // Form reset function
   const handleReset = () => {
-    setNewSign({
-      submitter_email: '',
-      submitter_password: '',
+    setForm({
+     email: '',
+   password: '',
     });
     setValidated(false);
     setErrors({});
   };
 
+  // Input change handler
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
+  };
+
+  // Close button handler
   const handleClose = () => {
     setShowSignup(false);
     handleReset();
   };
 
   return (
-    <div className={`modal ${showSignup ? 'show' : ''}`}>
+    <div className="modal">
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
@@ -99,73 +101,69 @@ const Signup = ({showSignup, setShowSignup}) => {
           <div className="modal-body">
             <div className="signup-container">
               <p className="signup-subtitle">Create Account</p>
-              <form
-                noValidate
-                onSubmit={handleSubmit}
-                onReset={handleReset}
-                className="signup-form"
-              >
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group mb-3">
-                      <label htmlFor="submitter_email" className='email'>Email Address:</label>
-                      <input
-                        type="email"
-                        name="submitter_email"
-                        value={newSign.submitter_email}
-                        onChange={handleChange}
-                        required
-                        className={`form-control ${
-                          validated && errors.submitter_email
-                            ? 'is-invalid'
-                            : ''
-                        }`}
-                      />
-                      {validated && errors.submitter_email && (
-                        <div className="invalid-feedback">
-                          {errors.submitter_email}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="form-group mb-5">
-                      <label htmlFor="submitter_password"  className='password'>Password:</label>
-                      <input
-                        type="password"
-                        name="submitter_password"
-                        onChange={handleChange}
-                        value={newSign.submitter_password}
-                        required
-                        className={`form-control ${
-                          validated && errors.submitter_password
-                            ? 'is-invalid'
-                            : ''
-                        }`}
-                      />
-                      {validated && errors.submitter_password && (
-                        <div className="invalid-feedback">
-                          {errors.submitter_password}
-                        </div>
-                      )}
-                      <small className="form-text text-muted">
-                        Password must be at least 8 characters long.
-                      </small>
-                    </div>
+              <div className="row">
+                <div className="col">
+                  <div className="form-group mb-3">
+                    <label htmlFor="email" className="email">
+                      Email Address:
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                      className={`form-control ${
+                        validated && errors.email ? 'is-invalid' : ''
+                      }`}
+                    />
+                    {validated && errors.email && (
+                      <div className="invalid-feedback">
+                        {errorMessages.email[errors.email]}
+                      </div>
+                    )}
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary signup-submit-btn"
-                onClick={handleSignUp}
-                >
-                  Submit
-                </button>
-                <button type="reset" className="btn btn-secondary signup-reset-btn">
-                  Reset
-                </button>
-              </form>
-              <button type="button" className="close-btn" onClick={handleClose}>
-              <span>&times;</span>
-            </button>
+                <div className="col">
+                  <div className="form-group mb-5">
+                    <label htmlFor="password" className="password">
+                      Password:
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      onChange={handleChange}
+                      value={form.password}
+                      required
+                      className={`form-control ${
+                        validated && errors.password ? 'is-invalid' : ''
+                      }`}
+                    />
+                    {validated && errors.password && (
+                      <div className="invalid-feedback">
+                        {errorMessages.password[errors.password]}
+                      </div>
+                    )}
+                    <small className="form-text text-muted">
+                      Password must be at least 8 characters long.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary signup-submit-btn"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary signup-reset-btn"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
             </div>
           </div>
         </div>
@@ -173,5 +171,4 @@ const Signup = ({showSignup, setShowSignup}) => {
     </div>
   );
 };
-
 export default Signup;
