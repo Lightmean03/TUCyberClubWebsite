@@ -52,7 +52,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
       .post('http://localhost:9000/auth/Signup', form)
       .then((response) => {
         console.log('Signup response:', response.data);
-        navigate('/sign');
+        navigate('/signin');
       })
       .catch((error) => {
         console.error('Error signing up:', error);
@@ -85,12 +85,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
   };
 
-  // Close button handler
-  const handleClose = () => {
-    setShowSignup(false);
-    handleReset();
-  };
-
+ 
   return (
     <div className="modal">
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
@@ -164,6 +159,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
               >
                 Reset
               </button>
+
             </div>
           </div>
         </div>
