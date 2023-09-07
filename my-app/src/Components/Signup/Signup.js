@@ -56,16 +56,14 @@ const Signup = ({showSignup, setShowSignup}) => {
     axios
       .post('http://localhost:9000/auth/Signup', newSign)
       .then((response) => {
-        console.log('Signup response:', response.data);
-        // Handle the response from the backend
-        // For example, you can redirect to another page or show a success message
+        console.log('Signup response:', response.data);  
         navigate('/signin');
 
 
       })
       .catch((error) => {
-        console.error('Error signing up:', error);
-        // Handle the error, such as displaying an error message to the user
+        console.error('Error signing up:', error)
+       
       });
   };
 

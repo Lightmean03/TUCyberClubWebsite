@@ -36,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
 
+
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
 

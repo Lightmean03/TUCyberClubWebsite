@@ -11,22 +11,22 @@ const Signin = () => {
   const [showSignup, setShowSignup] = useState(false);
   const [validated, setValidated] = useState(false);
   const [signInData, setSignInData] = useState({
-    submitter_email: '',
-    submitter_password: '',
+    email: '',
+    password: '',
   });
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     let newErrors = {};
 
-    if (!signInData.submitter_email) {
-      newErrors.submitter_email = 'Please provide an email address.';
-    } else if (!isEmail(signInData.submitter_email)) {
-      newErrors.submitter_email = 'Please provide a valid email address.';
+    if (!signInData.email) {
+      newErrors.email = 'Please provide an email address.';
+    } else if (!isEmail(signInData.email)) {
+      newErrors.email = 'Please provide a valid email address.';
     }
 
-    if (!signInData.submitter_password) {
-      newErrors.submitter_password = 'Please provide a password.';
+    if (!signInData.password) {
+      newErrors.password = 'Please provide a password.';
     }
 
     setErrors(newErrors);
@@ -48,13 +48,13 @@ const Signin = () => {
         // Store the token in a cookie
         Cookies.set('token', response.data.token, { expires: 1 }); // Expires in 1 day (adjust as needed)
 
-        // Redirect to the dashboard page
-        navigate('/dashboard'); // Correct usage of navigate to '/dashboard' route
+  
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.error('Error signing in:', error);
-        // Handle the error, such as displaying an error message to the user
-        setErrors({ submitter_email: 'Error signing in. Please try again.' });
+        
+        setErrors({ email: 'Error signing in. Please try again.' });
         navigate('/signin');
       });
   };
@@ -69,8 +69,8 @@ const Signin = () => {
 
   const handleReset = () => {
     setSignInData({
-      submitter_email: '',
-      submitter_password: '',
+      email: '',
+      password: '',
     });
     setValidated(false);
     setErrors({});
