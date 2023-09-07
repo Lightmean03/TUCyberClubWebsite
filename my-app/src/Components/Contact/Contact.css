@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -9,8 +10,8 @@
   color: #ffffff;
   max-width: 35rem; /* Adjust the value to make the container wider */
   margin: 0 auto; /* Center the container horizontally */
-  margin-bottom: 15px;
   border: #D3D3D3 2px solid;
+  bottom: 5em;
 }
 
 .mb-5 {
@@ -24,8 +25,8 @@
 .button-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: space-evenly;
+
 }
 
 

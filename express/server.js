@@ -19,6 +19,11 @@ const corsOptions = {
   optionSuccessStatus: 200
 };
 
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-cache, max-age=0');
+  next();
+});
+
 app.use(express.json());
 app.use(cors(corsOptions));
 

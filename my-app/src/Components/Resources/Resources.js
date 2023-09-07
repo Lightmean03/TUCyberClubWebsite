@@ -4,7 +4,6 @@ import Cyber1 from '../Images/pico.png';
 import Cyber2 from '../Images/pwn.png';
 import Cyber3 from '../Images/Sql.png';
 import Cyber4 from '../Images/HackTheBox.png';
-
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 export default function Resources() {
@@ -22,7 +21,7 @@ export default function Resources() {
   return (
     <div className='resource-container'>
       <h1 className="title">Resources</h1>
-      <p className="p-text">Resources used to make you a better hacker</p>
+      <p className="p-text"></p>
 
       <section className='resource-content'>
         <div className='arrow-container' onClick={handleLeftArrowClick}>

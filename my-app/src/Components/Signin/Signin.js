@@ -47,9 +47,9 @@ const Signin = () => {
         console.log('Sign-in response:', response.data);
         // Store the token in a cookie
         Cookies.set('token', response.data.token, { expires: 1 }); // Expires in 1 day (adjust as needed)
-  
+
         // Redirect to the dashboard page
-        navigate('/dashboard');
+        navigate('/dashboard'); // Correct usage of navigate to '/dashboard' route
       })
       .catch((error) => {
         console.error('Error signing in:', error);
@@ -84,8 +84,9 @@ const Signin = () => {
     <>
       {!showSignup && (
         <>
-          <h3 className="signin-title">Sign In</h3>
+         
           <div className="sign-container">
+          <h3 className="signin-title">Sign In</h3>
             <form noValidate onSubmit={handleSubmit} onReset={handleReset} className="signin-form">
               <div className="mb-3">
                 <label htmlFor="submitter_email" className="form-label">
