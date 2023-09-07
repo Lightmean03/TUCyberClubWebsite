@@ -7,7 +7,6 @@ export default function Home() {
       <header className="home-header">
         <h1 className="home-title">Welcome to Towson <br/>CyberSecurity<br/> Club<br/></h1>
       </header>
-      <img src={Spaceman} alt="Welcome"/>
       
       <section className="home-content">
         <p className="home-text">

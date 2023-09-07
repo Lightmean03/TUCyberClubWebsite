@@ -1,9 +1,8 @@
 import React from "react";
-import "./Curves.css";
 
 const Curveys = () => {
   return (
-    <div className="curveys-container">
+    <div className="absolute top-0 left-0 w-full h-full -z-[1]">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160">
       <path
         fill="#E8B019"

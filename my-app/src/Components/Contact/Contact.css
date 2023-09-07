@@ -1,18 +1,4 @@
-.container {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1.5rem;
-  font-size: 1.6rem;
-  font-family: "Aktiv Grotesk", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #ffffff;
-  max-width: 35rem; /* Adjust the value to make the container wider */
-  margin: 0 auto; /* Center the container horizontally */
-  border: #D3D3D3 2px solid;
-  bottom: 5em;
-}
+
 
 .mb-5 {
   display: flex;
