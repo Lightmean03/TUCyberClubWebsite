@@ -100,11 +100,6 @@
   color: #fff;
 }
 
-@media (max-width: 576px) {
-  .container {
-    padding: 10px;
-  }
-}
 
 /* Custom styles to adjust form layout */
 .signin-form .row {
