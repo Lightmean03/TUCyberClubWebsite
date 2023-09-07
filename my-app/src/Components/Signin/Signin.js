@@ -48,12 +48,12 @@ const Signin = () => {
         // Store the token in a cookie
         Cookies.set('token', response.data.token, { expires: 1 }); // Expires in 1 day (adjust as needed)
 
-        // Redirect to the dashboard page
-        navigate('/dashboard'); // Correct usage of navigate to '/dashboard' route
+  
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.error('Error signing in:', error);
-        // Handle the error, such as displaying an error message to the user
+        
         setErrors({ submitter_email: 'Error signing in. Please try again.' });
         navigate('/signin');
       });
