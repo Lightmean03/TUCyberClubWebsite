@@ -15,7 +15,7 @@ const verifyTokenAndRole = async (req, res, next) => {
       req.user = decoded;
   
       // Check the user's role in the database
-      const user = await db.collection('users').findOne({ submitter_email: req.user.email });
+      const user = await db.collection('users').findOne({ email: req.user.email });
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }

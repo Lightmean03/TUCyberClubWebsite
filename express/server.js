@@ -2,13 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const { db, connectDB } = require('./routes/db');
+const { connectDB } = require('./routes/db');
 require('dotenv').config();
 
 
 const app = express();
 const port = 9000;
-const secretKey = process.env.SECRET_KEY;
 connectDB();
 
 
@@ -16,7 +15,7 @@ connectDB();
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
-  optionSuccessStatus: 200
+  optionsSuccessStatus: 200
 };
 
 app.use((req, res, next) => {

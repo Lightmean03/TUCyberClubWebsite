@@ -8,6 +8,7 @@ const { ObjectId } = require('mongodb');
 const router = express.Router();
 const saltRounds = 10;
 const secretKey = process.env.JWT_SECRET_KEY;
+const  verifyTokenAndRole = require('../controllers/VerifyTokenAndRoles');
 
 
 router.post('/signup', async (req, res) => {
@@ -75,8 +76,8 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// New route to get all users (requires admin access)
-router.get('/admin/users', verifyTokenAndRole, async (req, res) => {
+/* New route to get all users (requires admin access)
+router.get('/admin/users', verifyTokenAndRole , async (req, res) => {
   try {
     const currentUser = await db.collection('users').findOne({ email: req.user.email });
     if (currentUser.role !== 'admin') {
@@ -91,71 +92,11 @@ router.get('/admin/users', verifyTokenAndRole, async (req, res) => {
   }
 });
 
-
-
-// Dashboard List Route for react-admin
-router.get('/admin/dashboard', verifyTokenAndRole, async (req, res) => {
-  try {
-    // Fetch all dashboard data from the database for react-admin list operation
-    const dashboardData = await db.collection('data').find().toArray();
-    res.json({ data: dashboardData });
-  } catch (error) {
-    console.error('Error retrieving dashboard data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Dashboard Update Route for react-admin
-router.put('/admin/dashboard/:id', verifyTokenAndRole, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    // Update the dashboard data in your database based on the ID
-    await db.collection('data').updateOne({ _id: ObjectId(id) }, { $set: updatedData });
-
-    res.json({ message: 'Data updated successfully' });
-  } catch (error) {
-    console.error('Error updating dashboard data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Dashboard Create Route for react-admin
-router.post('/admin/dashboard', verifyTokenAndRole, async (req, res) => {
-  try {
-    const newData = req.body;
-
-    // Insert the new dashboard data into your database
-    await db.collection('data').insertOne(newData);
-
-    res.json({ message: 'Data created successfully' });
-  } catch (error) {
-    console.error('Error creating dashboard data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Dashboard Delete Route for react-admin
-router.delete('/admin/dashboard/:id', verifyTokenAndRole, async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Delete the dashboard data from your database based on the ID
-    await db.collection('data').deleteOne({ _id: ObjectId(id) });
-
-    res.json({ message: 'Data deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting dashboard data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
 router.post('/logout', async (req, res) => {
   res.clearCookie('token', { path: '/' });
   res.status(200).json({ message: 'Logged out successfully' });
 });
-
+*/
 
 
 module.exports = router;
