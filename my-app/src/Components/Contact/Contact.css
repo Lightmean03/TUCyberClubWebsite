@@ -57,7 +57,7 @@ button[type="reset"] {
   font-weight: bold;
   border: none;
   border-radius: 0.5rem;
-  background-color: #007bff;
+  background-color: #ffcc00;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;

@@ -75,7 +75,7 @@ const Signin = () => {
   return (
     <>
       <div className="sign-container">
-        <h3 className="signin-title">Sign In</h3>
+        <h3 className="signin-title">LOGIN</h3>
         <form noValidate onSubmit={handleSubmit} onReset={handleReset} className="signin-form">
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -118,9 +118,9 @@ const Signin = () => {
             Reset
           </button>
           <div className="signin-signup-link">
-            Don't have an account?
+            Don't have an account? 
             <button type="button" className="signin-signup-btn">
-              <a href="/signup">Sign Up</a>
+              <a href="/signup"> Sign Up</a>
             </button>
           </div>
         </form>
