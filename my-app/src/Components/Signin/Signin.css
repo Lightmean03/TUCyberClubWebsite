@@ -4,11 +4,24 @@
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-family: "Aktiv Grotesk", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #333;
+  color: #fdfdfd;
   max-width: 30rem; /* Adjust the value to make the container wider */
   margin: 0 auto; /* Center the container horizontally */
+
+  background-color: #202020ae;
+
+
+  border-radius: 2%;
+
+
+  margin-bottom: 35px;
+
+  margin-top: 50px;
+
+
+
 }
 
 .signin-title {
@@ -49,7 +62,7 @@
   font-size: 12px;
 }
 
-.signin-submit-btn {
+.signin-signup-btn {
   background-color: #4caf50;
   color: #fff;
   border: none;
@@ -94,10 +107,11 @@
   font-size: 14px;
   cursor: pointer;
   transition: color 0.3s ease;
+  margin-left: 3px;
 }
 
 .signin-signup-link .signin-signup-btn:hover {
-  color: #fff;
+  color: #ffcc00;
 }
 
 
