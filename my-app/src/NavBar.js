@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 export default function Navbar({ logo }) {
   return (
-    <nav className="flex justify-between px-6 flex-row mx-6 mb-6 items-center z-0 mt-4">
+    <nav className="flex justify-between px-2 py-4 flex-row items-center z-0 bg-[#E8B019] mb-10">
 
-      <span className="items-center flex -mt-16">
+      <span className="items-center flex -mt-24">
         <img src={logo} alt="Logo" className="h-28 w-28 bg-white rounded-xl border" />
       </span>
-      <div className="flex space-x-4">
+      <div className="hidden md:flex space-x-4">
         <CustomLink to="/home">Home</CustomLink>
         <CustomLink to="/signin">Sign-In</CustomLink>
         <CustomLink to="/about">About</CustomLink>
