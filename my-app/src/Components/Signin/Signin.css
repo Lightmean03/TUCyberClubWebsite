@@ -1,3 +1,12 @@
+.bg{
+  /* width: 100vw; */
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+  url(../Images/tuBg2.jpeg);
+  background-size: cover; 
+
+}
+
 .sign-container {
   display: flex;
   flex-direction: column;
@@ -10,7 +19,12 @@
   max-width: 30rem; /* Adjust the value to make the container wider */
   margin: 0 auto; /* Center the container horizontally */
 
-  background-color: #202020ae;
+  background-color: #2020209e;
+
+
+
+
+
 
 
   border-radius: 2%;
@@ -19,6 +33,10 @@
   margin-bottom: 35px;
 
   margin-top: 50px;
+
+  
+  border-bottom: 2px solid whitesmoke;
+  box-sizing: border-box;
 
 
 
@@ -29,6 +47,9 @@
   font-size: 24px;
   padding: 4rem;
   color: #ffffff;
+
+
+
 }
 
 .signin-form {

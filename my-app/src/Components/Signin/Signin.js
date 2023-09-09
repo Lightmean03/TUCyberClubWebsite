@@ -74,6 +74,8 @@ const Signin = () => {
 
   return (
     <>
+      <div className='bg'>
+
       <div className="sign-container">
         <h3 className="signin-title">LOGIN</h3>
         <form noValidate onSubmit={handleSubmit} onReset={handleReset} className="signin-form">
@@ -125,6 +127,9 @@ const Signin = () => {
           </div>
         </form>
       </div>
+
+      </div>
+
     </>
   );
 };
