@@ -23,7 +23,7 @@
   width: 200px;
 }
 .form-group {
-  margin-bottom: 20px;
+  margin: 0;
 }
 
 label {
@@ -52,7 +52,7 @@ button[type="submit"],
 button[type="reset"] {
   text-align: center;
   margin: 1rem;
-  padding: 0.8rem 1rem;
+  padding: 0.5rem 3rem;
   font-size: 1.4rem;
   font-weight: bold;
   border: none;
@@ -60,14 +60,14 @@ button[type="reset"] {
   background-color: #ffcc00;
   color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.4s ease;
 }
 
 
 
 button[type="submit"]:hover,
 button[type="reset"]:hover {
-  background-color: #0056b3;
+  background-color: #d29b04;
 }
 
 

@@ -87,15 +87,16 @@ const Signup = ({ showSignup, setShowSignup }) => {
 
  
   return (
+    <div className='bg2'>
+
     <div className="modal">
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title signup-title">Sign Up</h5>
+            <h5 className="modal-title signup-title">SIGN UP</h5>
           </div>
           <div className="modal-body">
             <div className="signup-container">
-              <p className="signup-subtitle">Create Account</p>
               <div className="row">
                 <div className="col">
                   <div className="form-group mb-3">
@@ -164,6 +165,8 @@ const Signup = ({ showSignup, setShowSignup }) => {
           </div>
         </div>
       </div>
+    </div>
+
     </div>
   );
 };
