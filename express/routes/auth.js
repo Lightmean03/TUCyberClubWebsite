@@ -3,7 +3,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { db } = require('./db');
-const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const router = express.Router();
 const saltRounds = 10;

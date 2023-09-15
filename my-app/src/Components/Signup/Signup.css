@@ -73,6 +73,17 @@ button[type="button"]:hover {
   color: #666;
 }
 
+/*.signup-close-btn{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+
+}*/
+
 .signup-form .form-group {
   margin-bottom: 1.5rem;
   color: #333;
@@ -133,11 +144,6 @@ button[type="button"]:hover {
   color: #777;
 }
 
-@media (max-width: 36rem) {
-  .signup-container {
-    padding: 1rem;
-  }
-}
 
 
 

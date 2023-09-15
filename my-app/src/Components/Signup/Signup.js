@@ -160,8 +160,13 @@ const Signup = ({ showSignup, setShowSignup }) => {
               >
                 Reset
               </button>
+              <button
+              >
+                <a href="/signin" className="signup-close-btn flex justify-start items-start text-left text-1.8rem mt-2rem text-white">x</a>
+              </button>
 
             </div>
+            
           </div>
         </div>
       </div>
