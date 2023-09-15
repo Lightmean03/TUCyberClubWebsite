@@ -18,7 +18,7 @@
     "prop-types": "^15.8.1",
     "ra-data-simple-rest": "^4.12.2",
     "react": "^18.2.0",
-    "react-admin": "^4.12.3",
+    "react-admin": "^4.14.0",
     "react-awesome-shapes": "^0.1.12",
     "react-bootstrap": "^2.8.0",
     "react-calendar": "^4.4.0",

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Resources.css';
 import Cyber1 from '../Images/pico.png';
 import Cyber2 from '../Images/pwn.png';
 import Cyber3 from '../Images/Sql.png';
@@ -7,7 +6,7 @@ import Cyber4 from '../Images/HackTheBox.png';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 export default function Resources() {
-  const images = [Cyber1, Cyber2, Cyber3, Cyber4]; // Add more image URLs here if needed
+  const images = [Cyber1, Cyber2, Cyber3, Cyber4];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleLeftArrowClick = () => {
@@ -19,50 +18,44 @@ export default function Resources() {
   };
 
   return (
-    <div className='resource-container'>
-      <h1 className="title">Resources</h1>
-      <p className="p-text"></p>
+    <div className="resource-container flex flex-col justify-center items-center min-h-screen p-8 text-center">
+      <h1 className="title text-6xl font-bold relative z-10 mb-20">Resources</h1>
+      <p className="p-text text-2xl font-normal relative bottom-36 right-72"></p>
 
-      <section className='resource-content'>
-        <div className='arrow-container' onClick={handleLeftArrowClick}>
-          <AiOutlineArrowLeft className="arrow-icon" />
+      <section className="resource-content flex relative justify-center items-center flex-row p-2">
+        <div className="arrow-container flex justify-center items-center p-8 cursor-pointer" onClick={handleLeftArrowClick}>
+          <AiOutlineArrowLeft className="arrow-icon text-5xl" />
         </div>
 
-        <div className="box-container">
-          <a href="https://picoctf.org/" target="_blank" rel="noopener noreferrer">
-            <div
-              className={`cyber-image ${currentIndex === 0 ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${images[0]})` }}
+        <div className="box-container flex items-center space-x-4">
+          {images.map((image, index) => (
+            <a
+              key={index}
+              href={
+                index === 0
+                  ? 'https://picoctf.org/'
+                  : index === 1
+                  ? 'https://pwn.college/'
+                  : index === 2
+                  ? 'https://www.codecademy.com/learn/learn-sql'
+                  : 'https://www.hackthebox.com/'
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`cyber-image ${currentIndex === index ? 'active' : ''} `}
+              style={{ backgroundImage: `url(${image}) `, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}
             >
-          </div>
-          </a>
-          <a href="https://pwn.college/" target="_blank" rel="noopener noreferrer">
-          <div
-            className={`cyber-image ${currentIndex === 1 ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${images[1]})` }}
-          >
-          </div>
-          </a>
-          
-        <a href="https://www.codecademy.com/learn/learn-sql" target="_blank" rel="noopener noreferrer">
-        <div 
-          className={`cyber-image ${currentIndex === 2 ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${images[2]})` }}
-            >
+              <div className="overlay flex justify-center items-center h-69 w-69">
+                Cyber {index + 1}
+              </div>
+            </a>
+          ))}
         </div>
-        </a>
-        <a href="https://www.hackthebox.com/" target="_blank" rel="noopener noreferrer">
-        <div 
-          className={`cyber-image ${currentIndex === 3 ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${images[3]})` }}
-            >
 
+        <div className="arrow-container flex justify-center items-center p-8 cursor-pointer" onClick={handleRightArrowClick}>
+          <AiOutlineArrowRight className="arrow-icon text-5xl" />
         </div>
-        </a>
-        <div className='arrow-container' onClick={handleRightArrowClick}>
-          <AiOutlineArrowRight className="arrow-icon" />
-        </div>
-        </div>
+        
       </section>
     </div>
   );
