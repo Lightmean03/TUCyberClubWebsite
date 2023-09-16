@@ -80,10 +80,14 @@ const Contact = () => {
 
   return (
     <div className="container">
+      <div className='container-msg'>
       <h3 className="mb-4">CONTACT US</h3>
       <p>
-        Please use the form below to send comments or suggestions. Your contact information is optional unless you desire a response.
+        
+        Use the form below for comments or suggestions; <br />sharing your contact info is optional unless you want a response.
       </p>
+      </div>
+
       <form
         noValidate
         onSubmit={handleSubmit}
@@ -157,7 +161,7 @@ const Contact = () => {
         <div className="button-container">
           <div className="submit">
             <button className="btn-submit" type="submit">
-              Send Message
+              Send
             </button>
           </div>
           <div className="reset">
