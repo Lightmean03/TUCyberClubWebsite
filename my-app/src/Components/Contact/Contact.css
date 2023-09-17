@@ -10,9 +10,13 @@
 
 .container {
   text-align: center;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
 
   margin-bottom: 50px;
 
@@ -20,10 +24,14 @@
 
 
 .container-msg{
-  background-color: #10100fd9;
+  background-color: #232322c0;
   
   margin-right: 50px;
   padding: 151px 13px 293px 18px;
+
+  margin-left: auto;
+
+
 
   border-radius: 5%;
 
