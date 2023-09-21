@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const { connectDB } = require('./routes/db');
 require('dotenv').config();
 
@@ -26,7 +25,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use(cookieParser());
 
 // Serve the React app
 app.use(express.static(path.join(__dirname, 'build')));

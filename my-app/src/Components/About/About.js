@@ -12,7 +12,7 @@ export default function About() {
         <h1 className="font-semibold text-2xl lg:text-4xl">About Our Cyber Club</h1>
       </header>
 
-      <section className="flex flex-col">
+      <section>
         <p className="text-sm md:text-lg">
           Our goal is to expose our members to a wide range of topics in cyber
           security by discussing current events, hosting guest speakers and
@@ -20,25 +20,33 @@ export default function About() {
           We participate in various cyber defense competitions, although
           students who join the club are not required to compete.
         </p>
-        <div className="flex flex-col md:flex-row justify-center items-center w-auto max-w-screen-lg">
+        <div className="flex flex-col md:flex-row justify-start items-start w-auto max-w-screen-lg ">
           <div className="about-text">
-            <img src={image1} loading="lazy" alt="Group" className="images" />
+            <img src={image1} loading="lazy" alt="Group"  className=" h-80 w-80" 
+            style={{ maxWidth: 'none' }}
+            />
             <h3 className="h3">Kaden Pirmonhamed</h3>
             Club Leader Sophomore Computer Science Major.
           </div>
 
           <p className="about-text">
-            <img src={image2} loading="lazy" alt="Group" className="images" />
+            <img src={image2} loading="lazy" alt="Group"  className=" h-80 w-80" 
+            style={{ maxWidth: 'none' }}
+            />
             <h3 className="h3">Competition Team</h3>
           </p>
 
           <p className="about-text">
-            <img src={image3} loading="lazy" alt="Group" className="images" />
+            <img src={image3} loading="lazy" alt="Group"  className=" h-80 w-80" 
+            style={{ maxWidth: 'none' }}
+            />
             <h3 className="h3">Danny</h3>
             Competition Team Leader.
           </p>
           <p className="about-text">
-            <img src={image4} loading="lazy" alt="Group" className="images" />
+            <img src={image4} loading="lazy" alt="Group"  className="h-80 w-80" 
+            style={{ maxWidth: 'none' }}
+            />
             <h3 className="h3">Mitch Sneckenberger</h3>
             Sophomore Computer Science Major. The treasurer of our club.
           </p>
