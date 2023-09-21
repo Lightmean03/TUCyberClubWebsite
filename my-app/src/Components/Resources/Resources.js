@@ -27,30 +27,33 @@ export default function Resources() {
           <AiOutlineArrowLeft className="arrow-icon text-5xl" />
         </div>
 
-        <div className="box-container flex items-center space-x-4">
-          {images.map((image, index) => (
-            <a
-              key={index}
-              href={
-                index === 0
-                  ? 'https://picoctf.org/'
-                  : index === 1
-                  ? 'https://pwn.college/'
-                  : index === 2
-                  ? 'https://www.codecademy.com/learn/learn-sql'
-                  : 'https://www.hackthebox.com/'
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`cyber-image ${currentIndex === index ? 'active' : ''} `}
-              style={{ backgroundImage: `url(${image}) `, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}
-            >
-              <div className="overlay flex justify-center items-center h-69 w-69">
-                Cyber {index + 1}
-              </div>
-            </a>
-          ))}
-        </div>
+  <div className="box-container flex items-center space-x-10">
+  {images.map((image, index) => (
+    <a
+      key={index}
+      href={
+        index === 0
+          ? 'https://picoctf.org/'
+          : index === 1
+          ? 'https://pwn.college/'
+          : index === 2
+          ? 'https://www.codecademy.com/learn/learn-sql'
+          : 'https://www.hackthebox.com/'
+      }
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`cyber-image ${currentIndex === index ? 'active border-red-500 border-2' : ''} h-80 w-80 flex justify-center items-center relative text-align-center`}
+      style={{
+        backgroundImage: `url(${image})`,
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center',
+      }}
+    >
+      
+    </a>
+  ))}
+</div>
+
 
         <div className="arrow-container flex justify-center items-center p-8 cursor-pointer" onClick={handleRightArrowClick}>
           <AiOutlineArrowRight className="arrow-icon text-5xl" />
