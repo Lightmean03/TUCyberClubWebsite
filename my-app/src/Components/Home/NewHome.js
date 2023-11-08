@@ -1,18 +1,21 @@
-import Spaceman from "../Images/SpaceMan.png";
+
 
 export default function NewHome() {
   return (
-    <div className="w-full border-b">
-      <div className="flex mx-6 px-6 pt-12 md:mx-26 md:px-16 xl:px-24 xl:mx-44 items-center justify-between min-h-screen">
-        <h1 className="w-56 md:w-auto text-xl md:text-2xl lg:text-4xl xl:text-5xl bg-gradient-to-r text-transparent from-[#FFD700] to-white bg-clip-text">
+    <>
+      <div className="flex flex-col mx-6 px-6 pt-12 md:mx-26 md:px-16 xl:px-24 xl:mx-44 items-center  min-h-screen">
+        <h1 className="flex flex-col justify-start relative px-12 w-56 md:w-auto text-lg md:text-7xl lg:text-6x1 xl:text-7x1 
+        bg-gradient-to-r text-transparent from-[#FFD700] to-white bg-clip-text tracking-wider leading-none ">
           Towson Cyber Defense Club
         </h1>
-        <img
-          src={Spaceman}
-          alt="Welcome"
-          className="w-16 h-16 md:w-72 md:h-64"
-        />
+        <div className="flex flex-col justify-center items-center content-center pt-12">
+       <h3 className="font-bold text-5xl md:text-7x1">Join Us</h3>
+       <p className=" font-serif text-3xl pt-4">
+      We are a group of students who are interested in learning about cyber security and participating in cyber defense competitions. We are open to all majors and skill levels. We meet every Thursday at 5:00pm in Smith Hall room 356.
+       </p>
+   </div>
       </div>
-    </div>
+      
+   </>
   );
 }
