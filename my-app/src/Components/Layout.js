@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import Curveys from "./Curvey/Curveys";
-import logoImg from "./Images/Logo.png";
+import logoImg from "./Images/ClubSymbol.png";
 import Navbar from "../NavBar";
 
 const Layout = ({ children }) => {

@@ -7,7 +7,7 @@ import image4 from "../Images/Mitch.png";
 
 export default function About() {
   return (
-    <div className="flex flex-col container mx-4 px-2 lg:mx-14 lg:px-16">
+    <div className="flex flex-col content-center container mx-4 px-2 lg:mx-17 lg:px-14">
       <header>
         <h1 className="font-semibold text-2xl lg:text-4xl">About Our Cyber Club</h1>
       </header>
@@ -20,7 +20,7 @@ export default function About() {
           We participate in various cyber defense competitions, although
           students who join the club are not required to compete.
         </p>
-        <div className="flex flex-col md:flex-row justify-start items-start w-auto max-w-screen-lg ">
+        <div className="flex flex-col md:flex-row justify-start  items-start w-auto max-w-screen-lg ">
           <div className="about-text">
             <img src={image1} loading="lazy" alt="Group"  className=" h-80 w-80" 
             style={{ maxWidth: 'none' }}
@@ -64,7 +64,6 @@ export default function About() {
           <p className="value">Towson University</p>
         </div>
 
-        {/* Add more boxes for values here */}
         <div className="layout">
           <h2 className="label">Founded</h2>
           <p className="value">2015</p>
