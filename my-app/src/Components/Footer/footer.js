@@ -60,7 +60,6 @@ export const Footer = () => {
           </ul>
         </div>
       </div>
-      <small className="footer-text">&copy; Towson CyberSecurity Club, 2023. All rights reserved.</small>
     </footer>
   );
 };
