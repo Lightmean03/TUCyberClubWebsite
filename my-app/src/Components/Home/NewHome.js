@@ -52,12 +52,7 @@ export default function NewHome() {
           </div>
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
-</main>
-    
-    </>
+      
+   </>
   );
 }
