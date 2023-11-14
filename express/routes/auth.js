@@ -75,16 +75,20 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-/* New route to get all users (requires admin access)
-router.get('/admin/users', verifyTokenAndRole , async (req, res) => {
+
+
+//New route to get all users (requires admin access)
+router.get('/admin/users', async (req, res) => {
   try {
     const currentUser = await db.collection('users').findOne({ email: req.user.email });
     if (currentUser.role !== 'admin') {
       return res.status(403).json({ error: 'Forbidden' });
+    }else if(currentUser.role === 'admin'){
+      const users = await db.collection('users').findOne({ email: req.user.email });
+      res.json(users);
+    }else{
+      return res.status(404).json({ error: 'User not found' });
     }
-
-    const users = await db.collection('users').find().toArray();
-    res.json(users);
   } catch (error) {
     console.error('Error retrieving users:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -95,7 +99,7 @@ router.post('/logout', async (req, res) => {
   res.clearCookie('token', { path: '/' });
   res.status(200).json({ message: 'Logged out successfully' });
 });
-*/
+
 
 
 module.exports = router;
