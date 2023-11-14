@@ -16,7 +16,7 @@ function Dashboard() {
     const token = cookies.token;
     console.log('Token from cookies:', token);
     if (!token) {
-      navigate('/'); // Redirect to the home page if the token is not found
+      navigate('/');
     } else {
       axios
         .get('http://localhost:9000/auth/admin/dashboard/', {
@@ -51,11 +51,11 @@ function Dashboard() {
         {userRole === 'admin' ? (
           <div>
             <p>Welcome to the dashboard! You are signed in as an admin.</p>
-            <AdminPanel /> {/* Render the AdminPanel component */}
+            <AdminPanel />
           </div>
         ) : (
           <p>Welcome to the dashboard! You are signed in as a user.</p>
-          /* Render  Dashboard Content Here */
+          
         )}
       </div>
     );
