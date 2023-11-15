@@ -18,7 +18,7 @@ router.get('/events', async (req, res) => {
 
 
 // Create an event
-router.post('/createEvent', verifyTokenAndRole, async (req, res) => {
+router.post('/createEvent', async (req, res) => {
     try{
         const events = await db.collection('events').insertOne(req.body);
         res.json(events);
@@ -32,7 +32,7 @@ router.post('/createEvent', verifyTokenAndRole, async (req, res) => {
 
 //Update Event
 
-router.put('/:id', verifyTokenAndRole, async (req, res) => {
+router.put('/:id', async (req, res) => {
     try{
         const events = await db.collection('events').updateOne(
             { _id: ObjectId(req.params.id) },
