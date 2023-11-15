@@ -32,12 +32,12 @@ app.use(express.static(path.join(__dirname, 'build')));
 // Import and use route files
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
-//const calendar = require('./routes/Calendar');
+const calendar = require('./routes/Calendar');
 
 
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
-//app.use('/calendar', calendar);
+app.use('/calendar', calendar);
 
 // Start the server
 app.listen(port, () => {

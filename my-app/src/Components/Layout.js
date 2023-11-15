@@ -12,8 +12,6 @@ const Layout = ({ children }) => {
   return (
     <>
       <div>
-        <Curveys />
-        <div className="shooting-star"></div>
         <Navbar logo={logoImg} />
       </div>
       {children}
