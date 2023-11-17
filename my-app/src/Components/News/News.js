@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
-
+import jsPDF from 'jspdf';
 const News = () => {
   const [events, setEvents] = useState([]);
 
@@ -25,10 +25,13 @@ const News = () => {
     html2canvas(calendarElement).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
-      const link = document.createElement('a');
-      link.href = imgData;
-      link.download = 'calendar.png';
-      link.click();
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.text('Calendar', 20, 20);
+      pdf.save('calendar.pdf');
     });
   };
 
