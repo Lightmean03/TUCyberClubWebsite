@@ -1,12 +1,11 @@
 function ResourceCard({ title, description, link, img }) {
     return (
-      <div className="max-w-md mx-auto bg-[#E8B019] rounded-xl overflow-hidden md:max-w-2xl">
+      <div className="max-w-md mx-auto bg-[#E8B019] rounded-xs overflow-hidden md:max-w-2xl  transition-transform hover:scale-105">
         <div className="md:flex">
           <div className="md:flex-shrink-0">
           <a href={link} target="_blank" rel="noopener noreferrer">
-
             <img
-              className="h-48 w-full md:h-auto object-fill md:w-48 "
+              className="h-48 w-full object-fill md:w-48 "
               src={img}
               alt="Resource"
             />
