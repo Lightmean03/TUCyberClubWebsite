@@ -6,7 +6,7 @@ import image4 from "../Images/Mitch.png";
 
 export default function About() {
   return (
-    <div className="flex flex-col items-center top-8 justify-center content-center container mx-4 px-2 lg:mx-17 lg:px-14">
+    <div style={{ height: "100%", width: "100%", overflow: "auto" }}>
       <header className="mb-8 text-center">
         <h1 className="font-semibold text-2xl lg:text-4xl">
           About Our Cyber Club
@@ -23,7 +23,15 @@ export default function About() {
         </p>
       </section>
 
-      <section className="flex flex-row justify-center items-center gap-8">
+      <section
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          columnGap: "10%",
+          alignContent: "space-between",
+        }}
+      >
         <div className="about-member text-center">
           <img
             src={image1}
@@ -31,7 +39,16 @@ export default function About() {
             className="h-80 w-80 object-cover rounded-full"
           />
           <h3 className="text-lg font-semibold">Cyber Defense Club</h3>
-          <p>Club Leader | Sophomore Computer Science Major</p>
+          <p style={{ contain: "size" }}>
+            Welcome to the Cyber Defense Club, where every Wednesday at 6 PM,
+            cybersecurity enthusiasts gather to delve into the world of cyber
+            defense. Our inclusive club welcomes members of all skill levels,
+            offering a supportive environment for everyone interested in
+            cybersecurity, regardless of their expertise. Focused on defensive
+            topics, we go beyond theoretical discussions by organizing
+            practical, hands-on labs that enhance and develop our students'
+            skills
+          </p>
         </div>
 
         <div className="about-member text-center ">
@@ -41,6 +58,15 @@ export default function About() {
             className="h-80 w-80 object-cover rounded-full"
           />
           <h3 className="text-lg font-semibold">Competition Team</h3>
+          <p style={{ contain: "size" }}>
+            Welcome to the heart of our Cyber Defense Club – the Competition
+            Team! As the driving force behind our competitive edge, this team is
+            dedicated to preparing students for a thrilling journey through
+            various cybersecurity competitions. From beginners eager to dip
+            their toes into the realm of cyber defense to seasoned veterans
+            seeking advanced challenges, our competitions cater to all skill
+            levels.
+          </p>
         </div>
 
         <div className="about-member text-center ">
@@ -50,7 +76,14 @@ export default function About() {
             className="h-80 w-80 object-cover rounded-full"
           />
           <h3 className="text-lg font-semibold">Members</h3>
-          <p>Competition Team Leade</p>
+          <p style={{ contain: "size" }}>
+            At the heart of our Cyber Defense Club is a vibrant and growing
+            community of individuals who share a common passion for
+            cybersecurity. Whether you're just stepping into the world of cyber
+            or bringing years of experience, our club is a welcoming space where
+            enthusiasts converge to learn, collaborate, and explore the
+            ever-evolving landscape of cybersecurity.
+          </p>
         </div>
 
         <div className="about-member text-center ">
@@ -60,11 +93,20 @@ export default function About() {
             className="h-80 w-80 object-cover rounded-full"
           />
           <h3 className="text-lg font-semibold">LeaderShip</h3>
-          <p>Sophomore Computer Science Major | Treasurer</p>
+          <p style={{ contain: "size" }}>
+            Our Cyber Defense Club is not just a collection of members; it's a
+            collaborative community driven by passionate leaders dedicated to
+            fostering growth and success. If you're someone who enjoys taking
+            charge, planning events, and ensuring the smooth execution of club
+            activities, our leadership team is the perfect place for you.
+          </p>
         </div>
       </section>
 
-      <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+      <section
+        style={{}}
+        className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
+      >
         <h2 className="font-semibold">Club Mission and Goals</h2>
         <p>
           Clearly state the mission and goals of the club. (Replace this text
