@@ -17,7 +17,7 @@
   text-align: center;
   margin: auto;
   border-radius: 15px;
-  border-color: black;
-  background: rgba(31, 31, 31, 0.388);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-color: rgb(251, 248, 248);
+  background: rgb(31, 31, 31);
+  box-shadow: rgba(246, 245, 245, 0.782) 0px 5px 15px;
 }
