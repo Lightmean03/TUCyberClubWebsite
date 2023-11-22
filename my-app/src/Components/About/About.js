@@ -7,35 +7,10 @@ import Blog from "../Blog/Blogs";
 import { Popup } from "../Popup/Popup";
 
 export default function About() {
-  const posts1 = [
-    {
-      title: "Cyber Defense Club",
-      content:
-        "Welcome to the Cyber Defense Club, where every Wednesday at 6 PM, cybersecurity enthusiasts gather to delve into the world of cyber defense. Our inclusive club welcomes members of all skill levels,  offering a supportive environment for everyone interested in   cybersecurity, regardless of their expertise. Focused on defensive  topics, we go beyond theoretical discussions by organizing  practical, hands-on labs that enhance and develop our students skills",
-    },
-  ];
-  const posts2 = [
-    {
-      title: "Competition Team",
-      content:
-        "Welcome to the heart of our Cyber Defense Club – the Competition Team! As the driving force behind our competitive edge, this team is dedicated to preparing students for a thrilling journey through various cybersecurity competitions. From beginners eager to dip their toes into the realm of cyber defense to seasoned veterans seeking advanced challenges, our competitions cater to all skill levels.",
-    },
-  ];
-  const posts3 = [
-    {
-      title: "Members",
-      content:
-        "At the heart of our Cyber Defense Club is a vibrant and growing community of individuals who share a common passion for cybersecurity. Whether you're just stepping into the world of cyber or bringing years of experience, our club is a welcoming space where enthusiasts converge to learn, collaborate, and explore the ever-evolving landscape of cybersecurity.",
-    },
-  ];
-  const posts4 = [
-    {
-      title: "Leadership",
-      content:
-        "Our Cyber Defense Club is not just a collection of members; it's a collaborative community driven by passionate leaders dedicated to fostering growth and success. If you're someone who enjoys taking charge, planning events, and ensuring the smooth execution of club activities, our leadership team is the perfect place for you.",
-    },
-  ];
-  const [open, setOpen] = useState(false);
+  const [openCyberDefenseClub, setOpenCyberDefenseClub] = useState(false);
+  const [openCompetitionTeam, setOpenCompetitionTeam] = useState(false);
+  const [openMembers, setOpenMembers] = useState(false);
+  const [openLeadership, setOpenLeadership] = useState(false);
 
   return (
     <div style={{ height: "100%", width: "100%", overflow: "auto" }}>
@@ -43,10 +18,6 @@ export default function About() {
         <h1 className="font-semibold text-2xl lg:text-4xl">
           About Our Cyber Club
         </h1>
-        <button onClick={() => setOpen(true)}> Click to Open Popup</button>
-        {open ? (
-          <Popup text="Hello there!" closePopup={() => setOpen(false)} />
-        ) : null}
       </header>
       <section className="mb-8 text-center">
         <p className="text-sm md:text-lg">
@@ -70,71 +41,71 @@ export default function About() {
         }}
       >
         <div className="about-member text-center">
-          <button onClick={() => setOpen(true)}>
+          <button onClick={() => setOpenCyberDefenseClub(true)}>
             <img
               src={image1}
               alt="Kaden Pirmonhamed"
               className="h-80 w-80 object-cover rounded-full"
             />
           </button>
-          {open ? (
+          {openCyberDefenseClub ? (
             <Popup
               text="Our goal is to expose our members to a wide range of topics in cyber security by discussing current events, hosting guest speakers, and providing hands-on labs to enhance and develop our students’ skills. We participate in various cyber defense competitions, although students who join the club are not required to compete."
               title="Cyber Defense Club"
-              closePopup={() => setOpen(false)}
+              closePopup={() => setOpenCyberDefenseClub(false)}
             />
           ) : null}
           <h3 className="font-semibold">Cyber Defense Club</h3>
         </div>
 
         <div className="about-member text-center ">
-          <button onClick={() => setOpen(true)}>
+          <button onClick={() => setOpenCompetitionTeam(true)}>
             <img
               src={image2}
               alt="Competition Team"
               className="h-80 w-80 object-cover rounded-full"
             />
           </button>
-          {open ? (
+          {openCompetitionTeam ? (
             <Popup
               text="Welcome to the heart of our Cyber Defense Club – the Competition Team! As the driving force behind our competitive edge, this team is dedicated to preparing students for a thrilling journey through various cybersecurity competitions. From beginners eager to dip their toes into the realm of cyber defense to seasoned veterans seeking advanced challenges, our competitions cater to all skill levels."
               title="Competition Team"
-              closePopup={() => setOpen(false)}
+              closePopup={() => setOpenCompetitionTeam(false)}
             />
           ) : null}
           <h3 className="font-semibold">Competition Team</h3>
         </div>
 
         <div className="about-member text-center ">
-          <button onClick={() => setOpen(true)}>
+          <button onClick={() => setOpenMembers(true)}>
             <img
               src={image3}
               alt="Danny"
               className="h-80 w-80 object-cover rounded-full"
             />
           </button>
-          {open ? (
+          {openMembers ? (
             <Popup
               text="At the heart of our Cyber Defense Club is a vibrant and growing community of individuals who share a common passion for cybersecurity. Whether you're just stepping into the world of cyber or bringing years of experience, our club is a welcoming space where enthusiasts converge to learn, collaborate, and explore the ever-evolving landscape of cybersecurity."
               title="Members"
-              closePopup={() => setOpen(false)}
+              closePopup={() => setOpenMembers(false)}
             />
           ) : null}
           <h3 className="font-semibold">Members</h3>
         </div>
         <div className="about-member text-center ">
-          <button onClick={() => setOpen(true)}>
+          <button onClick={() => setOpenLeadership(true)}>
             <img
               src={image4}
               alt="Mitch Sneckenberger"
               className="h-80 w-80 object-cover rounded-full"
             />
           </button>
-          {open ? (
+          {openLeadership ? (
             <Popup
               text="Our Cyber Defense Club is not just a collection of members; it's a collaborative community driven by passionate leaders dedicated to fostering growth and success. If you're someone who enjoys taking charge, planning events, and ensuring the smooth execution of club activities, our leadership team is the perfect place for you."
               title="Leadership"
-              closePopup={() => setOpen(false)}
+              closePopup={() => setOpenLeadership(false)}
             />
           ) : null}
           <h3 className="font-semibold">Leadership</h3>
