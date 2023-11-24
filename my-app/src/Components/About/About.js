@@ -112,48 +112,83 @@ export default function About() {
         </div>
       </section>
 
-      <section
-        style={{}}
-        className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
-      >
-        <h2 className="font-semibold">Club Mission and Goals</h2>
-        <p>
-          Clearly state the mission and goals of the club. (Replace this text
-          with your mission and goals.)
-        </p>
-      </section>
-
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Brief History</h2>
         <p>
-          Provide a brief history of the club, including when it was founded and
-          any significant milestones. (Replace this text with your club's
-          history.)
+          Towson Cyber Defense Club has a rich history that dates back to 2006.
+          Under the leadership of Coach Mike O'Leary since then, the club has
+          achieved significant milestones, including multiple successful
+          participations in regional and national competitions. The club's
+          commitment to cybersecurity education and hands-on experience has made
+          it a prominent force in the cybersecurity community at Towson
+          University.
         </p>
       </section>
 
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Leadership Team</h2>
         <p>
-          Introduce key members, leaders, and contributors to the club. (Replace
-          this text with information about your leadership team.)
+          The club is led by Coach Mike O'Leary, who has been instrumental in
+          guiding the team to success since 2006. In addition to Coach O'Leary,
+          our leadership team includes dedicated members and contributors who
+          play vital roles in organizing club activities, competitions, and
+          training sessions. These individuals bring a wealth of knowledge and
+          experience to the club, fostering a collaborative and learning-focused
+          environment.
+          <br />
+          Notable leadership roles within the team include: - President: Kaden -
+          Vice Presidents: Tobe, Surril - Secretary: Stuti - Team Captain:
+          Collin
+          <br />
+          The leadership team is the backbone of our club, ensuring its
+          continued growth and success. We welcome new members to join and
+          contribute to our dynamic and passionate team.
         </p>
       </section>
 
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Club Activities</h2>
         <p>
-          Describe the types of activities, events, and projects the club is
-          involved in. (Replace this text with details about your club's
-          activities.)
+          Towson Cyber Defense Club engages in a variety of activities, events,
+          and projects to enhance members' skills and knowledge in
+          cybersecurity. From weekly meetings and tryouts to participating in
+          regional competitions like CCDC and CPTC, the club provides a platform
+          for hands-on learning and skill development. Members also benefit from
+          guest speakers, workshops, and collaborative projects that contribute
+          to a dynamic learning environment.
         </p>
       </section>
 
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Achievements</h2>
         <p>
-          Highlight any notable achievements or successes. (Replace this text
-          with your club's achievements.)
+          Over the years, Towson Cyber Defense Club has achieved notable
+          successes, including multiple third-place finishes in competitions
+          such as the Mid-Atlantic Collegiate Cyber Defense Competition
+          (MACCDC). The club's dedication to excellence and continuous
+          improvement has earned it recognition in various Capture The Flag
+          (CTF) events, penetration testing competitions, and more. These
+          achievements showcase the club's commitment to fostering cybersecurity
+          talent and expertise among its members.
+        </p>
+      </section>
+      <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+        <h2 className="font-semibold">Club Activities</h2>
+        <p>
+          Towson Cyber Defense Club actively engages in a variety of activities
+          and events to foster learning and collaboration: - Weekly Meetings:
+          Join us every week for informative sessions, discussions, and updates.
+          - Competitions: We participate in various competitions, including CPTC
+          and NCL, to challenge and enhance our skills. - Workshops: The club
+          conducts regular workshops to provide hands-on experience and share
+          knowledge on cybersecurity tools and techniques. - Guest Speakers:
+          Industry professionals and experts are invited to share insights and
+          experiences with our members. - Community Engagement: We actively
+          contribute to the cybersecurity community by organizing and
+          participating in events.
+          <br />
+          Whether you are a beginner or an experienced cybersecurity enthusiast,
+          our club offers a welcoming environment for all levels of expertise.
         </p>
       </section>
 
