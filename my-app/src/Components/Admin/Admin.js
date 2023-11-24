@@ -1,41 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { Admin, Resource, ListGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import simpleRestProvider from 'ra-data-simple-rest';
-import { fetchUtils } from 'react-admin';
-import UserList from './UserList';
-import { useNavigate } from 'react-router-dom';
-import dataProvider from './dataProvider'; 
+import UserList from './UserList'; // Import your UserList component
+import { useUser } from '../Signin/UserContext';
+import { Link } from 'react-router-dom';
 
 const AdminPanel = () => {
-  const [authenticated, setAuthenticated] = useState(false);
   const [cookies, , removeCookie] = useCookies(['token']);
-  const [userRole, setUserRole] = useState('user'); 
-  const navigate = useNavigate();
+  const { setUserLoggedIn, logout } = useUser();
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = cookies.token;
-    console.log('Token from cookies:', token);
+
     if (token) {
       axios
-        .get('http://localhost:9000/auth/admin/users/', {
+        .get('http://localhost:9000/auth/admin', {
           headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
         })
         .then((response) => {
-          console.log('User Role:', response.data.role);
-          setAuthenticated(true);
-          setUserRole(response.data.role);
+          console.log('Verify response:', response.data);
+          setAuthenticated(true); // Update authentication status
         })
         .catch((error) => {
-          console.error('Error accessing user role:', error);
-          setAuthenticated(false);
+          console.error('Error verifying token:', error);
+          removeCookie('token');
+          setAuthenticated(false); // Update authentication status
         });
-    } else {
-      setAuthenticated(false);
     }
-  }, [cookies.token]);
+  }, [cookies.token, removeCookie, setAuthenticated]);
 
   const handleSignOut = () => {
     axios
@@ -43,7 +38,7 @@ const AdminPanel = () => {
       .then((response) => {
         console.log('Logout response:', response.data);
         removeCookie('token');
-        navigate('/signin'); // Redirect to sign-in page after signing out
+        setAuthenticated(false); // Update authentication status
       })
       .catch((error) => {
         console.error('Error signing out:', error);
@@ -51,20 +46,13 @@ const AdminPanel = () => {
   };
 
   if (!authenticated) {
-    navigate('/signin');
-    return null; 
+    // Redirect to the login page if not authenticated
+    return <Link to="/signin" />;
   }
 
   return (
-    <div>
-      <div>
-        <p>You are signed in as {userRole === 'admin' ? 'an admin' : 'a user'}.</p>
-        <button onClick={handleSignOut}>Sign Out</button>
-      </div>
-      <Admin dataProvider={dataProvider}>
-        <Resource name="users" list={UserList} /> 
-        <Resource name="dashboard" list={ListGuesser} />
-        
+    <div>    
+      <Admin dataProvider={simpleRestProvider('http://localhost:9000/auth/users')}>
       </Admin>
     </div>
   );

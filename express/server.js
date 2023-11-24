@@ -33,11 +33,14 @@ app.use(express.static(path.join(__dirname, 'build')));
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
 const calendar = require('./routes/Calendar');
+const dashboard = require('./routes/dashboard');
+const verifyTokenAndRole = require('./controllers/VerifyTokenAndRoles');
 
 
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
 app.use('/calendar', calendar);
+app.use('/dashboard', dashboard);
 
 // Start the server
 app.listen(port, () => {

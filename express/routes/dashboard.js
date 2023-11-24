@@ -3,13 +3,12 @@ const { Router } = express;
 const jwt = require('jsonwebtoken');
 const router = Router();
 const crypto = require('crypto');
-const { db, connectDB, generateSecretKey } = require('./db');
-
-connectDB();
+const { db, connectDB, } = require('./db');
 
 
 
-const secretKey = generateSecretKey();
+
+const secretKey = process.env.JWT_SECRET_KEY;
 
 // Middleware function for token verification
 const verifyToken = (req, res, next) => {
@@ -36,3 +35,4 @@ const verifyToken = (req, res, next) => {
   
 
 module.exports = router;
+module.exports = verifyToken;
