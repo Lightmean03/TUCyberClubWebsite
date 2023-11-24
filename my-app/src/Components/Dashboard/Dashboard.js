@@ -16,10 +16,10 @@ function Dashboard() {
     const token = cookies.token;
     console.log('Token from cookies:', token);
     if (!token) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       axios
-        .get('http://localhost:9000/auth/admin/dashboard/', {
+        .get('http://localhost:9000/auth/admin', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         })
@@ -38,6 +38,32 @@ function Dashboard() {
         });
     }
   }, [cookies.token, navigate]);
+
+  useEffect(() => {
+    const token = cookies.token;
+    if (!token) {
+      navigate('/dashboard');
+    } else {
+      axios
+        .get('http://localhost:9000/auth//users/:role', {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log('Dashboard response:', response.data);
+          setAuthenticated(true);
+          setUserRole(response.data.role);
+        })
+        .catch((error) => {
+          console.error('Error accessing dashboard:', error);
+          setAuthenticated(false);
+        })
+        .finally(() => {
+          setIsAuthChecked(true);
+          setLoading(false);
+        });
+    }
+  });
 
   if (loading) {
     return <p>Loading...</p>;
@@ -59,10 +85,6 @@ function Dashboard() {
         )}
       </div>
     );
-  } else {
-   
-    navigate('/');
-    return null;
   }
 }
 

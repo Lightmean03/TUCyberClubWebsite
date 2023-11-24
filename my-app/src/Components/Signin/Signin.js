@@ -4,16 +4,33 @@ import './Signin.css';
 import Signup from '../Signup/Signup';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useUser } from '../Signin/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
   // Hooks
-  const [showSignup, setShowSignup] = useState(false);
-  const [validated, setValidated] = useState(false);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const { userLoggedIn, setUserLoggedIn } = useUser();
+  const { logout } = useUser();
+
+  const refreshAccessToken = async (refreshToken) => {
+    try {
+        const response = await axios.post('http://localhost:9000/auth/refresh', { refreshToken });
+        const newAccessToken = response.data.accessToken;
+
+        // Update the stored access token with the new one
+        Cookies.set('token', newAccessToken);
+
+        return newAccessToken;
+    } catch (error) {
+        console.error('Error refreshing access token:', error);
+        throw error;
+    }
+};
 
   const validateForm = () => {
     let newErrors = {};
@@ -23,54 +40,73 @@ const Signin = () => {
     } else if (!isEmail(email)) {
       newErrors.email = 'Please provide a valid email address.';
     }
+
     if (!password) {
       newErrors.password = 'Please provide a password.';
     }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSignIn = () => {
-    const data = {
-      email: email,
-      password: password, 
-    };
-    const token = Cookies.get('token');
-    axios
-      .post('http://localhost:9000/auth/signin/', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log('Sign-in response:', response.data);
-        // Store the token in a cookie
-        Cookies.set('token', response.data.token, { expires: 1 });
-
-        navigate('/dashboard');
-      })
-      .catch((error) => {
-        console.error('Error signing in:', error);
-
-        setErrors({ email: 'Error signing in. Please try again.' });
-        navigate('/signin');
-      });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSignin = () => {
     if (validateForm()) {
-      handleSignIn();
+        const data = {
+            email: email,
+            password: password,
+        };
+        
+        attemptSignin(data);
     }
-    setValidated(true);
-  };
+};
 
-  const handleReset = () => {
-    setEmail('');
-    setPassword('');
-    setValidated(false);
-    setErrors({});
-  };
+const attemptSignin = async (data) => {
+    const token = Cookies.get('token');
+
+    try {
+        const response = await axios.post('http://localhost:9000/auth/signin', data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        console.log(response.data);
+        Cookies.set('token', response.data.token);
+        Cookies.set('user', JSON.stringify(response.data.user));
+        setUserLoggedIn(response.data.user);
+        navigate('/home');
+    } catch (err) {
+        console.log(err);
+
+        if (err.response && err.response.status === 401) {
+            const refreshToken = Cookies.get('refreshToken');
+            
+            if (refreshToken) {
+                try {
+                    const newAccessToken = await refreshAccessToken(refreshToken);
+                    
+                    if (newAccessToken) {
+                        attemptSignin(data);
+                    }
+                } catch (refreshError) {
+                    console.error('Error refreshing access token:', refreshError);
+                    navigate('/signin');
+                }
+            } else {
+                navigate('/signin');
+            }
+        }
+    }
+};
+
+const handleLogout = async () => {
+  try {
+    await axios.post('http://localhost:9000/auth/signout'); 
+    logout();
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+};
 
   return (
     <>
@@ -78,41 +114,27 @@ const Signin = () => {
 
       <div className="sign-container">
         <h3 className="signin-title">LOGIN</h3>
-        <form noValidate onSubmit={handleSubmit} onReset={handleReset} className="signin-form">
+        <form noValidate onSubmit={handleSignin} onReset={handleLogout} className="signin-form">
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email Address:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className={`form-control ${validated && !!errors.email ? 'is-invalid' : ''}`}
-            />
-            {validated && !!errors.email && (
-              <div className="form-control-feedback">{errors.email}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className={`form-control ${validated && !!errors.password ? 'is-invalid' : ''}`}
-            />
-            {validated && !!errors.password && (
-              <div className="form-control-feedback">{errors.password}</div>
-            )}
-          </div>
+                    <input
+                        type="text"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        className='w-full p-2 border rounded-md text-black'
+                    />
+                    {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email}</span>}
+                </div>
+
+                <div className="mb-3">
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        className='w-full p-2 border rounded-md text-black'
+                    />
+                    {errors.password && <span className="text-red-500 text-xs mt-1">{errors.password}</span>}
+                </div>
+
           <button type="submit" className="signin-submit-btn">
             Submit
           </button>

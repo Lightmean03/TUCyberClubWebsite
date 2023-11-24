@@ -1,4 +1,9 @@
 // Middleware to verify the JWT token
+const { db } = require('../routes/db');
+const jwt = require('jsonwebtoken');
+const secretKey = process.env.JWT_SECRET_KEY;
+
+
 const verifyTokenAndRole = async (req, res, next) => {
     const authHeader = req.headers.authorization;
   
@@ -31,3 +36,5 @@ const verifyTokenAndRole = async (req, res, next) => {
       res.status(401).json({ message: 'Unauthorized' });
     }
   };
+
+  module.exports = verifyTokenAndRole;

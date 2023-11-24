@@ -59,16 +59,18 @@ const News = () => {
     }
   };
 
+
+
   return (
     <div className="relative pt-16 pb-32 flex content-center items-center justify-center" style={{ minHeight: "100vh" }}>
-      <div className="max-w-2xl mx-auto p-2" style={{ height: "1000px", width: "1000px"}}>
+      <div className="max-w-2xl mx-auto p-2 hover: cursor-pointer" style={{ height: "1000px", width: "1000px"}}>
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           weekends={false}
           events={events}
           onClick={(info) => {
-            alert(`Event clicked: ${info.event.title}`);
+            info.style.backgroundColor = 'red';
           }}
         />
         <button

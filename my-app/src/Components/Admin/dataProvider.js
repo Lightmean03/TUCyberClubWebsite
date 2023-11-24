@@ -53,7 +53,7 @@ const dataProvider = {
     return httpClient(url, {
       method: 'PUT',
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', // To include cookies in the request
+      credentials: 'include', 
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
       data: json,
@@ -65,7 +65,7 @@ const dataProvider = {
     return httpClient(url, {
       method: 'DELETE',
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', // To include cookies in the request
+      credentials: 'include',
     }).then(({ json }) => ({
       data: json,
     }));
