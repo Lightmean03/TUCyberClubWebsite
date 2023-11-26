@@ -35,6 +35,7 @@ export default function Navbar({ logo }) {
         <CustomLink to="/news">News</CustomLink>
         <CustomLink to="/resources">Resources</CustomLink>
         <CustomLink to="/contact">Contact</CustomLink>
+        <CustomLink to="/post">Post</CustomLink>
       </div>
       <div className="flex items-center justify-end ml-auto space-x-4">
         {userLoggedIn ? (

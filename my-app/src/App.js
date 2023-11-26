@@ -13,6 +13,7 @@ import { Footer } from "./Components/Footer/footer";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import AdminPanel from "./Components/Admin/Admin";
 import NewHome from "./Components/Home/NewHome";
+import Post from "./Components/Post/Post";
 
 function App() {
   return (
@@ -82,6 +83,14 @@ function App() {
           element={
             <Layout>
               <Signup />
+            </Layout>
+          }
+        />
+        <Route
+          path="/post"
+          element={
+            <Layout>
+              <Post />
             </Layout>
           }
         />
