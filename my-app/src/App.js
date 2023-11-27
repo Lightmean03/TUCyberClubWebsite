@@ -13,7 +13,7 @@ import { Footer } from "./Components/Footer/footer";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import AdminPanel from "./Components/Admin/Admin";
 import NewHome from "./Components/Home/NewHome";
-import UserList from "./Components/Admin/UserList";
+import Post from "./Components/Post/Post";
 
 function App() {
   return (
@@ -87,21 +87,22 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/*"
+          path="/post"
+          element={
+            <Layout>
+              <Post />
+            </Layout>
+          }
+        />
+        <Route
+          path="/dashboard"
           element={
             <Layout>
               <AdminPanel />
             </Layout>
           }
         />
-         <Route
-          path="/users"
-          element={
-            <Layout>
-              <UserList />
-            </Layout>
-          }
-        />
+         
       </Routes>
       <Footer />
     </>
