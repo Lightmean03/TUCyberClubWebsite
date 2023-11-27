@@ -17,8 +17,8 @@ The project is organized with several key components:
   - `public/`: Public assets (e.g., images, favicon, manifest).
   - `src/`: React application source code.
     - **`Components/`**: Organize your reusable components by feature.
+      - **`Images/`**: Store all assets such as images and videos in this folder.
     - `Layout.js`: Main layout structure.
-    - **`Images/`**: Store all assets such as images and videos in this folder.
     - `ProtectedRoute.js`: Component for protected routes.
     - `App.js`: Main component for the React app.
     - `index.js`: Entry point for React app.
