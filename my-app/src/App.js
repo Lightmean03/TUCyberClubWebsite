@@ -102,6 +102,7 @@ function App() {
             </Layout>
           }
         />
+         
       </Routes>
       <Footer />
     </>

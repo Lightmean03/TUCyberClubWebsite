@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { useUser } from "../src/Components/Signin/UserContext";
@@ -9,6 +9,7 @@ import { FaRegUser } from "react-icons/fa";
 export default function Navbar({ logo }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { userLoggedIn, logout } = useUser();
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,7 +19,7 @@ export default function Navbar({ logo }) {
     try {
       await axios.post("http://localhost:9000/auth/signout");
       logout();
-      Navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
     }

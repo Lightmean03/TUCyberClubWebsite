@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { connectDB } = require('./routes/db');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 
 // Serve the React app
@@ -33,14 +35,13 @@ app.use(express.static(path.join(__dirname, 'build')));
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
 const calendar = require('./routes/Calendar');
-const dashboard = require('./routes/dashboard');
-const verifyTokenAndRole = require('./controllers/VerifyTokenAndRoles');
-
+//const dashboard = require('./routes/dashboard');
 
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
 app.use('/calendar', calendar);
-app.use('/dashboard', dashboard);
+//app.use('/dashboard', dashboard);
+
 
 // Start the server
 app.listen(port, () => {

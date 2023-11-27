@@ -6,16 +6,20 @@ import { BrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { UserProvider } from "./Components/Signin/UserContext";
 import AdminPanel from "./Components/Admin/Admin";
-import "./styles.css";
+import { QueryClient, QueryClientProvider } from 'react-query';
 
+import "./styles.css";
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
   <UserProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </UserProvider>
+  </QueryClientProvider>
 </React.StrictMode>
 );
 
