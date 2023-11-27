@@ -65,7 +65,8 @@ const attemptSignin = async (data) => {
 
     try {
         const response = await axios.post('http://localhost:9000/auth/signin', data, {
-            headers: {
+        withCredentials: true,    
+        headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
@@ -73,6 +74,7 @@ const attemptSignin = async (data) => {
         console.log(response.data);
         Cookies.set('token', response.data.token);
         Cookies.set('user', JSON.stringify(response.data.user));
+        console.log("User: ", response.data.user);
         setUserLoggedIn(response.data.user);
         navigate('/home');
     } catch (err) {
@@ -90,10 +92,8 @@ const attemptSignin = async (data) => {
                     }
                 } catch (refreshError) {
                     console.error('Error refreshing access token:', refreshError);
-                    navigate('/signin');
+                    //navigate('/signin');
                 }
-            } else {
-                navigate('/signin');
             }
         }
     }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { useUser } from '../src/Components/Signin/UserContext';
@@ -9,6 +9,7 @@ import { FaRegUser } from 'react-icons/fa';
 export default function Navbar({ logo }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { userLoggedIn, logout } = useUser();
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,7 +19,7 @@ export default function Navbar({ logo }) {
     try {
       await axios.post('http://localhost:9000/auth/signout'); 
       logout();
-      Navigate('/');
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -94,7 +95,7 @@ const UserDropdown = ({ user, onLogout }) => {
                           Logout
                       </li>
                       <li  className="px-4 py-2 hover:bg-gray-100 cursor-pointer overflow-auto text-black" >
-                        <CustomLink to="/dashboard">Dashboard</CustomLink>                         
+                        <CustomLink to="/dashboard/*">Dashboard</CustomLink>                         
                       </li>
 
                   </ul>
@@ -103,7 +104,7 @@ const UserDropdown = ({ user, onLogout }) => {
       </div>
   );
 
-function CustomLinkWithHoverableDropdown({ label, children }) {
+/*function CustomLinkWithHoverableDropdown({ label, children }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
@@ -120,6 +121,6 @@ function CustomLinkWithHoverableDropdown({ label, children }) {
       {isDropdownOpen && <ul className="submenu">{children}</ul>}
     </li>
   );
-}
+}*/
 
 };

@@ -61,8 +61,9 @@ router.post('/signin', async (req, res) => {
       };
 
       const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+      console.log('Access token:', token)
 
-      const refreshToken = jwt.sign({ UserId: user._id }, secretKey, { expiresIn: '7d' });
+      const refreshToken = jwt.sign({ UserId: user._id }, secretKey, { expiresIn: '1hr' });
       console.log('Refresh token:', refreshToken)
 
       // Store the refresh token in the database
@@ -73,7 +74,7 @@ router.post('/signin', async (req, res) => {
       });
 
       res.cookie('refreshToken', refreshToken, {
-          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 604800000, path: '/',
+          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
       });
 
       res.status(200).json({ token: token, user: payload, message: 'User signed in successfully' });
@@ -113,13 +114,31 @@ router.post('/refresh', async (req, res) => {
 
 
 
-router.get('/admin', verifyTokenAndRole, async (req, res) => {
+router.get('/admin', async (req, res) => {
   try {
-    const users = await db.collection('users').find({}).toArray();
-    res.json(users);
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized - Token missing' });
+    }
+
+    const decoded = jwt.verify(token, secretKey);
+    const user = await db.collection('users').findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User Role:', user.role);
+
+    if (user.role === 'admin') {
+      return res.status(200).json({ message: 'Access Given' });
+    } else {
+      return res.status(403).json({ error: 'Access Forbidden' });
+    }
   } catch (error) {
-    console.error('Error getting users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error decoding token:', error);
+    return res.status(401).json({ error: 'Unauthorized - Invalid token' });
   }
 });
 
@@ -149,6 +168,7 @@ router.get('/users/:role', async (req, res) => {
 router.post('/signout', async (req, res) => {
   res.clearCookie('token');
   res.clearCookie('user');
+  res.clearCookie('refreshToken');
 
   res.status(200).json({ message: 'User signed out successfully' });
 });

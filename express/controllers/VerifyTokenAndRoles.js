@@ -7,7 +7,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const verifyTokenAndRole = async (req, res, next) => {
     const authHeader = req.headers.authorization;
   
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
   
@@ -24,17 +24,18 @@ const verifyTokenAndRole = async (req, res, next) => {
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-      console.log('User Role:', user.role);
-  
-      if (user.role !== 'admin') {
+      console.log(decoded);
+      if (user.role === "admin") {
+        return res.status(200).json({ error: 'Access Given' });
+      }else{
         return res.status(403).json({ error: 'Access Forbidden' });
       }
-  
-      next();
-    } catch (error) {
+      } catch (error) {
       console.error('Error decoding token:', error);
       res.status(401).json({ message: 'Unauthorized' });
     }
   };
+
+  
 
   module.exports = verifyTokenAndRole;
