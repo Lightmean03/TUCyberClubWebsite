@@ -16,12 +16,15 @@ The project is organized with several key components:
 - **`my-app/`**: Houses the React frontend.
   - `public/`: Public assets (e.g., images, favicon, manifest).
   - `src/`: React application source code.
-    - `Components/`: Reusable components organized by feature.
+    - **`Components/`**: Organize your reusable components by feature.
     - `Layout.js`: Main layout structure.
+    - **`Images/`**: Store all assets such as images and videos in this folder.
     - `ProtectedRoute.js`: Component for protected routes.
     - `App.js`: Main component for the React app.
     - `index.js`: Entry point for React app.
   - `App.test.js`, `reportWebVitals.js`, `setupTests.js`: Testing and performance-related scripts.
+
+  
 
 ## Getting Started
 
@@ -58,6 +61,7 @@ Navigate to the `my-app` folder and run:
 ```bash
 cd my-app
 npm start
+
 ```
 ## Starting the Backend Server
 
