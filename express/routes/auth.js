@@ -77,6 +77,10 @@ router.post('/signin', async (req, res) => {
           httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
       });
 
+      res.cookie('user', JSON.stringify(payload), {
+          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
+      });
+
       res.status(200).json({ token: token, user: payload, message: 'User signed in successfully' });
 
       console.log("User: " + payload.UserId);
@@ -117,7 +121,7 @@ router.post('/refresh', async (req, res) => {
 router.get('/admin', async (req, res) => {
   try {
     const token = req.cookies.token;
-
+    console.log('Token:', token);
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized - Token missing' });
     }
@@ -144,7 +148,7 @@ router.get('/admin', async (req, res) => {
 
 router.get('/users', async (req, res) => {
   try {
-    const users = await db.collection('users').find({}).toArray();
+    const users = await db.collection('users').find().toArray();
     res.json(users);
   } catch (error) {
     console.error('Error getting users:', error);

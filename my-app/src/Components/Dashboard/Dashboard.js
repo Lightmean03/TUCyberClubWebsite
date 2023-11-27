@@ -13,29 +13,6 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState('');
 
- 
-  useEffect(() => {
-    const token = cookies.token;
-    console.log('Token:', token);
-      axios
-        .get('http://localhost:9000/auth/admin', {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log('Verify response:', response.data);
-          setAuthenticated(true); // Update authentication status
-          setUserLoggedIn(true);
-          setRole(response.data.role);
-        })
-        .catch((error) => {
-          console.error('Error verifying token:', error);
-          removeCookie('token');
-          setAuthenticated(false); // Update authentication status
-          setUserLoggedIn(false);
-        });
-    }, [cookies.token, removeCookie, setAuthenticated, setUserLoggedIn]);
-
   if (loading) {
     return <p>Loading...</p>;
   }
