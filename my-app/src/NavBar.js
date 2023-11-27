@@ -15,9 +15,17 @@ export default function Navbar({ logo }) {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:9000/auth/signout");
+
+     const response =  await axios.post("http://localhost:9000/auth/signout",{
+        withCredentials: true,
+        headers:{
+          Authorization: `Bearer ${userLoggedIn.accessToken}`,
+        }
+      });
+      console.log("Logout response:", response.data);
       logout();
       navigate("/");
     } catch (error) {
@@ -42,10 +50,10 @@ export default function Navbar({ logo }) {
         {userLoggedIn ? (
           <UserDropdown user={userLoggedIn} onLogout={handleLogout} />
         ) : (
-          <Link to="/signin" className="flex items-center space-x-2">
+          <CustomLink to="/signin" className="flex items-center space-x-2">
             <FaRegUser className="text-gray-500" />
             <span className="text-sm font-medium">Sign In</span>
-          </Link>
+          </CustomLink>
         )}
       </div>
 
@@ -74,7 +82,9 @@ function CustomLink({ to, children, ...props }) {
       {children}
     </Link>
   );
-}
+} 
+
+
 
 const UserDropdown = ({ user, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,6 +118,7 @@ const UserDropdown = ({ user, onLogout }) => {
       )}
     </div>
   );
+  
 
   function CustomLinkWithHoverableDropdown({ label, children }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);

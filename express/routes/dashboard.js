@@ -30,7 +30,6 @@ const verifyToken = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    console.log('User Role:', user.role);
 
     if (user.role !== "admin") {
       return res.status(403).json({ error: 'Access Forbidden' });
