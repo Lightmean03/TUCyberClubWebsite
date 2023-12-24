@@ -7,7 +7,7 @@ import axios from "axios";
 import { FaRegUser } from "react-icons/fa";
 
 export default function Navbar({ logo }) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
   const { userLoggedIn, logout } = useUser();
   const navigate = useNavigate();
 
@@ -34,44 +34,46 @@ export default function Navbar({ logo }) {
   };
 
   return (
-    <nav className="flex justify-between px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-10">
-      <span className="items-center hidden md:flex -mt-24">
-        {/* <img src={logo} alt="Logo" className="h-28 w-28 bg-white rounded-xl border" /> */}
-      </span>
-      <div className="hidden md:flex space-x-4 pl-2">
-        <CustomLink to="/home">Home</CustomLink>
-        <CustomLink to="/about">About</CustomLink>
-        <CustomLink to="/news">News</CustomLink>
-        <CustomLink to="/resources">Resources</CustomLink>
-        <CustomLink to="/contact">Contact</CustomLink>
-        <CustomLink to="/post">Post</CustomLink>
+    <nav className="px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-1">
+      <div className="flex-grow flex items-center justify-between">
+        {/* Left section */}
+        <div className="hidden md:flex space-x-4 pl-2">
+          <CustomLink to="/home">Home</CustomLink>
+          <CustomLink to="/about">About</CustomLink>
+          <CustomLink to="/news">News</CustomLink>
+          <CustomLink to="/resources">Resources</CustomLink>
+          <CustomLink to="/contact">Contact</CustomLink>
+          <CustomLink to="/post">Post</CustomLink>
+        </div>
+  
+        {/* Right section */}
+        <div className="flex items-center space-x-4">
+          {userLoggedIn ? (
+            <UserDropdown user={userLoggedIn} onLogout={handleLogout} />
+          ) : (
+            <CustomLink to="/signin">
+              <FaRegUser className="text-gray-500" />
+            </CustomLink>
+          )}
+  
+          <button onClick={toggleMobileMenu} className="md:hidden text-white">
+            {isMobileMenuOpen ? <IoMdClose /> : <FaBars />}
+          </button>
+        </div>
       </div>
-      <div className="flex items-center justify-end ml-auto space-x-4">
-        {userLoggedIn ? (
-          <UserDropdown user={userLoggedIn} onLogout={handleLogout} />
-        ) : (
-          <CustomLink to="/signin" className="flex items-center space-x-2">
-            <FaRegUser className="text-gray-500" />
-            <span className="text-sm font-medium">Sign In</span>
-          </CustomLink>
-        )}
-      </div>
-
-      <div className="md:hidden">
-        <button onClick={toggleMobileMenu} className="text-white">
-          {isMobileMenuOpen ? <IoMdClose /> : <FaBars />}
-        </button>
-        {isMobileMenuOpen && (
-          <div className="flex flex-row space-x-3 mt-4 mb-4">
-            <CustomLink to="/home">Home</CustomLink>
-            <CustomLink to="/signin">Sign-In</CustomLink>
-            <CustomLink to="/about">About</CustomLink>
-            <CustomLink to="/news">News</CustomLink>
-            <CustomLink to="/resources">Resources</CustomLink>
-            <CustomLink to="/contact">Contact</CustomLink>
-          </div>
-        )}
-      </div>
+  
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden flex flex-col gap-4 justify-center items-center">
+          <CustomLink to="/home" className="hover:bg-black">Home</CustomLink>
+          <CustomLink to="/signin" className="hover:bg-black">Sign-In</CustomLink>
+          <CustomLink to="/about" className="hover:bg-black">About</CustomLink>
+          <CustomLink to="/news" className="hover:bg-black">News</CustomLink>
+          <CustomLink to="/resources" className="hover:bg-black">Resources</CustomLink>
+          <CustomLink to="/contact" className="hover:bg-black">Contact</CustomLink>
+          <CustomLink to="/post" className="hover:bg-black">Post</CustomLink>
+        </div>
+      )}
     </nav>
   );
 }
@@ -86,7 +88,7 @@ function CustomLink({ to, children, ...props }) {
 
 
 
-const UserDropdown = ({ user, onLogout }) => {
+const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -99,7 +101,8 @@ const UserDropdown = ({ user, onLogout }) => {
         <FaRegUser className="text-gray-500" />
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-30">
+      <div className={`absolute right-0 mt-2 w-48 min-w-0 max-w-screen bg-white border border-gray-300 rounded-md shadow-lg z-30 
+      ${isMobileMenuOpen  ? 'right-0' : 'left-0'}`}>
           <ul>
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-black overflow-auto">
               Profile
@@ -116,6 +119,7 @@ const UserDropdown = ({ user, onLogout }) => {
           </ul>
         </div>
       )}
+      
     </div>
   );
   

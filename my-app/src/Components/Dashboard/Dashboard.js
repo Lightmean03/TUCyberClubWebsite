@@ -25,7 +25,6 @@ function Dashboard() {
         { role === "admin" ? (
           <div>
             <p>Welcome to the dashboard! You are signed in as an admin.</p>
-            <AdminPanel />
           </div>
         ) : (
           <p>Welcome to the dashboard! You are signed in as a user.</p>

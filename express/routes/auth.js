@@ -37,58 +37,65 @@ router.post('/signup', async (req, res) => {
 });
 
 
-// User sign in Route
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
+  console.log("Email: " + email)
   try {
-      const user = await db.collection("users").findOne({ email: email });
+    const user = await db.collection("users").findOne({ email: email});
+    console.log("Password: " + password);
+    console.log('User password in the database:', user.password);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-      if (!user) {
-          return res.status(404).json({ error: 'User not found' });
-      }
+    // Compare the password using bcrypt
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Incorrect Password' });
+    }
 
-      if (!passwordMatch) {
-          return res.status(401).json({ error: 'Incorrect Password' });
-      }
+    // Build JWT payload
+    const payload = {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      UserId: user._id,
+    };
 
-      const payload = {
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          UserId: user._id,  
-      };
+    // Generate JWT access token
+    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+    console.log('Access token:', token);
 
-      const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-      console.log('Access token:', token)
+    // Generate and store JWT refresh token
+    const refreshToken = jwt.sign({ UserId: user._id }, secretKey, { expiresIn: '1hr' });
+    console.log('Refresh token:', refreshToken);
 
-      const refreshToken = jwt.sign({ UserId: user._id }, secretKey, { expiresIn: '1hr' });
-      console.log('Refresh token:', refreshToken)
+    // Store the refresh token in the database
+    await db.collection("users").updateOne({ email: email }, { $set: { refreshToken: refreshToken } });
 
-      // Store the refresh token in the database
-      await db.collection("users").updateOne({ email: email }, { $set: { refreshToken: refreshToken } });
+    // Set cookies for tokens and user data
+    res.cookie('token', token, {
+      httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
+    });
 
-      res.cookie('token', token, {
-          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
-      });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
+    });
 
-      res.cookie('refreshToken', refreshToken, {
-          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
-      });
+    res.cookie('user', JSON.stringify(payload), {
+      httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
+    });
 
-      res.cookie('user', JSON.stringify(payload), {
-          httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
-      });
-
-      res.status(200).json({ token: token, user: payload, message: 'User signed in successfully' });
-
-      console.log("User: " + payload.UserId);
+    // Send successful response
+    res.status(200).json({ token: token, user: payload, message: 'User signed in successfully' });
+    console.log("User: " + payload.UserId);
   } catch (error) {
-      console.error('Error signing in:', error);
-      res.status(500).json({ error: 'Failed to sign in' });
+    console.error('Error signing in:', error);
+    res.status(500).json({ error: 'Failed to sign in' });
   }
 });
+
 
 
 router.post('/refresh', async (req, res) => {
@@ -148,13 +155,14 @@ router.get('/admin', async (req, res) => {
 
 router.get('/users', async (req, res) => {
   try {
-    const users = await db.collection('users').find().toArray();
+    const users = await db.collection('users').find({}, { projection: { email: 1, role: 1 } }).toArray();
     res.json(users);
   } catch (error) {
     console.error('Error getting users:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 router.get('/users/:role', async (req, res) => {

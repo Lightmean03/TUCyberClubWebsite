@@ -1,100 +1,116 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Layout, Menu, Breadcrumb, Table, Modal } from 'antd';
+import {UserOutlined,} from '@ant-design/icons';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { Admin, Resource } from 'react-admin';
-import simpleRestProvider from 'ra-data-simple-rest';
-import UserList from './UserList'; // Import your UserList component
 import { useUser } from '../Signin/UserContext';
-import { Link } from 'react-router-dom';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Layout, Menu, Table, Button, Modal, Form, Input, message } from 'antd';
-import {Content, Header} from 'antd/lib/layout/layout';
+const { SubMenu } = Menu;
+const { Content, Sider } = Layout;
 
 const AdminPanel = () => {
   const [cookies, , removeCookie] = useCookies(['token']);
-  const { setUserLoggedIn, logout } = useUser();
-  const [authenticated, setAuthenticated] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm();
+  const { setUserLoggedIn } = useUser();
+  const [authenticated, setAuthenticated] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [adminData, setAdminData] = useState([]);
   useEffect(() => {
-    const token = cookies.token;
-    console.log('Token:', token);
-      axios
-        .get('http://localhost:9000/auth/admin', {
+    const AdminInfo = async () => {
+      try {
+        const token = cookies.token;
+        const response = await axios.get('http://localhost:9000/auth/admin', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
-        })
-        .then((response) => {
-          console.log('Verify response:', response.data);
-          setAuthenticated(true); // Update authentication status
-          setUserLoggedIn(true);
-          setUserData(response.data.users);
-          setAdminData(response.data.admins);
-        })
-        .catch((error) => {
-          console.error('Error verifying token:', error);
-          removeCookie('token');
-          setAuthenticated(false); // Update authentication status
-          setUserLoggedIn(false);
         });
-    }, [cookies.token, removeCookie, setAuthenticated, setUserLoggedIn]);
 
- 
-   
-  
-    // Show modal for granting permissions
-    const showModal = (record) => {
-      form.setFieldsValue(record);
-      setIsModalVisible(true);
-    };
- 
-    
-    
-    const userColumns = [
-      {
-        title: 'User Data',
-        key: 'userData',
-        render: function (text, record) {
-          return <li key={record._id}>{JSON.stringify(record, text)}</li>;
-        },
-      },
-    ];
-    
-  
-    const fetchData = async () => {
-      try {
-        // Fetch user data
-        const userResponse = await axios.get('http://localhost:9000/auth/users', {
-          withCredentials: true,
-        });
-  
-        setUserData(userResponse.data);
+        const data = response.data;
+        setAuthenticated(true);
+        setUserLoggedIn(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error verifying token:', error);
+        removeCookie('token');
+        setAuthenticated(false);
+        setUserLoggedIn(false);
       }
     };
-  
-    useEffect(() => {
-      fetchData();
-    }, []); // The empty dependency array ensures that fetchData runs only once when the component mounts
-  
-    if (!authenticated) {
-      // Redirect to the login page if not authenticated
-      return <Link to="/signin" />;
+
+    AdminInfo();
+  }, []);
+
+
+
+  const UserData = async () => {
+    try {
+      const userResponse = await axios.get('http://localhost:9000/auth/users', {
+        withCredentials: true,
+      });
+      setUserData(userResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-  
-    return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <Header style={{ background: '#fff', padding: 0 }} />
-        <Content style={{ margin: '16px' }}>
-          {/* User Table */}
-          <h2>All Users</h2>
-          <Table dataSource={userData} columns={userColumns} className='text-black' />
-        </Content>
-      </Layout>
-    );
   };
+
+  const userColumns = [
+    {
+      title: 'ID',
+      dataIndex: '_id',
+      key: '_id',
+      render: (_id) => `${_id}`,
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      render: (email) => `${email}`,
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+      render: (role) => `${role}`,
+    },
+  ];
   
-  export default AdminPanel;
+
+  useEffect(() => {
+    UserData();
+  }, []);
+
+  if (!authenticated) {
+    return <Link to="/signin" />;
+  }
+ 
+  return (
+    <Layout 
+    style={{ minHeight: '100vh' }}
+    >
+      <Layout>
+        <Sider width={200} className="bg-gray-900">
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{ height: '100%', borderRight: 0 }}
+          >
+            <SubMenu key="sub1" icon={<UserOutlined />} title="User Data">
+              <Menu.Item key="1">Users</Menu.Item>
+            </SubMenu>
+          </Menu>
+        </Sider>
+        <Layout className="ml-200">
+          <Content className="p-4">
+            <Breadcrumb className="mb-4">
+              <Breadcrumb items={[{ title: 'Home' }]}/>
+              <Breadcrumb items={[{ title: 'Admin Panel' }]}
+              className='pl-4'
+              />
+            </Breadcrumb>
+          <Table dataSource={userData} columns={userColumns} />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default AdminPanel;

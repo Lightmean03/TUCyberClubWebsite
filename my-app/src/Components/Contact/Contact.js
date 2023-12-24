@@ -59,8 +59,6 @@ const Contact = () => {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      // Process the form submission if there are no errors
-      console.log('Form submitted:', newContact);
       handleReset();
     }
 
@@ -79,7 +77,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container"
+    style={{ minHeight: '100vh' }}
+    >
       <div className='container-msg'>
       <h3 className="mb-4">CONTACT US</h3>
       <p>
