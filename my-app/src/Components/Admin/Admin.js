@@ -29,7 +29,7 @@ const AdminPanel = () => {
         console.error('Error verifying token:', error);
         removeCookie('token');
         setAuthenticated(false);
-        setUserLoggedIn(false);
+        //setUserLoggedIn(false);
       }
     };
 

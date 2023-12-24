@@ -49,11 +49,13 @@ const Signin = () => {
       const response = await axios.post('http://localhost:9000/auth/signin', data, {
         withCredentials: true,
       });
+      console.log(response.data);
       const accessToken = response.data.token;
+      const user = response.data.user;
       const refreshToken = response.data.refreshToken;
 
       Cookies.set('token', accessToken, { secure: true });
-      setUserLoggedIn(response.data.user);
+      setUserLoggedIn(user);
       navigate('/home');
     } catch (error) {
       console.error('Error during login:', error);

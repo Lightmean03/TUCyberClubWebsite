@@ -57,21 +57,18 @@ router.post('/signin', async (req, res) => {
 
     // Build JWT payload
     const payload = {
-      name: user.name,
       email: user.email,
-      role: user.role,
-      UserId: user._id,
     };
 
     // Generate JWT access token
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
     console.log('Access token:', token);
 
-    // Generate and store JWT refresh token
+    //store JWT refresh token
     const refreshToken = jwt.sign({ UserId: user._id }, secretKey, { expiresIn: '1hr' });
     console.log('Refresh token:', refreshToken);
 
-    // Store the refresh token in the database
+    // Store refresh token in database
     await db.collection("users").updateOne({ email: email }, { $set: { refreshToken: refreshToken } });
 
     // Set cookies for tokens and user data
@@ -87,7 +84,6 @@ router.post('/signin', async (req, res) => {
       httpOnly: true, secure: false, sameSite: 'strict', maxAge: 3600000, path: '/',
     });
 
-    // Send successful response
     res.status(200).json({ token: token, user: payload, message: 'User signed in successfully' });
     console.log("User: " + payload.UserId);
   } catch (error) {
@@ -162,6 +158,35 @@ router.get('/users', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+router.get('/user', async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    console.log('Token:', token);
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized - Token missing' });
+    }
+
+    const decoded = jwt.verify(token, secretKey);
+    const user = await db.collection('users').findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User Role:', user.role);
+
+    if (user.role === 'user') {
+      return res.status(200).json({ message: 'Access Given' });
+    } else {
+      return res.status(403).json({ error: 'Access Forbidden' });
+    }
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+  }
+});
+
 
 
 
