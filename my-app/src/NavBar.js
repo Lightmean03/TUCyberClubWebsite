@@ -7,10 +7,11 @@ import axios from "axios";
 import { FaRegUser } from "react-icons/fa";
 
 export default function Navbar({ logo }) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { userLoggedIn, logout } = useUser();
   const navigate = useNavigate();
 
+  
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -18,13 +19,16 @@ export default function Navbar({ logo }) {
 
   const handleLogout = async () => {
     try {
-
-     const response =  await axios.post("http://localhost:9000/auth/signout",{
-        withCredentials: true,
-        headers:{
-          Authorization: `Bearer ${userLoggedIn.accessToken}`,
+      const response = await axios.post(
+        "http://localhost:9000/auth/signout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${userLoggedIn.accessToken}`,
+          },
         }
-      });
+      );
       console.log("Logout response:", response.data);
       logout();
       navigate("/");
@@ -33,10 +37,11 @@ export default function Navbar({ logo }) {
     }
   };
 
+  
+
   return (
     <nav className="px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-1">
       <div className="flex-grow flex items-center justify-between">
-        {/* Left section */}
         <div className="hidden md:flex space-x-4 pl-2">
           <CustomLink to="/home">Home</CustomLink>
           <CustomLink to="/about">About</CustomLink>
@@ -45,11 +50,9 @@ export default function Navbar({ logo }) {
           <CustomLink to="/contact">Contact</CustomLink>
           <CustomLink to="/post">Post</CustomLink>
         </div>
-  
-        {/* Right section */}
         <div className="flex items-center space-x-4">
           {userLoggedIn ? (
-            <UserDropdown user={userLoggedIn} onLogout={handleLogout} />
+            <UserDropdown user={userLoggedIn} onLogout={handleLogout} isMobileMenuOpen={isMobileMenuOpen} />
           ) : (
             <CustomLink to="/signin">
               <FaRegUser className="text-gray-500" />
@@ -61,8 +64,6 @@ export default function Navbar({ logo }) {
           </button>
         </div>
       </div>
-  
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden flex flex-col gap-4 justify-center items-center">
           <CustomLink to="/home" className="hover:bg-black">Home</CustomLink>
@@ -78,6 +79,8 @@ export default function Navbar({ logo }) {
   );
 }
 
+
+
 function CustomLink({ to, children, ...props }) {
   return (
     <Link to={to} {...props}>
@@ -86,23 +89,24 @@ function CustomLink({ to, children, ...props }) {
   );
 } 
 
-
-
 const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log("mobile",isMobileMenuOpen)
+  console.log("open",isOpen)
   return (
     <div className="relative z-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 focus:outline-none"
+        className='flex items-center space-x-2 focus:outline-none'
       >
         <span className="text-sm font-medium">{user.name}</span>
         <FaRegUser className="text-gray-500" />
       </button>
       {isOpen && (
-      <div className={`absolute right-0 mt-2 w-48 min-w-0 max-w-screen bg-white border border-gray-300 rounded-md shadow-lg z-30 
-      ${isMobileMenuOpen  ? 'right-0' : 'left-0'}`}>
+      <div className={`absolute mt-2 w-48 min-w-0 max-w-screen bg-white border border-gray-300 rounded-md shadow-lg z-30 
+      ${isMobileMenuOpen && isOpen ? "left-0" : "right-0"}
+      `}>
           <ul>
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-black overflow-auto">
               Profile
@@ -123,6 +127,8 @@ const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
     </div>
   );
   
+
+
 
   function CustomLinkWithHoverableDropdown({ label, children }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-
 const UserContext = createContext();
 
 export const useUser = () =>  useContext(UserContext);
@@ -14,11 +13,11 @@ export const UserProvider = ({ children }) => {
       return null;
     }
   });
-  
+
   const logout = () => {
     if(!userLoggedIn) return null;
     localStorage.removeItem('user');
-    setUserLoggedInState(null);
+    setUserLoggedInState(false);
   };
 
 const  signin = (user) => {
