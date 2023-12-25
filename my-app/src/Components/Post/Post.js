@@ -8,40 +8,48 @@ const Post = () => {
   const { setUserLoggedIn } = useUser('user');
   const [post, setPost] = useState({ title: "", content: "", user: setUserLoggedIn });
   const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
   const [showPosts, setShowPosts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10); // Adjust as needed
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
+  const handleShowPosts = () => {
+    setShowPosts(!showPosts);
+  };
+
   const fetchPosts = async () => {
     setIsLoading(true);
-    setError(null);
     try {
-      const response = await axios.get(`http://localhost:9000/post/posts?page=${currentPage}&limit=${postsPerPage}`);
-      setPosts(response.data);
-      if(!showPosts) {
-        setShowPosts(true);
-      }else{
-        setShowPosts(false);
-      }
+      const response = await axios.get("http://localhost:9000/post/posts", {
+        params: {
+          page: currentPage,
+          limit: postsPerPage,
+        },
+      });
+      const data = response.data;
+      setAllPosts(data); // Store all posts
+      setPosts(data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage));
+    
     } catch (error) {
-      setError(error);
+      console.error("Error fetching posts:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
+
   useEffect(() => {
     fetchPosts();
-  }, [currentPage, postsPerPage]);
+  }, []);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
+    fetchPosts();
   };
 
   const handlePostsPerPageChange = (event) => {
@@ -60,9 +68,6 @@ const Post = () => {
     });
   };
 
-  const getPosts = () => {
-    fetchPosts();
-  };
   return (
     <>
       <div style={{ minHeight: "100vh" }}>
@@ -98,7 +103,7 @@ const Post = () => {
         </div>
         <div className="max-w-md mx-auto mt-8 p-8 bg-white rounded-md shadow-md">
           <button
-            onClick={getPosts}
+            onClick={handleShowPosts}
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
           >
             {showPosts ? "Hide Posts" : "Get Posts"}
@@ -122,7 +127,7 @@ const Post = () => {
               </ul>
               <Stack spacing={2} mt={4}>
                 <Pagination
-                  count={Math.ceil(posts.length / postsPerPage)}
+                  count={allPosts.length}
                   page={currentPage}
                   onChange={handlePageChange}
                   color="primary"
