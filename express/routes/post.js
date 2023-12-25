@@ -20,9 +20,8 @@ router.post('/post', async (req, res) => {
 router.get('/post/posts', async (req, res) => {
     try {
       const { page = 1, limit = 10 } = req.query;
-      const posts = await Post.db.collection('posts').find().toArray()
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit));
+      const skipCount = (page - 1) * parseInt(limit);
+      const posts = await db.collection('posts').find().skip(skipCount).limit(parseInt(limit)).toArray();
       res.json(posts);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
@@ -43,4 +42,6 @@ router.get('/posts', async (req, res) => {
 
 
 
+
 module.exports = router;
+
