@@ -14,6 +14,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import AdminPanel from "./Components/Admin/Admin";
 import NewHome from "./Components/Home/NewHome";
 import Post from "./Components/Post/Post";
+import Profile from "./Components/Profile/Profile";
 
 function App() {
   return (
@@ -102,7 +103,14 @@ function App() {
             </Layout>
           }
         />
-         
+        <Route
+          path="/profile"
+          element={
+            <Layout>
+              <Profile />
+            </Layout>
+          }
+        />
       </Routes>
       <Footer />
     </>
