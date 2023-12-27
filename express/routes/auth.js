@@ -119,6 +119,72 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+//Add username to user
+
+router.put("/user/:id", async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const token = req.cookies.token;
+    console.log("Token:", token);
+
+    console.log("Username:", username)
+
+    if (!token) {
+      return res.status(401).json({ error: "Unauthorized - Token missing" });
+    }
+
+    const decoded = jwt.verify(token, secretKey);
+    const user = await db.collection("users").findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    console.log("User Role:", user.role);
+
+    if (user.role !== "user" && user.role !== "admin") {
+      return res.status(403).json({ error: "Access Forbidden" });
+    }
+    let userEmail = user.email;
+   
+    const collection = db.collection("users");
+    const result = await collection.updateOne(
+      { email: userEmail },
+      { $set: { username: username } }
+    );
+    console.log(result);
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "Username added successfully" });
+  } catch (error) {
+    console.error("Error adding username:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+router.get("/username", async (req, res) => {
+    try {
+      const token = req.cookies.token;
+      const decoded = jwt.verify(token, secretKey);
+      const user = await db.collection("users").findOne({ email: decoded.email });
+
+      if (user.username) {
+        return  res.json({ message: user.username});
+      }else{
+        return res.status(404).json({ error: "Username not found" });
+      }
+     
+    }catch (error) {
+      console.error("Error getting username:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 router.post("/refresh", async (req, res) => {
   const { refreshToken } = req.body;
 

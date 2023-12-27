@@ -3,9 +3,10 @@ import axios from "axios";
 import { useUser } from "../Signin/UserContext";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import Cookies from "js-cookie";
 
 const Post = () => {
-  const { setUserLoggedIn } = useUser('user');
+  const { setUserLoggedIn } = useUser();
   const [post, setPost] = useState({ title: "", content: "", user: setUserLoggedIn });
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
@@ -13,6 +14,7 @@ const Post = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10); // Adjust as needed
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState("");
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -68,11 +70,38 @@ const Post = () => {
     });
   };
 
+  const handleDelete = (id) => {
+    console.log('post._id:', posts.map(post => post._id));
+    console.log('id:', id);
+    const token = Cookies.get('token');
+  try{
+    axios.delete(`http://localhost:9000/post/post/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    }).then((response) => {
+      console.log(response);
+      setUserLoggedIn(response.data);
+  
+      // Assuming _id is an ObjectId, convert both to strings for comparison
+      const newPosts = posts.filter((post) => post._id.toString() !== id.toString());
+      setPosts(newPosts);
+    });
+  }catch(error){
+    console.error('Error deleting post:', error);
+    if(error.response && error.response.status === 401){
+      setErrors('Unauthorized - Only admins can delete posts');
+  }
+  }
+};
+
+
   return (
-    <>
-      <div style={{ minHeight: "100vh" }}>
-        <div className="max-w-md mx-auto mt-8 p-8 bg-white rounded-md shadow-md">
-          <h1 className="text-2xl font-bold mb-4">Create a Post</h1>
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-3xl mx-auto p-6">
+        <div className="bg-white p-6 rounded-md shadow-md mb-8">
+          <h1 className="text-3xl font-bold mb-4">Create a Post</h1>
           <form onSubmit={handlePosts}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Title:</label>
@@ -101,7 +130,7 @@ const Post = () => {
             </button>
           </form>
         </div>
-        <div className="max-w-md mx-auto mt-8 p-8 bg-white rounded-md shadow-md">
+        <div className="bg-white p-6 rounded-md shadow-md">
           <button
             onClick={handleShowPosts}
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
@@ -110,7 +139,7 @@ const Post = () => {
           </button>
           {showPosts && (
             <>
-              <ul>
+              <ul className="mt-4">
                 {posts.map((post) => (
                   <li key={post.id} className="mb-4 bg-white p-4 rounded-md shadow-md">
                     <div className="flex items-start">
@@ -120,6 +149,7 @@ const Post = () => {
                         </div>
                         <h3 className="text-xl font-bold text-black mb-2">{post.title}</h3>
                         <p className="text-gray-700">{post.content}</p>
+                        <button onClick={() => handleDelete(post._id)} className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300">x</button>
                       </div>
                     </div>
                   </li>
@@ -127,7 +157,7 @@ const Post = () => {
               </ul>
               <Stack spacing={2} mt={4}>
                 <Pagination
-                  count={allPosts.length}
+                  count={Math.ceil(allPosts.length / postsPerPage)}
                   page={currentPage}
                   onChange={handlePageChange}
                   color="primary"
@@ -135,9 +165,28 @@ const Post = () => {
               </Stack>
             </>
           )}
+          {errors && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+              <strong className="font-bold">Error:</strong>
+              <span className="block sm:inline"> {errors}</span>
+            </div>
+          )}
+        </div>
+       
+        <div className="flex justify-center mt-4">
+          <label className="text-gray-700 text-sm font-bold mr-2">Posts per page:</label>
+          <select
+            value={postsPerPage}
+            onChange={handlePostsPerPageChange}
+            className="border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-black"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

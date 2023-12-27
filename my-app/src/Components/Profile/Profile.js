@@ -1,18 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import AdminPanel from "../Admin/Admin";
 import { useUser } from "../Signin/UserContext";
-import "./Profile.css"; // Import the CSS file
+import "./Profile.css";
+import Cookies from "js-cookie";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [authenticated, setAuthenticated] = useState(false);
-  const [cookies, removeCookie] = useCookies(["token"]);
-  const { userLoggedIn, logout } = useUser();
-  const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState("");
+  const { userLoggedIn } = useUser();
+  const [newUsername, setNewUsername] = useState("");
+  const [fetchedUsername, setFetchedUsername] = useState("");
+  const [errors, setErrors] = useState("");
+  const token = Cookies.get('token'); 
+
+  const addUsername = async (id) => {
+    console.log("User ID", id)
+    try {
+      const response = await axios.put(
+        `http://localhost:9000/auth/user/${userLoggedIn._id}`,
+        { username: newUsername },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      
+      );
+    
+      console.log("Add username response:", response.data);
+      // You can provide user feedback here if needed
+
+      // Update the fetched username after successfully adding it
+    setFetchedUsername(newUsername);
+    console.log("User Response", response.data)
+
+    } catch (error) {
+      console.error("Error adding username:", error);
+      // Handle error and provide user feedback if needed
+      if (error.response) {
+        console.log(error.response.data);
+        setErrors(error.response.data.message);
+      }
+    }
+  };
+
+  const getUserName = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9000/auth/username`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Get username response:", response.data);
+      setFetchedUsername(response.data.message);
+      
+
+    } catch (error) {
+      console.error("Error getting username:", error);
+      if (error.response) {
+        console.log(error.response.data);
+        setErrors(error.response.data.message);
+      }
+      
+    }
+  };
+
+  useEffect(() => {
+    getUserName();
+  }, []);
+
 
   return (
     <div className="main-content">
@@ -20,7 +82,7 @@ const Profile = () => {
         <div className="card-profile-image"></div>
         <div className="card-body">
           <div className="text-center">
-            <h3>Signed In As: {userLoggedIn.email}</h3>
+            <h3>Signed In As: {userLoggedIn.username}</h3>
           </div>
         </div>
       </div>
@@ -30,18 +92,21 @@ const Profile = () => {
             <h6 className="heading-small text-muted mb-4">User information</h6>
             <div className="pl-lg-4">
               <div className="form-group focused">
-                <label className="form-control-label" htmlFor="input-username">
+                <label htmlFor="input-username" className="form-control-label">
                   Username
                 </label>
                 <input
                   type="text"
                   id="input-username"
                   className="form-control form-control-alternative"
-                  placeholder={userLoggedIn.username}
+                  placeholder={fetchedUsername}
+                  value={newUsername} // Controlled component: Set the value to the state
+                  onChange={(e) => setNewUsername(e.target.value)} // Update state on user input
                 />
+                <button onClick={addUsername}>Add Username</button>
               </div>
               <div className="form-group">
-                <label className="form-control-label" htmlFor="input-email">
+                <label htmlFor="input-email" className="form-control-label">
                   Email address
                 </label>
                 <input
@@ -52,10 +117,7 @@ const Profile = () => {
                 />
               </div>
               <div className="form-group focused">
-                <label
-                  className="form-control-label"
-                  htmlFor="input-first-name"
-                >
+                <label htmlFor="input-first-name" className="form-control-label">
                   First name
                 </label>
                 <input
@@ -66,7 +128,7 @@ const Profile = () => {
                 />
               </div>
               <div className="form-group focused">
-                <label className="form-control-label" htmlFor="input-last-name">
+                <label htmlFor="input-last-name" className="form-control-label">
                   Last name
                 </label>
                 <input
@@ -80,6 +142,11 @@ const Profile = () => {
           </form>
         </div>
       </div>
+      {errors && (
+        <div className="alert alert-danger" role="alert">
+          {errors}
+        </div>
+      )}
     </div>
   );
 };
