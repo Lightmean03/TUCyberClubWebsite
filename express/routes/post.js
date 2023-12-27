@@ -1,7 +1,11 @@
+require('dotenv').config();
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const { Router } = express;
 const router = Router();
-const { db, connectDB, } = require('./db');
+const { db, } = require('./db');
+const { ObjectId } = require('mongodb');
+const secretKey = process.env.JWT_SECRET_KEY;
 
 const Post = require('../models/Post');
 
@@ -37,6 +41,48 @@ router.get('/posts', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
+// Delete post based on id and Admin role
+router.delete('/post/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const token = req.cookies.token;
+    console.log('Token:', token);
+
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized - Token missing' });
+    }
+
+    const decoded = jwt.verify(token, secretKey);
+    const user = await db.collection('users').findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User Role:', user.role);
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Access Forbidden' });
+    }
+
+    const postId = new ObjectId(id);
+    const collection = db.collection('posts');
+    const result = await collection.deleteOne({ _id: postId });
+    console.log(result);
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 
