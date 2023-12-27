@@ -29,7 +29,6 @@ const Profile = () => {
       );
     
       console.log("Add username response:", response.data);
-      // You can provide user feedback here if needed
 
       // Update the fetched username after successfully adding it
     setFetchedUsername(newUsername);
