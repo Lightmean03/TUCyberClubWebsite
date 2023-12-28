@@ -1,5 +1,5 @@
 import { fetchUtils } from "react-admin";
-import { API_URL as apiUrl } from "src/lib/constants";
+import { API_URL as apiUrl } from "../../lib/constants";
 
 const httpClient = fetchUtils.fetchJson;
 
