@@ -3,7 +3,7 @@ import { isEmail } from 'validator';
 import './Signin.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useUser } from '../Signin/UserContext';
+import { useUser } from './UserContext'
 import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
