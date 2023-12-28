@@ -1,6 +1,6 @@
-import { fetchUtils } from 'react-admin';
+import { fetchUtils } from "react-admin";
 
-const apiUrl = 'http://localhost:9000'; 
+const apiUrl = "http://localhost:9000";
 const httpClient = fetchUtils.fetchJson;
 
 const dataProvider = {
@@ -16,21 +16,21 @@ const dataProvider = {
     };
     const url = `${apiUrl}/${resource}`;
     return httpClient(url, {
-      method: 'GET',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include',
+      method: "GET",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
     }).then(({ json }) => ({
       data: json.data,
-      total: json.total || json.data.length, 
+      total: json.total || json.data.length,
     }));
   },
 
   getOne: (resource, params) => {
     const url = `${apiUrl}/${resource}/${params.id}`;
     return httpClient(url, {
-      method: 'GET',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', 
+      method: "GET",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
     }).then(({ json }) => ({
       data: json,
     }));
@@ -39,9 +39,9 @@ const dataProvider = {
   create: (resource, params) => {
     const url = `${apiUrl}/${resource}`;
     return httpClient(url, {
-      method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include',
+      method: "POST",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
       data: { ...params.data, id: json.id },
@@ -51,9 +51,9 @@ const dataProvider = {
   update: (resource, params) => {
     const url = `${apiUrl}/${resource}/${params.id}`;
     return httpClient(url, {
-      method: 'PUT',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include', 
+      method: "PUT",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
       data: json,
@@ -63,9 +63,9 @@ const dataProvider = {
   delete: (resource, params) => {
     const url = `${apiUrl}/${resource}/${params.id}`;
     return httpClient(url, {
-      method: 'DELETE',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'include',
+      method: "DELETE",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
     }).then(({ json }) => ({
       data: json,
     }));

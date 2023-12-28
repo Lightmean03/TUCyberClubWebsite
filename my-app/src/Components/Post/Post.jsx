@@ -7,7 +7,11 @@ import Cookies from "js-cookie";
 
 const Post = () => {
   const { setUserLoggedIn } = useUser();
-  const [post, setPost] = useState({ title: "", content: "", user: setUserLoggedIn });
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    user: setUserLoggedIn,
+  });
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const [showPosts, setShowPosts] = useState(false);
@@ -35,15 +39,18 @@ const Post = () => {
       });
       const data = response.data;
       setAllPosts(data); // Store all posts
-      setPosts(data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage));
-    
+      setPosts(
+        data.slice(
+          (currentPage - 1) * postsPerPage,
+          currentPage * postsPerPage,
+        ),
+      );
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetchPosts();
@@ -71,31 +78,37 @@ const Post = () => {
   };
 
   const handleDelete = (id) => {
-    console.log('post._id:', posts.map(post => post._id));
-    console.log('id:', id);
-    const token = Cookies.get('token');
-  try{
-    axios.delete(`http://localhost:9000/post/post/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    }).then((response) => {
-      console.log(response);
-      setUserLoggedIn(response.data);
-  
-      // Assuming _id is an ObjectId, convert both to strings for comparison
-      const newPosts = posts.filter((post) => post._id.toString() !== id.toString());
-      setPosts(newPosts);
-    });
-  }catch(error){
-    console.error('Error deleting post:', error);
-    if(error.response && error.response.status === 401){
-      setErrors('Unauthorized - Only admins can delete posts');
-  }
-  }
-};
+    console.log(
+      "post._id:",
+      posts.map((post) => post._id),
+    );
+    console.log("id:", id);
+    const token = Cookies.get("token");
+    try {
+      axios
+        .delete(`http://localhost:9000/post/post/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response);
+          setUserLoggedIn(response.data);
 
+          // Assuming _id is an ObjectId, convert both to strings for comparison
+          const newPosts = posts.filter(
+            (post) => post._id.toString() !== id.toString(),
+          );
+          setPosts(newPosts);
+        });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      if (error.response && error.response.status === 401) {
+        setErrors("Unauthorized - Only admins can delete posts");
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -104,7 +117,9 @@ const Post = () => {
           <h1 className="text-3xl font-bold mb-4">Create a Post</h1>
           <form onSubmit={handlePosts}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Title:</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Title:
+              </label>
               <input
                 type="text"
                 name="title"
@@ -114,7 +129,9 @@ const Post = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Content:</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Content:
+              </label>
               <textarea
                 name="content"
                 value={post.content}
@@ -141,15 +158,27 @@ const Post = () => {
             <>
               <ul className="mt-4">
                 {posts.map((post) => (
-                  <li key={post.id} className="mb-4 bg-white p-4 rounded-md shadow-md">
+                  <li
+                    key={post.id}
+                    className="mb-4 bg-white p-4 rounded-md shadow-md"
+                  >
                     <div className="flex items-start">
                       <div className="flex-1">
                         <div className="flex items-center mb-2">
-                          <p className="font-bold text-black mr-2">{post.username}</p>
+                          <p className="font-bold text-black mr-2">
+                            {post.username}
+                          </p>
                         </div>
-                        <h3 className="text-xl font-bold text-black mb-2">{post.title}</h3>
+                        <h3 className="text-xl font-bold text-black mb-2">
+                          {post.title}
+                        </h3>
                         <p className="text-gray-700">{post.content}</p>
-                        <button onClick={() => handleDelete(post._id)} className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300">x</button>
+                        <button
+                          onClick={() => handleDelete(post._id)}
+                          className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
+                        >
+                          x
+                        </button>
                       </div>
                     </div>
                   </li>
@@ -166,15 +195,20 @@ const Post = () => {
             </>
           )}
           {errors && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
+              role="alert"
+            >
               <strong className="font-bold">Error:</strong>
               <span className="block sm:inline"> {errors}</span>
             </div>
           )}
         </div>
-       
+
         <div className="flex justify-center mt-4">
-          <label className="text-gray-700 text-sm font-bold mr-2">Posts per page:</label>
+          <label className="text-gray-700 text-sm font-bold mr-2">
+            Posts per page:
+          </label>
           <select
             value={postsPerPage}
             onChange={handlePostsPerPageChange}

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Table, Modal } from 'antd';
-import {UserOutlined,} from '@ant-design/icons';
-import axios from 'axios';
-import { useCookies } from 'react-cookie';
-import { useUser } from '../Signin/UserContext';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Layout, Menu, Breadcrumb, Table, Modal } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useUser } from "../Signin/UserContext";
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 const AdminPanel = () => {
-  const [cookies, , removeCookie] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(["token"]);
   const { setUserLoggedIn } = useUser();
   const [authenticated, setAuthenticated] = useState(true);
   const [userData, setUserData] = useState([]);
@@ -17,7 +17,7 @@ const AdminPanel = () => {
     const AdminInfo = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get('http://localhost:9000/auth/admin', {
+        const response = await axios.get("http://localhost:9000/auth/admin", {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -26,8 +26,8 @@ const AdminPanel = () => {
         setAuthenticated(true);
         setUserLoggedIn(data);
       } catch (error) {
-        console.error('Error verifying token:', error);
-        removeCookie('token');
+        console.error("Error verifying token:", error);
+        removeCookie("token");
         setAuthenticated(false);
         //setUserLoggedIn(false);
       }
@@ -36,40 +36,37 @@ const AdminPanel = () => {
     AdminInfo();
   }, []);
 
-
-
   const UserData = async () => {
     try {
-      const userResponse = await axios.get('http://localhost:9000/auth/users', {
+      const userResponse = await axios.get("http://localhost:9000/auth/users", {
         withCredentials: true,
       });
       setUserData(userResponse.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const userColumns = [
     {
-      title: 'ID',
-      dataIndex: '_id',
-      key: '_id',
+      title: "ID",
+      dataIndex: "_id",
+      key: "_id",
       render: (_id) => `${_id}`,
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
       render: (email) => `${email}`,
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
       render: (role) => `${role}`,
     },
   ];
-  
 
   useEffect(() => {
     UserData();
@@ -78,19 +75,17 @@ const AdminPanel = () => {
   if (!authenticated) {
     return <Link to="/signin" />;
   }
- 
+
   return (
-    <Layout 
-    style={{ minHeight: '100vh' }}
-    >
+    <Layout style={{ minHeight: "100vh" }}>
       <Layout>
         <Sider width={200} className="bg-gray-900">
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            style={{ height: "100%", borderRight: 0 }}
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="User Data">
               <Menu.Item key="1">Users</Menu.Item>
@@ -100,12 +95,10 @@ const AdminPanel = () => {
         <Layout className="ml-200">
           <Content className="p-4">
             <Breadcrumb className="mb-4">
-              <Breadcrumb items={[{ title: 'Home' }]}/>
-              <Breadcrumb items={[{ title: 'Admin Panel' }]}
-              className='pl-4'
-              />
+              <Breadcrumb items={[{ title: "Home" }]} />
+              <Breadcrumb items={[{ title: "Admin Panel" }]} className="pl-4" />
             </Breadcrumb>
-          <Table dataSource={userData} columns={userColumns} />
+            <Table dataSource={userData} columns={userColumns} />
           </Content>
         </Layout>
       </Layout>

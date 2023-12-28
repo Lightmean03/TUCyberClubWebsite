@@ -1,9 +1,9 @@
 {
-    "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "@Components/*":["Components/*"],
-            "@Images/*":["Images/*"]
-        }
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@Components/*": ["Components/*"],
+      "@Images/*": ["Images/*"]
     }
+  }
 }

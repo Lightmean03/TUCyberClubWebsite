@@ -1,10 +1,9 @@
-.bg{
+.bg {
   /* width: 100vw; */
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-  url(../Images/tuBg2.jpeg);
-  background-size: cover; 
-
+    url(../Images/tuBg2.jpeg);
+  background-size: cover;
 }
 
 .sign-container {
@@ -14,32 +13,30 @@
   align-items: center;
   padding: 1.5rem;
   font-size: 1rem;
-  font-family: "Aktiv Grotesk", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    "Aktiv Grotesk",
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   color: #fdfdfd;
   max-width: 30rem; /* Adjust the value to make the container wider */
   margin: 0 auto; /* Center the container horizontally */
 
   background-color: #2020209e;
 
-
-
-
-
-
-
   border-radius: 2%;
-
 
   margin-bottom: 35px;
 
   margin-top: 50px;
 
-  
   border-bottom: 2px solid whitesmoke;
   box-sizing: border-box;
-
-
-
 }
 
 .signin-title {
@@ -47,9 +44,6 @@
   font-size: 24px;
   padding: 4rem;
   color: #ffffff;
-
-
-
 }
 
 .signin-form {
@@ -117,7 +111,7 @@
   text-align: center;
   margin-top: 20px;
   font-size: 15px;
-  color: #ffffff
+  color: #ffffff;
 }
 
 .signin-signup-link .signin-signup-btn {
@@ -134,7 +128,6 @@
 .signin-signup-link .signin-signup-btn:hover {
   color: #ffcc00;
 }
-
 
 /* Custom styles to adjust form layout */
 .signin-form .row {

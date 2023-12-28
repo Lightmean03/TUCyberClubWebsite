@@ -3,15 +3,15 @@ import React from "react";
 import axios from "axios";
 
 const PostList = ({ posts }) => {
-    if(!posts.length) {
-        return (
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold mb-4">Posts</h2>
-              <p>No posts found</p>
-            </div>
-          );    
-    };
-   
+  if (!posts.length) {
+    return (
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Posts</h2>
+        <p>No posts found</p>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Posts</h2>
@@ -24,7 +24,9 @@ const PostList = ({ posts }) => {
                   <p className="font-bold text-black mr-2">{post.username}</p>
                 </div>
                 {/* Post content */}
-                <h3 className="text-xl font-bold text-black mb-2">{post.title}</h3>
+                <h3 className="text-xl font-bold text-black mb-2">
+                  {post.title}
+                </h3>
                 <p className="text-gray-700">{post.content}</p>
               </div>
             </div>
