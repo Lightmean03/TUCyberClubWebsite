@@ -60,7 +60,7 @@ Navigate to the `my-app` folder and run:
 
 ```bash
 cd my-app
-npm start
+npm run dev
 
 ```
 ## Starting the Backend Server
