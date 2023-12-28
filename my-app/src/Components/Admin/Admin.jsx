@@ -5,6 +5,7 @@ import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useUser } from "../Signin/UserContext";
+import { API_URL } from "../../lib/constants";
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
@@ -17,7 +18,7 @@ const AdminPanel = () => {
     const AdminInfo = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get(`${API_URL}/auth/admin", {
+        const response = await axios.get(`${API_URL}/auth/admin`, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -38,7 +39,7 @@ const AdminPanel = () => {
 
   const UserData = async () => {
     try {
-      const userResponse = await axios.get(`${API_URL}/auth/users", {
+      const userResponse = await axios.get(`${API_URL}/auth/users`, {
         withCredentials: true,
       });
       setUserData(userResponse.data);

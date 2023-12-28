@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useUser } from "./UserContext";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "src/lib/constants";
+import { API_URL } from "../../lib/constants";
 
 const Signin = () => {
   const navigate = useNavigate();

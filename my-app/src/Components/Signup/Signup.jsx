@@ -3,7 +3,7 @@ import axios from "axios";
 import "./Signup.css";
 import { isEmail } from "validator";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "src/lib/constants";
+import { API_URL } from "../../lib/constants";
 
 const Signup = ({ showSignup, setShowSignup }) => {
   const [validated, setValidated] = useState(false);

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../Signin/UserContext";
 import "./Profile.css";
 import Cookies from "js-cookie";
-import { API_URL } from "src/lib/constants";
+import { API_URL } from "../../lib/constants";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Profile = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       console.log("Add username response:", response.data);
