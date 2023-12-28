@@ -1,10 +1,9 @@
-.bg2{
+.bg2 {
   /* width: 100vw; */
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-  url(../Images/tuBg2.jpeg);
-  background-size: cover; 
-
+    url(../Images/tuBg2.jpeg);
+  background-size: cover;
 }
 
 button[type="button"] {
@@ -20,8 +19,6 @@ button[type="button"] {
   cursor: pointer;
   transition: background-color 0.4s ease;
 }
-
-
 
 button[type="button"]:hover {
   background-color: #d29b04;
@@ -40,7 +37,6 @@ button[type="button"]:hover {
   color: whitesmoke;
   border-bottom: 2px solid whitesmoke;
   box-sizing: border-box;
-
 }
 
 /*Close button*/
@@ -49,12 +45,11 @@ button[type="button"]:hover {
   color: #333;
   position: absolute;
   top: 1.2rem;
-  right: 1.2rem; 
+  right: 1.2rem;
   cursor: pointer;
   border: none;
   background: none;
 }
-
 
 .signup-title {
   padding: 4rem;
@@ -63,8 +58,6 @@ button[type="button"]:hover {
   margin-bottom: 1rem;
   color: #ffffff;
 }
-
-
 
 .signup-subtitle {
   text-align: center;
@@ -87,7 +80,6 @@ button[type="button"]:hover {
 .signup-form .form-group {
   margin-bottom: 1.5rem;
   color: #333;
-
 }
 
 .signup-form .form-label {
@@ -138,12 +130,6 @@ button[type="button"]:hover {
   background-color: #d32f2f;
 }
 
-
-
 .signup-cancel-btn:hover {
   color: #777;
 }
-
-
-
-

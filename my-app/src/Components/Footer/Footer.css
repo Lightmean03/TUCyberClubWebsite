@@ -9,13 +9,13 @@
   margin: 0 auto;
   display: flex;
   justify-content: space-evenly;
-  background: #E8B019;
+  background: #e8b019;
   padding: 20px;
 }
 
 .footer-section {
   padding: 10px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: black;

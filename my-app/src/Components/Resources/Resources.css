@@ -71,7 +71,6 @@
   border-color: red; /* Add your desired overlay color here */
 }
 
-
 @media screen and (max-width: 768px) {
   .p-text {
     bottom: 0;
@@ -96,16 +95,13 @@
     width: 150px;
     height: 150px;
   }
-  .resource-container{
-    position: relative;;
+  .resource-container {
+    position: relative;
     padding: 0;
     width: 150px;
     height: 150px;
     bottom: 10em;
-
   }
-  
-  
 }
 @media screen and (max-width: 1440px) {
   .p-text {
@@ -131,8 +127,6 @@
     width: 250px;
     height: 250px;
   }
-  
-  
 }
 
 @media screen and (max-width: 1600px) {
@@ -159,8 +153,6 @@
     width: 250px;
     height: 250px;
   }
-  
-  
 }
 
 @media screen and (max-width: 1366px) {
@@ -187,8 +179,6 @@
     width: 250px;
     height: 250px;
   }
-  
-  
 }
 @media screen and (max-width: 1280px) {
   .p-text {
@@ -214,9 +204,4 @@
     width: 150px;
     height: 150px;
   }
-  
-  
 }
-
-
-

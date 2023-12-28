@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Navigate, } from "react-router-dom";
-import { useUser } from "./Signin/UserContext"
+import { Route, Navigate } from "react-router-dom";
+import { useUser } from "./Signin/UserContext";
 
 const ProtectedRoute = ({ component: Component, role, ...rest }) => {
   const { user } = useUser();
@@ -8,9 +8,9 @@ const ProtectedRoute = ({ component: Component, role, ...rest }) => {
   return (
     <Route
       {...rest}
-      element={() => (
+      element={() =>
         user && user.role === role ? <Component /> : <Navigate to="/signin" />
-      )}
+      }
     />
   );
 };

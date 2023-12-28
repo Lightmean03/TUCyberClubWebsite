@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
-import AdminPanel from '../Admin/Admin';
-import { useUser } from '../Signin/UserContext';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import AdminPanel from "../Admin/Admin";
+import { useUser } from "../Signin/UserContext";
 
 function Dashboard() {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
-  const [cookies, removeCookie] = useCookies(['token']);
+  const [cookies, removeCookie] = useCookies(["token"]);
   const { setUserLoggedIn, logout } = useUser();
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
 
   if (loading) {
     return <p>Loading...</p>;
@@ -22,13 +22,12 @@ function Dashboard() {
     return (
       <div>
         <h1>Dashboard</h1>
-        { role === "admin" ? (
+        {role === "admin" ? (
           <div>
             <p>Welcome to the dashboard! You are signed in as an admin.</p>
           </div>
         ) : (
           <p>Welcome to the dashboard! You are signed in as a user.</p>
-          
         )}
       </div>
     );

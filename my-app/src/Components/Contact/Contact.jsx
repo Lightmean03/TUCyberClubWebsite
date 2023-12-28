@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import './Contact.css';
-import { isEmail } from 'validator';
+import React, { useState, useEffect } from "react";
+import "./Contact.css";
+import { isEmail } from "validator";
 
 const Contact = () => {
   const [validated, setValidated] = useState(false);
   const [newContact, setNewContact] = useState({
-    submitter_name: '',
-    submitter_email: '',
-    submitter_phone: '',
-    submitter_message: '',
+    submitter_name: "",
+    submitter_email: "",
+    submitter_phone: "",
+    submitter_message: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -17,27 +17,27 @@ const Contact = () => {
       let newErrors = {};
 
       if (!newContact.submitter_name) {
-        newErrors.submitter_name = 'Please provide a name.';
+        newErrors.submitter_name = "Please provide a name.";
       }
 
       if (!newContact.submitter_email) {
-        newErrors.submitter_email = 'Please provide an email address.';
+        newErrors.submitter_email = "Please provide an email address.";
       } else if (!isEmail(newContact.submitter_email)) {
-        newErrors.submitter_email = 'Please provide a valid email address.';
+        newErrors.submitter_email = "Please provide a valid email address.";
       }
 
       if (!newContact.submitter_phone) {
-        newErrors.submitter_phone = 'Please provide a phone number.';
+        newErrors.submitter_phone = "Please provide a phone number.";
       } else if (
         !/^[\+]?([0-9][\s]?|[0-9]?)([(][0-9]{3}[)][\s]?|[0-9]{3}[-\s\.]?)[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(
-          newContact.submitter_phone
+          newContact.submitter_phone,
         )
       ) {
-        newErrors.submitter_phone = 'Please provide a valid phone number.';
+        newErrors.submitter_phone = "Please provide a valid phone number.";
       }
 
       if (!newContact.submitter_message) {
-        newErrors.submitter_message = 'Please provide a message.';
+        newErrors.submitter_message = "Please provide a message.";
       }
 
       setErrors(newErrors);
@@ -67,25 +67,23 @@ const Contact = () => {
 
   const handleReset = () => {
     setNewContact({
-      submitter_name: '',
-      submitter_email: '',
-      submitter_phone: '',
-      submitter_message: '',
+      submitter_name: "",
+      submitter_email: "",
+      submitter_phone: "",
+      submitter_message: "",
     });
     setValidated(false);
     setErrors({});
   };
 
   return (
-    <div className="container "
-    style={{ minHeight: '100vh' }}
-    >
-      <div className='container-msg'>
-      <h3 className="mb-4">CONTACT US</h3>
-      <p>
-        
-        Use the form below for comments or suggestions; <br />sharing your contact info is optional unless you want a response.
-      </p>
+    <div className="container " style={{ minHeight: "100vh" }}>
+      <div className="container-msg">
+        <h3 className="mb-4">CONTACT US</h3>
+        <p>
+          Use the form below for comments or suggestions; <br />
+          sharing your contact info is optional unless you want a response.
+        </p>
       </div>
 
       <form
@@ -104,7 +102,9 @@ const Contact = () => {
                 name="submitter_name"
                 value={newContact.submitter_name}
                 onChange={handleChange}
-                className={`form-control ${validated && errors.submitter_name ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  validated && errors.submitter_name ? "is-invalid" : ""
+                }`}
               />
               {validated && errors.submitter_name && (
                 <div className="invalid-feedback">{errors.submitter_name}</div>
@@ -118,7 +118,9 @@ const Contact = () => {
                 value={newContact.submitter_email}
                 onChange={handleChange}
                 required
-                className={`form-control ${validated && errors.submitter_email ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  validated && errors.submitter_email ? "is-invalid" : ""
+                }`}
               />
               {validated && errors.submitter_email && (
                 <div className="invalid-feedback">{errors.submitter_email}</div>
@@ -132,7 +134,9 @@ const Contact = () => {
                 onChange={handleChange}
                 value={newContact.submitter_phone}
                 required
-                className={`form-control ${validated && errors.submitter_phone ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  validated && errors.submitter_phone ? "is-invalid" : ""
+                }`}
               />
               {validated && errors.submitter_phone && (
                 <div className="invalid-feedback">{errors.submitter_phone}</div>
@@ -150,10 +154,14 @@ const Contact = () => {
                 name="submitter_message"
                 onChange={handleChange}
                 value={newContact.submitter_message}
-                className={`form-control ${validated && errors.submitter_message ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  validated && errors.submitter_message ? "is-invalid" : ""
+                }`}
               />
               {validated && errors.submitter_message && (
-                <div className="invalid-feedback">{errors.submitter_message}</div>
+                <div className="invalid-feedback">
+                  {errors.submitter_message}
+                </div>
               )}
             </div>
           </div>

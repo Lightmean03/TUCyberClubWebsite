@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
-import { isEmail } from 'validator';
-import './Signin.css';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useUser } from './UserContext'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { isEmail } from "validator";
+import "./Signin.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { setUserLoggedIn } = useUser();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const refreshAccessToken = async (refreshToken) => {
     try {
-      const response = await axios.post('http://localhost:9000/auth/refresh', { refreshToken });
+      const response = await axios.post("http://localhost:9000/auth/refresh", {
+        refreshToken,
+      });
       const newAccessToken = response.data.accessToken;
-      Cookies.set('token', newAccessToken, { secure: true });
+      Cookies.set("token", newAccessToken, { secure: true });
       return newAccessToken;
     } catch (error) {
-      console.error('Error refreshing access token:', error);
+      console.error("Error refreshing access token:", error);
       throw error;
     }
   };
@@ -30,13 +32,13 @@ const Signin = () => {
     let newErrors = {};
 
     if (!email) {
-      newErrors.email = 'Please provide an email address.';
+      newErrors.email = "Please provide an email address.";
     } else if (!isEmail(email)) {
-      newErrors.email = 'Please provide a valid email address.';
+      newErrors.email = "Please provide a valid email address.";
     }
 
     if (!password) {
-      newErrors.password = 'Please provide a password.';
+      newErrors.password = "Please provide a password.";
     }
 
     setErrors(newErrors);
@@ -46,22 +48,26 @@ const Signin = () => {
   const attemptSignin = async (data) => {
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:9000/auth/signin', data, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:9000/auth/signin",
+        data,
+        {
+          withCredentials: true,
+        },
+      );
       console.log(response.data);
       const accessToken = response.data.token;
       const user = response.data.user;
       const refreshToken = response.data.refreshToken;
 
-      Cookies.set('token', accessToken, { secure: true });
+      Cookies.set("token", accessToken, { secure: true });
       setUserLoggedIn(user);
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
 
       if (error.response && error.response.status === 401) {
-        const refreshToken = Cookies.get('refreshToken');
+        const refreshToken = Cookies.get("refreshToken");
 
         if (refreshToken) {
           try {
@@ -70,16 +76,15 @@ const Signin = () => {
               attemptSignin(data);
             }
           } catch (refreshError) {
-            console.error('Error refreshing access token:', refreshError);
+            console.error("Error refreshing access token:", refreshError);
             // Handle refresh error, show user-friendly message, or redirect to login
           }
         }
-      } 
-      } finally {
-        setIsLoading(false);
       }
+    } finally {
+      setIsLoading(false);
     }
-  
+  };
 
   const handleSignin = () => {
     if (validateForm() && !isLoading) {
@@ -90,7 +95,7 @@ const Signin = () => {
 
   return (
     <>
-      <div className='bg'>
+      <div className="bg">
         <div className="sign-container">
           <h3 className="signin-title">LOGIN</h3>
           <div className="signin-form">
@@ -99,9 +104,13 @@ const Signin = () => {
                 type="text"
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
-                className='w-full p-2 border rounded-md text-black'
+                className="w-full p-2 border rounded-md text-black"
               />
-              {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email}</span>}
+              {errors.email && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors.email}
+                </span>
+              )}
             </div>
 
             <div className="mb-3">
@@ -109,9 +118,13 @@ const Signin = () => {
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
-                className='w-full p-2 border rounded-md text-black'
+                className="w-full p-2 border rounded-md text-black"
               />
-              {errors.password && <span className="text-red-500 text-xs mt-1">{errors.password}</span>}
+              {errors.password && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors.password}
+                </span>
+              )}
             </div>
 
             <button
@@ -120,7 +133,7 @@ const Signin = () => {
               onClick={handleSignin}
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Submit'}
+              {isLoading ? "Signing in..." : "Submit"}
             </button>
             <button type="reset" className="signin-reset-btn">
               Reset

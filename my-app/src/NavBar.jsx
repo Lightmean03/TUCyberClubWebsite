@@ -25,7 +25,7 @@ export default function Navbar({ logo }) {
           headers: {
             Authorization: `Bearer ${userLoggedIn.accessToken}`,
           },
-        }
+        },
       );
       console.log("Logout response:", response.data);
       logout();
