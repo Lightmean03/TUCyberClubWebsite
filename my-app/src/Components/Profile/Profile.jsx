@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../Signin/UserContext";
 import "./Profile.css";
 import Cookies from "js-cookie";
+import { API_URL } from "src/lib/constants";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Profile = () => {
     console.log("User ID", id);
     try {
       const response = await axios.put(
-        `http://localhost:9000/auth/user/${userLoggedIn._id}`,
+        `${API_URL}/auth/user/${userLoggedIn._id}`,
         { username: newUsername },
         {
           withCredentials: true,

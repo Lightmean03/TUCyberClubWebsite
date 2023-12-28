@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useUser } from "../Signin/UserContext";
+import { API_URL } from "src/lib/constants";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Cookies from "js-cookie";
@@ -31,7 +32,7 @@ const Post = () => {
   const fetchPosts = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:9000/post/posts", {
+      const response = await axios.get(`${API_URL}/post/posts`, {
         params: {
           page: currentPage,
           limit: postsPerPage,
@@ -70,7 +71,7 @@ const Post = () => {
 
   const handlePosts = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:9000/post/post", post).then((response) => {
+    axios.post(`${API_URL}/post/post`, post).then((response) => {
       console.log(response);
       setPosts([...posts, response.data]);
       setPost({ title: "", content: "", user: setUserLoggedIn });

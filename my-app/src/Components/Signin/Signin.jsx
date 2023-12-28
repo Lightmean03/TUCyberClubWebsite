@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useUser } from "./UserContext";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "src/lib/constants";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Signin = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:9000/auth/signin",
+        `${API_URL}/auth/signin`,
         data,
         {
           withCredentials: true,

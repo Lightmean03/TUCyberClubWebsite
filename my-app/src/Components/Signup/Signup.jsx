@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./Signup.css";
 import { isEmail } from "validator";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "src/lib/constants";
 
 const Signup = ({ showSignup, setShowSignup }) => {
   const [validated, setValidated] = useState(false);
@@ -58,7 +59,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   // Sign-up function
   const handleSignUp = () => {
     axios
-      .post("http://localhost:9000/auth/Signup", form)
+      .post(`${API_URL}/auth/Signup`, form)
       .then((response) => {
         console.log("Signup response:", response.data);
         navigate("/signin");

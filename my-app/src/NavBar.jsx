@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { useUser } from "./Components/Signin/UserContext";
 import axios from "axios";
 import { FaRegUser } from "react-icons/fa";
+import { API_URL } from "./lib/constants";
 
 export default function Navbar({ logo }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar({ logo }) {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:9000/auth/signout",
+        `${API_URL}/auth/signout`,
         {},
         {
           withCredentials: true,
