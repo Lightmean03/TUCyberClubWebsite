@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsername } from "../../redux/actions/userActions";
+
 const Profile = () => {
   const navigate = useNavigate();
   const [fetchedUsername, setFetchedUsername] = useState("");

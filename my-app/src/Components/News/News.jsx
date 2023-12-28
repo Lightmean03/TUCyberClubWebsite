@@ -4,6 +4,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import html2canvas from "html2canvas";
 import axios from "axios";
 import jsPDF from "jspdf";
+import { API_URL } from "src/lib/constants";
+
 const News = () => {
   const [events, setEvents] = useState([]);
 
@@ -11,7 +13,7 @@ const News = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:9000/calendar/events",
+          `${API_URL}/calendar/events`,
         );
         setEvents(response.data);
       } catch (error) {

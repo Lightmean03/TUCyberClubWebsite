@@ -22,7 +22,7 @@ const AdminPanel = () => {
     const fetchAdminInfo = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get("http://localhost:9000/auth/admin", {
+        const response = await axios.get(`${API_URL}/auth/admin`, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });

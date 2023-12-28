@@ -26,7 +26,7 @@ export default function Navbar({ logo }: { logo?: string }) {
       navigate("/signin");
     
       const response = await axios.post(
-        "http://localhost:9000/auth/signout",
+        `${API_URL}/auth/signout`,
         {},
         {
           withCredentials: true,
