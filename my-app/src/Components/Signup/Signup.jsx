@@ -81,8 +81,8 @@ const Signup = ({ showSignup, setShowSignup }) => {
   const handleReset = () => {
     setForm({
       username: "",
-      firstname: "",
-      lastname: "",
+      firstname: "andreas",
+      lastname: "p",
       email: "",
       password: "",
     });
@@ -114,9 +114,9 @@ const Signup = ({ showSignup, setShowSignup }) => {
                         Username:
                       </label>
                       <input
-                        type="email"
-                        name="email"
-                        value={form.email}
+                        type="username"
+                        name="username"
+                        value={form.username}
                         onChange={handleChange}
                         required
                         className={`form-control ${

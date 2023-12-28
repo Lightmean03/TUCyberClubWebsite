@@ -11,10 +11,10 @@ const Profile = () => {
   const [newUsername, setNewUsername] = useState("");
   const [fetchedUsername, setFetchedUsername] = useState("");
   const [errors, setErrors] = useState("");
-  const token = Cookies.get('token'); 
+  const token = Cookies.get("token");
 
   const addUsername = async (id) => {
-    console.log("User ID", id)
+    console.log("User ID", id);
     try {
       const response = await axios.put(
         `http://localhost:9000/auth/user/${userLoggedIn._id}`,
@@ -24,16 +24,14 @@ const Profile = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
-      
+        }
       );
-    
+
       console.log("Add username response:", response.data);
 
       // Update the fetched username after successfully adding it
-    setFetchedUsername(newUsername);
-    console.log("User Response", response.data)
-
+      setFetchedUsername(newUsername);
+      console.log("User Response", response.data);
     } catch (error) {
       console.error("Error adding username:", error);
       // Handle error and provide user feedback if needed
@@ -46,27 +44,21 @@ const Profile = () => {
 
   const getUserName = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:9000/auth/username`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`http://localhost:9000/auth/username`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log("Get username response:", response.data);
       setFetchedUsername(response.data.message);
-      
-
     } catch (error) {
       console.error("Error getting username:", error);
       if (error.response) {
         console.log(error.response.data);
         setErrors(error.response.data.message);
       }
-      
     }
   };
 
@@ -74,7 +66,13 @@ const Profile = () => {
     getUserName();
   }, []);
 
-
+  return (
+    <>
+      <div className="p-4 flex flex-col w-auto">
+        <div className="flex-1 flex-row">{userLoggedIn.email}</div>
+      </div>
+    </>
+  );
   return (
     <div className="main-content">
       <div className="card">
@@ -116,7 +114,10 @@ const Profile = () => {
                 />
               </div>
               <div className="form-group focused">
-                <label htmlFor="input-first-name" className="form-control-label">
+                <label
+                  htmlFor="input-first-name"
+                  className="form-control-label"
+                >
                   First name
                 </label>
                 <input
