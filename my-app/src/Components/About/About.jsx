@@ -3,8 +3,8 @@ import image1 from "../Images/TUClubPic3.png";
 import image2 from "../Images/loyala.jpg";
 import image3 from "../Images/ccdc.jpg";
 import image4 from "../Images/Mitch.png";
-import Blog from "../Blog/Blogs";
 import { Popup } from "../Popup/Popup";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 export default function About() {
   const [openCyberDefenseClub, setOpenCyberDefenseClub] = useState(false);
@@ -14,12 +14,10 @@ export default function About() {
 
   return (
     <div style={{ height: "100%", width: "100%", overflow: "auto" }}>
-      <header className="mb-8 text-center">
+      <header className="p-12">
         <h1 className="font-semibold text-2xl lg:text-4xl">
           About Our Cyber Club
         </h1>
-      </header>
-      <section className="mb-8 text-center">
         <p className="text-sm md:text-lg">
           Our goal is to expose our members to a wide range of topics in cyber
           security by discussing current events, hosting guest speakers, and
@@ -27,7 +25,7 @@ export default function About() {
           We participate in various cyber defense competitions, although
           students who join the club are not required to compete.
         </p>
-      </section>
+      </header>
 
       <section
         style={{
@@ -112,52 +110,56 @@ export default function About() {
         </div>
       </section>
 
-      <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
-        <h2 className="font-semibold">Brief History</h2>
-        <p>
-          Towson Cyber Defense Club has a rich history that dates back to 2006.
-          Under the leadership of Coach Mike O'Leary since then, the club has
-          achieved significant milestones, including multiple successful
-          participations in regional and national competitions. The club's
-          commitment to cybersecurity education and hands-on experience has made
-          it a prominent force in the cybersecurity community at Towson
-          University.
-        </p>
-      </section>
-
-      <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
-        <h2 className="font-semibold">Leadership Team</h2>
-        <p>
-          The club is led by Coach Mike O'Leary, who has been instrumental in
-          guiding the team to success since 2006. In addition to Coach O'Leary,
-          our leadership team includes dedicated members and contributors who
-          play vital roles in organizing club activities, competitions, and
-          training sessions. These individuals bring a wealth of knowledge and
-          experience to the club, fostering a collaborative and learning-focused
-          environment.
-          <br />
-          Notable leadership roles within the team include: - President: Kaden -
-          Vice Presidents: Tobe, Surril - Secretary: Stuti - Team Captain:
-          Collin
-          <br />
-          The leadership team is the backbone of our club, ensuring its
-          continued growth and success. We welcome new members to join and
-          contribute to our dynamic and passionate team.
-        </p>
-      </section>
-
-      <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
-        <h2 className="font-semibold">Club Activities</h2>
-        <p>
-          Towson Cyber Defense Club engages in a variety of activities, events,
-          and projects to enhance members' skills and knowledge in
-          cybersecurity. From weekly meetings and tryouts to participating in
-          regional competitions like CCDC and CPTC, the club provides a platform
-          for hands-on learning and skill development. Members also benefit from
-          guest speakers, workshops, and collaborative projects that contribute
-          to a dynamic learning environment.
-        </p>
-      </section>
+      <div className="grid grid-flow-col grid-cols-3 space-x-3 px-12 mb-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>Brief History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>
+              Towson Cyber Defense Club has a rich history that dates back to
+              2006. Under the leadership of Coach Mike O'Leary since then, the
+              club has achieved significant milestones, including multiple
+              successful participations in regional and national competitions.
+              The club's commitment to cybersecurity education and hands-on
+              experience has made it a prominent force in the cybersecurity
+              community at Towson University.
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Leadership Team</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>
+              The club is led by Coach Mike O'Leary, who has been instrumental
+              in guiding the team to success since 2006. In addition to Coach
+              O'Leary, our leadership team includes dedicated members and
+              contributors who play vital roles in organizing club activities,
+              competitions, and training sessions. These individuals bring a
+              wealth of knowledge and experience to the club, fostering a
+              collaborative and learning-focused environment.
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+          <CardTitle>Club Activities</CardTitle>
+            </CardHeader>
+          <CardContent>
+            <p>
+            Towson Cyber Defense Club engages in a variety of activities,
+            events, and projects to enhance members' skills and knowledge in
+            cybersecurity. From weekly meetings and tryouts to participating in
+            regional competitions like CCDC and CPTC, the club provides a
+            platform for hands-on learning and skill development. Members also
+            benefit from guest speakers, workshops, and collaborative projects
+            that contribute to a dynamic learning environment.
+          </p>
+          </CardContent>
+        </Card>
+      </div>
 
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Achievements</h2>
