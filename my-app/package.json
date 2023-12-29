@@ -38,6 +38,8 @@
     "react-router-dom": "6.14.1",
     "react-scripts": "5.0.1",
     "react-transition-group": "4.4.5",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7",
     "unbuffer": "0.0.1",
     "validator": "13.9.0",
     "vite": "5.0.10",
@@ -72,6 +74,7 @@
   "proxy": "http://localhost:9000/",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@types/node": "^20.10.5",
     "autoprefixer": "10.4.15",
     "postcss": "8.4.29",
     "prettier": "3.1.1",
