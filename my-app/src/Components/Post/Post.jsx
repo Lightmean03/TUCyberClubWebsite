@@ -6,11 +6,11 @@ import Stack from "@mui/material/Stack";
 import Cookies from "js-cookie";
 
 const Post = () => {
-  const { setUserLoggedIn } = useUser();
+  const { setUserLoggedInState } = useUser();
   const [post, setPost] = useState({
     title: "",
     content: "",
-    user: setUserLoggedIn,
+    user: "",
   });
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
@@ -28,7 +28,9 @@ const Post = () => {
     setShowPosts(!showPosts);
   };
 
+  console.log("Posts:", posts);
   const fetchPosts = async () => {
+    const token = Cookies.get("token");
     setIsLoading(true);
     try {
       const response = await axios.get("http://localhost:9000/post/posts", {
@@ -37,10 +39,28 @@ const Post = () => {
           limit: postsPerPage,
         },
       });
-      const data = response.data;
-      setAllPosts(data); // Store all posts
+      const data = response.data;  
+      const postsWithUsername = data.map(async (post) => {
+        const usernameResponse = await axios.get(`http://localhost:9000/auth/username`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const username = usernameResponse.data.message;
+        
+        return {
+          ...post,
+          username,
+        };
+      });
+  
+      // Wait for all username fetches to complete
+      const postsWithUsernameData = await Promise.all(postsWithUsername);
+  
+      setAllPosts(postsWithUsernameData); 
       setPosts(
-        data.slice(
+        postsWithUsernameData.slice(
           (currentPage - 1) * postsPerPage,
           currentPage * postsPerPage,
         ),
@@ -51,7 +71,6 @@ const Post = () => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -70,12 +89,26 @@ const Post = () => {
 
   const handlePosts = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:9000/post/post", post).then((response) => {
-      console.log(response);
-      setPosts([...posts, response.data]);
-      setPost({ title: "", content: "", user: setUserLoggedIn });
-    });
+    const token = Cookies.get("token");
+    axios.post(
+        "http://localhost:9000/post/post",
+        post,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setPosts([...posts, response.data]);
+        setPost({ title: "", content: "", user: setUserLoggedInState.username });
+      })
+      .catch((error) => {
+        console.error("Error creating post:", error);
+      });
   };
+  
 
   const handleDelete = (id) => {
     console.log(
@@ -94,7 +127,7 @@ const Post = () => {
         })
         .then((response) => {
           console.log(response);
-          setUserLoggedIn(response.data);
+          setUserLoggedInState(response.data);
 
           // Assuming _id is an ObjectId, convert both to strings for comparison
           const newPosts = posts.filter(
@@ -166,7 +199,7 @@ const Post = () => {
                       <div className="flex-1">
                         <div className="flex items-center mb-2">
                           <p className="font-bold text-black mr-2">
-                            {post.username}
+                            {post.user}
                           </p>
                         </div>
                         <h3 className="text-xl font-bold text-black mb-2">

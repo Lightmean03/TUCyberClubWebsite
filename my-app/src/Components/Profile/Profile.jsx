@@ -18,7 +18,11 @@ const Profile = () => {
     try {
       const response = await axios.put(
         `http://localhost:9000/auth/user/${userLoggedIn._id}`,
-        { username: newUsername },
+        { username: newUsername, 
+          email: userLoggedIn.email,
+          firstName: userLoggedIn.firstName,
+          lastName: userLoggedIn.lastName,
+        },
         {
           withCredentials: true,
           headers: {
@@ -27,20 +31,21 @@ const Profile = () => {
         },
       );
 
-      console.log("Add username response:", response.data);
 
-      // Update the fetched username after successfully adding it
+      console.log("Add username response:", response.data);
       setFetchedUsername(newUsername);
       console.log("User Response", response.data);
     } catch (error) {
       console.error("Error adding username:", error);
-      // Handle error and provide user feedback if needed
       if (error.response) {
         console.log(error.response.data);
         setErrors(error.response.data.message);
       }
     }
   };
+
+  console.log(userLoggedIn);
+
 
   const getUserName = async () => {
     try {
@@ -67,19 +72,12 @@ const Profile = () => {
   }, []);
 
   return (
-    <>
-      <div className="p-4 flex flex-col w-auto">
-        <div className="flex-1 flex-row">{userLoggedIn.email}</div>
-      </div>
-    </>
-  );
-  return (
     <div className="main-content">
       <div className="card">
         <div className="card-profile-image"></div>
         <div className="card-body">
           <div className="text-center">
-            <h3>Signed In As: {userLoggedIn.username}</h3>
+            <h3>Signed In As: {fetchedUsername}</h3>
           </div>
         </div>
       </div>
@@ -96,11 +94,9 @@ const Profile = () => {
                   type="text"
                   id="input-username"
                   className="form-control form-control-alternative"
-                  placeholder={fetchedUsername}
-                  value={newUsername} // Controlled component: Set the value to the state
-                  onChange={(e) => setNewUsername(e.target.value)} // Update state on user input
+                  value={fetchedUsername}
+                  readOnly
                 />
-                <button onClick={addUsername}>Add Username</button>
               </div>
               <div className="form-group">
                 <label htmlFor="input-email" className="form-control-label">
@@ -110,7 +106,8 @@ const Profile = () => {
                   type="email"
                   id="input-email"
                   className="form-control form-control-alternative"
-                  placeholder={userLoggedIn.email}
+                  value={userLoggedIn.email}
+                  readOnly
                 />
               </div>
               <div className="form-group focused">
@@ -124,7 +121,8 @@ const Profile = () => {
                   type="text"
                   id="input-first-name"
                   className="form-control form-control-alternative"
-                  placeholder={userLoggedIn.firstName}
+                  value={userLoggedIn.firstName}
+                  readOnly
                 />
               </div>
               <div className="form-group focused">
@@ -135,7 +133,8 @@ const Profile = () => {
                   type="text"
                   id="input-last-name"
                   className="form-control form-control-alternative"
-                  placeholder={userLoggedIn.lastName}
+                  value={userLoggedIn.lastName}
+                  readOnly
                 />
               </div>
             </div>
