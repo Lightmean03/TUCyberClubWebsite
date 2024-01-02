@@ -1,11 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./Popup.css";
 
-export const Popup = ({ title, text, closePopup }) => {
+export const Popup = ({
+  title,
+  text,
+  closePopup,
+}: {
+  title: string;
+  text: string;
+  closePopup: () => void;
+}) => {
   const popupRef = useRef(null);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
+    const handleOutsideClick = (event: any) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         closePopup();
       }

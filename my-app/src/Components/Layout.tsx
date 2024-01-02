@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 
-import Curveys from "./Curvey/Curveys";
-import logoImg from "./Images/ClubSymbol.png";
+// import logoImg from "@public/assets/ClubSymbol";
 import Navbar from "../NavBar";
 
-const Layout = ({ children }) => {
+const Layout = ({
+  children,
+}: {
+  children: React.ReactNode | React.ReactNode[];
+}) => {
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top when the component mounts
   }, []);
 
   return (
     <>
-      <div>
-        <Navbar logo={logoImg} />
-      </div>
+      <Navbar />
       {children}
     </>
   );

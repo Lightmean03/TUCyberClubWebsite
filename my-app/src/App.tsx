@@ -1,36 +1,28 @@
 // App.js
-import React from "react";
+import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import About from "./Components/About/About";
-import Home from "./Components/Home/Home";
-import Signin from "./Components/Signin/Signin";
-import Resources from "./Components/Resources/Resources";
-import News from "./Components/News/News";
-import Contact from "./Components/Contact/Contact";
-import Signup from "./Components/Signup/Signup";
-import Layout from "./Components/Layout";
-import { Footer } from "./Components/Footer/footer";
-import Dashboard from "./Components/Dashboard/Dashboard";
-import AdminPanel from "./Components/Admin/Admin";
-import NewHome from "./Components/Home/NewHome";
-import Post from "./Components/Post/Post";
-import Profile from "./Components/Profile/Profile";
+import About from "./components/About/About";
+import Home from "./components/Home/Home";
+import Signin from "./components/Signin/Signin";
+import Resources from "./components/Resources/Resources";
+import News from "./components/News/News";
+import Contact from "./components/Contact/Contact";
+import Signup from "./components/Signup/Signup";
+import Layout from "./components/Layout";
+import { Footer } from "./components/Footer/footer";
+import Dashboard from "./components/Dashboard/Dashboard";
+import AdminPanel from "./components/Admin/Admin";
+import Post from "./components/Post/Post";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   return (
     <>
+    <a></a>
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route
           path="/home"
-          element={
-            <Layout>
-              <NewHome />
-            </Layout>
-          }
-        />
-        <Route
-          path="/oldhome"
           element={
             <Layout>
               <Home />

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import image1 from "../Images/TUClubPic3.png";
-import image2 from "../Images/loyala.jpg";
-import image3 from "../Images/ccdc.jpg";
-import image4 from "../Images/Mitch.png";
-import { Popup } from "../Popup/Popup";
+import { useState } from "react";
+import image1 from "@/assets/TUClubPic3.png";
+import image2 from "@/assets/loyala.jpg";
+import image3 from "@/assets/ccdc.jpg";
+import image4 from "@/assets/Mitch.png";
+import { Popup } from "@/components/Popup/Popup";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 export default function About() {

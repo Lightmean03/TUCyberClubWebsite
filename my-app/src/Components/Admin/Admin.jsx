@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Table, Modal } from "antd";
+import { Layout, Menu, Breadcrumb, Table } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useCookies } from "react-cookie";
