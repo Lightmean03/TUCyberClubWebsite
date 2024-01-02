@@ -1,10 +1,14 @@
-import React, { createContext, useContext, useState } from "react";
-const UserContext = createContext();
+import { ReactNode, createContext, useContext, useState } from "react";
+const UserContext = createContext<any | null>(null);
 
 
 export const useUser = () => useContext(UserContext);
 
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({
+  children,
+}: {
+  children: ReactNode | ReactNode[];
+}) => {
   const [userLoggedIn, setUserLoggedInState] = useState(() => {
     try {
       const storedUser = localStorage.getItem("user");
@@ -21,7 +25,7 @@ export const UserProvider = ({ children }) => {
     setUserLoggedInState(false);
   };
 
-  const signin = (user) => {
+  const signin = (user: any) => {
     localStorage.setItem("user", JSON.stringify(user));
     setUserLoggedInState(user);
   };

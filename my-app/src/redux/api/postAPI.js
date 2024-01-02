@@ -4,7 +4,7 @@ const baseURL = process.env.REACT_APP_API_URL;
 
 export const createPostApi = async (post, token) => {
   try {
-    const response = await axios.post(`${baseURL}/post/post`, post, {
+    const response = await axios.post(`${BASE}/post/post`, post, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

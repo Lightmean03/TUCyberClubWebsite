@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { UserProvider } from "./Components/Signin/UserContext";
+import { UserProvider } from "./components/Signin/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import createStore from "./redux/store";
 import "./styles.css";

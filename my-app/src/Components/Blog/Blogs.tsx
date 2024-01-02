@@ -1,6 +1,4 @@
-import React from "react";
-
-const blogTemplate = ({ posts }) => {
+const blogTemplate = ({ posts }: { posts: any[] }) => {
   return (
     <div>
       <h2>Blog</h2>

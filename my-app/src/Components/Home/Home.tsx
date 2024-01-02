@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { CSSTransition } from "react-transition-group";
-import vid1 from "../Images/backVideo.mp4";
-import bg1 from "../Images/tuCLUBBG3.jpg";
-import bg2 from "../Images/tuBg.jpeg";
-import "../Home/animation.css";
+import { useState } from "react";
+import vid1 from "@/assets/backVideo.mp4";
+import bg1 from "@/assets/tuCLUBBG3.jpg";
+import bg2 from "@/assets/tuBg.jpeg";
+import "./animation.css";
 
 export default function NewHome() {
   const [aboutVisible, setAboutVisible] = useState(false);
@@ -20,7 +19,7 @@ export default function NewHome() {
   return (
     <main>
       <div
-        className="relative pt-16 pb-32 flex content-center items-center justify-center"
+        className="relative pt-16 flex content-center items-center justify-center"
         style={{ minHeight: "75vh" }}
       >
         <div
