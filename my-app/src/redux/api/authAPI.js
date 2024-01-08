@@ -8,7 +8,7 @@ export const signIn = async (formData) => {
       },
     });
     const token = response.data.token;
-    localStorage.setItem("token", JSON.stringify(token));
+    localStorage.setItem("token", response.data.token);
     const data = response.data;
     console.log("data", data.user);
     console.log("token", token);

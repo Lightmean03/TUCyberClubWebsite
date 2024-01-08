@@ -3,7 +3,7 @@ import image1 from "@/assets/TUClubPic3.png";
 import image2 from "@/assets/loyala.jpg";
 import image3 from "@/assets/ccdc.jpg";
 import image4 from "@/assets/Mitch.png";
-import { Popup } from "@/components/Popup/Popup";
+import Popup from "@/components/Popup/Popup";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 export default function About() {

@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../../lib/constants";
 
 export const createPostApi = async (post, token) => {
   try {
-    const response = await axios.post(`${BASE}/post/post`, post, {
+    const response = await axios.post(`${API_URL}/post/post`, post, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +19,7 @@ export const createPostApi = async (post, token) => {
 export const fetchPostsApi = async (page = 1, limit = 10) => {
   try {
     const response = await axios.get(
-      `${baseURL}/post/posts?page=${page}&limit=${limit}`,
+      `${API_URL}/post/posts?page=${page}&limit=${limit}`,
       {
         withCredentials: true,
       },
@@ -33,7 +33,7 @@ export const fetchPostsApi = async (page = 1, limit = 10) => {
 
 export const deletePostApi = async (id, token) => {
   try {
-    const response = await axios.delete(`${baseURL}/post/post/${id}`, {
+    const response = await axios.delete(`${API_URL}/post/post/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
