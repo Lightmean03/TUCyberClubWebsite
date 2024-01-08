@@ -4,17 +4,19 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./Components/Signin/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-
+import createStore from "./redux/store";
 import "./styles.css";
+
+const store = createStore();
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
       <UserProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </UserProvider>
-    </QueryClientProvider>
+    </BrowserRouter>
+  </QueryClientProvider>
   </React.StrictMode>,
 );
