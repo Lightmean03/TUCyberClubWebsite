@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import "./Popup.css";
 
-export const Popup = ({
+export default function Popup({
   title,
   text,
   closePopup,
@@ -9,7 +9,7 @@ export const Popup = ({
   title: string;
   text: string;
   closePopup: () => void;
-}) => {
+}) {
   const popupRef = useRef(null);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ export const Popup = ({
       </div>
     </div>
   );
-};
+}
