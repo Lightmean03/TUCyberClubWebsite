@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { useUser } from "./Components/Signin/UserContext";
 import axios from "axios";
 import { FaRegUser } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "./redux/actions/authActions";
 
 export default function Navbar({ logo }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { userLoggedIn, logout } = useUser();
+  const userLoggedIn = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  console.log("user", userLoggedIn);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -17,19 +20,9 @@ export default function Navbar({ logo }) {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:9000/auth/signout",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${userLoggedIn.accessToken}`,
-          },
-        },
-      );
-      console.log("Logout response:", response.data);
-      logout();
-      navigate("/");
+      dispatch(logoutUser());
+      navigate("/signin");
+    
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -49,7 +42,7 @@ export default function Navbar({ logo }) {
         <div className="flex items-center space-x-4">
           {userLoggedIn ? (
             <UserDropdown
-              user={userLoggedIn}
+              user={userLoggedIn.name}
               onLogout={handleLogout}
               isMobileMenuOpen={isMobileMenuOpen}
             />
@@ -101,25 +94,28 @@ function CustomLink({ to, children, ...props }) {
   );
 }
 
-const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
+const UserDropdown = ({ onLogout, isMobileMenuOpen }) => {
+  const user = useSelector((state) => state?.authReducer?.user);
+
   const [isOpen, setIsOpen] = useState(false);
 
   console.log("mobile", isMobileMenuOpen);
   console.log("open", isOpen);
+
   return (
     <div className="relative z-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 focus:outline-none"
       >
-        <span className="text-sm font-medium">{user.name}</span>
+        <span className="text-sm font-medium">{user?.name}</span>
         <FaRegUser className="text-gray-500" />
       </button>
       {isOpen && (
         <div
           className={`absolute mt-2 w-48 min-w-0 max-w-screen bg-white border border-gray-300 rounded-md shadow-lg z-30 
-      ${isMobileMenuOpen && isOpen ? "left-0" : "right-0"}
-      `}
+          ${isMobileMenuOpen && isOpen ? "left-0" : "right-0"}
+          `}
         >
           <ul>
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-black overflow-auto">
@@ -139,6 +135,7 @@ const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
       )}
     </div>
   );
+};
 
   function CustomLinkWithHoverableDropdown({ label, children }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -158,4 +155,4 @@ const UserDropdown = ({ user, onLogout, isMobileMenuOpen }) => {
       </li>
     );
   }
-};
+

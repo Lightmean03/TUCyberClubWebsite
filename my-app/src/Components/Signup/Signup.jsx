@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./Signup.css";
 import { isEmail } from "validator";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser } from "../../redux/actions/authActions";
+import "./Signup.css";
 
 const Signup = ({ showSignup, setShowSignup }) => {
-  const [validated, setValidated] = useState(false);
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     username: "",
-    firstname: " ",
-    lastname: " ",
     email: "",
     password: "",
   });
+
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+
+  const error = useSelector((state) => state?.authReducer?.errors);
+
+  // Validation state
+  const [validated, setValidated] = useState(false);
   const MIN_PASSWORD_LENGTH = 8;
 
   // Error messages
   const errorMessages = {
     username: {
       required: "Please provide a username.",
-    },
-    firstname: {
-      required: "Please provide a first name.",
     },
     email: {
       required: "Please provide an email address.",
@@ -45,6 +45,10 @@ const Signup = ({ showSignup, setShowSignup }) => {
       newErrors.email = "invalid";
     }
 
+    if (!form.username) {
+      newErrors.username = "required";
+    }
+
     if (!form.password) {
       newErrors.password = "required";
     } else if (form.password.length < MIN_PASSWORD_LENGTH) {
@@ -52,21 +56,21 @@ const Signup = ({ showSignup, setShowSignup }) => {
     }
 
     setErrors(newErrors);
+    setValidated(true);
     return Object.keys(newErrors).length === 0;
   };
 
   // Sign-up function
   const handleSignUp = () => {
-    axios
-      .post("http://localhost:9000/auth/Signup", form)
-      .then((response) => {
-        console.log("Signup response:", response.data);
-        navigate("/signin");
-      })
-      .catch((error) => {
-        console.error("Error signing up:", error);
-      });
+    dispatch(signupUser(form));
   };
+
+  useEffect(() => {
+    if (errors) {
+      // Handle errors as needed
+      console.error("Signup error:", errors);
+    }
+  }, [errors]);
 
   // Form submission handler
   const handleSubmit = (e) => {
@@ -74,20 +78,17 @@ const Signup = ({ showSignup, setShowSignup }) => {
     if (validateForm()) {
       handleSignUp();
     }
-    setValidated(true);
   };
 
   // Form reset function
   const handleReset = () => {
     setForm({
       username: "",
-      firstname: "andreas",
-      lastname: "p",
       email: "",
       password: "",
     });
-    setValidated(false);
     setErrors({});
+    setValidated(false);
   };
 
   // Input change handler

@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Table, Modal } from "antd";
+import { Layout, Menu, Breadcrumb, Table } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import axios from "axios";
 import { useCookies } from "react-cookie";
-import { useUser } from "../Signin/UserContext";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { getUsers} from '../../redux/actions/userActions';
+
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 const AdminPanel = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
-  const { setUserLoggedIn } = useUser();
   const [authenticated, setAuthenticated] = useState(true);
-  const [userData, setUserData] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const dispatch = useDispatch();
+
+  const userLoggedIn = useSelector((state) => state?.auth?.user);
+
   useEffect(() => {
-    const AdminInfo = async () => {
+    const fetchAdminInfo = async () => {
       try {
         const token = cookies.token;
         const response = await axios.get("http://localhost:9000/auth/admin", {
@@ -24,28 +29,30 @@ const AdminPanel = () => {
 
         const data = response.data;
         setAuthenticated(true);
-        setUserLoggedIn(data);
+        dispatch(userLoggedIn(data)); // Dispatch as an action
       } catch (error) {
         console.error("Error verifying token:", error);
         removeCookie("token");
         setAuthenticated(false);
-        //setUserLoggedIn(false);
       }
     };
 
-    AdminInfo();
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const { error, data: userResponse } =  getUsers();
+        if (!error) {
+          setUserList(userResponse.data);
+        } else {
+          console.error("Error fetching data:", error);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const UserData = async () => {
-    try {
-      const userResponse = await axios.get("http://localhost:9000/auth/users", {
-        withCredentials: true,
-      });
-      setUserData(userResponse.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+    fetchAdminInfo();
+    fetchUserData();
+  }, [cookies.token, dispatch, userLoggedIn]);
 
   const userColumns = [
     {
@@ -67,10 +74,6 @@ const AdminPanel = () => {
       render: (role) => `${role}`,
     },
   ];
-
-  useEffect(() => {
-    UserData();
-  }, []);
 
   if (!authenticated) {
     return <Link to="/signin" />;
@@ -98,7 +101,7 @@ const AdminPanel = () => {
               <Breadcrumb items={[{ title: "Home" }]} />
               <Breadcrumb items={[{ title: "Admin Panel" }]} className="pl-4" />
             </Breadcrumb>
-            <Table dataSource={userData} columns={userColumns} />
+            <Table dataSource={userList} columns={userColumns} />
           </Content>
         </Layout>
       </Layout>
