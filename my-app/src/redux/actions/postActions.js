@@ -12,6 +12,7 @@ import {
 
 import * as postApi from "../../redux/api/postAPI";
 import axios from "axios";
+import { API_URL } from "../../lib/constants";
 
 export const createPostRequest = () => ({
   type: CREATE_POST_REQUEST,
@@ -74,7 +75,7 @@ export const fetchPosts =
   async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/post/posts?page=${page}&limit=${limit}`,
+        `${API_URL}/post/posts?page=${page}&limit=${limit}`,
         {
           withCredentials: true,
         },

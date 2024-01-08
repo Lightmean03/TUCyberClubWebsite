@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const BASE_URL = "http://localhost:9000";
+import { API_URL } from "../../lib/constants";
 
 const authInterceptor = (req) => {
   const accessToken = JSON.parse(localStorage.getItem("auth"))?.accessToken;
@@ -11,7 +10,7 @@ const authInterceptor = (req) => {
 };
 
 export const API = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_URL,
 });
 
 API.interceptors.request.use(authInterceptor);
