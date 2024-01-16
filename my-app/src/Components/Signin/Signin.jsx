@@ -10,8 +10,9 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
+  const [error, setError] = useState("");
+  
   const dispatch = useDispatch();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,22 +26,26 @@ const Signin = () => {
     }, 1000);
     const response = dispatch(loginUser(formData));
     console.log("response", response);
-    response.then((res) => {
-      setIsLoading(false);
-      clearTimeout(timeout);
-      navigate("/home");
-    });
-
+    response
+      .then((res) => {
+        if (!res) {
+          setIsLoading(false);
+          clearTimeout(timeout);
+          setError("Incorrect email or password.")
+          return;
+        }
+        setIsLoading(false);
+        clearTimeout(timeout);
+        navigate("/home");
+      });
   };
 
   const errors = useSelector((state) => state?.authReducer?.errors);
   //const success = useSelector((state) => state?.authReducer.success);
 
-  const handleMessage = () =>{
-    dispatch({type: "CLEAR_ERRORS"});
-  }
-
-
+  const handleMessage = () => {
+    dispatch({ type: "CLEAR_ERRORS" });
+  };
 
   return (
     <>
@@ -56,7 +61,6 @@ const Signin = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-2 border rounded-md text-black"
                 />
-                
               </div>
 
               <div className="mb-3">
@@ -67,14 +71,13 @@ const Signin = () => {
                   className="w-full p-2 border rounded-md text-black"
                 />
               </div>
-
+              {error}
               <button
                 type="submit"
                 className="signin-submit-btn"
                 disabled={isLoading}
               >
                 {isLoading ? "Signing in..." : "Submit"}
-                
               </button>
               <button type="reset" className="signin-reset-btn">
                 Reset
