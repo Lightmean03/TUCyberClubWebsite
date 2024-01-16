@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 // import logoImg from "@public/assets/ClubSymbol";
 import Navbar from "../NavBar";
