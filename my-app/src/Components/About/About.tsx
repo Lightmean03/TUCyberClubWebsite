@@ -3,8 +3,16 @@ import image1 from "@/assets/TUClubPic3.png";
 import image2 from "@/assets/loyala.jpg";
 import image3 from "@/assets/ccdc.jpg";
 import image4 from "@/assets/Mitch.png";
+import vid1 from "@/assets/backVideo.mp4";
 import Popup from "@/components/Popup/Popup";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  HeroContent,
+  HeroDescription,
+  HeroMediaBackdrop,
+  HeroTitle,
+  HeroWrapper,
+} from "../ui/hero";
 
 export default function About() {
   const [openCyberDefenseClub, setOpenCyberDefenseClub] = useState(false);
@@ -13,102 +21,24 @@ export default function About() {
   const [openLeadership, setOpenLeadership] = useState(false);
 
   return (
-    <div style={{ height: "100%", width: "100%", overflow: "auto" }}>
-      <header className="p-12">
-        <h1 className="font-semibold text-2xl lg:text-4xl">
-          About Our Cyber Club
-        </h1>
-        <p className="text-sm md:text-lg">
-          Our goal is to expose our members to a wide range of topics in cyber
-          security by discussing current events, hosting guest speakers, and
-          providing hands-on labs to enhance and develop our students’ skills.
-          We participate in various cyber defense competitions, although
-          students who join the club are not required to compete.
-        </p>
-      </header>
-
-      <section
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          columnGap: "10%",
-          alignContent: "space-between",
-          marginBottom: "5%",
-          marginTop: "5%",
-        }}
-      >
-        <div className="about-member text-center">
-          <button onClick={() => setOpenCyberDefenseClub(true)}>
-            <img
-              src={image1}
-              alt="Kaden Pirmonhamed"
-              className="h-80 w-80 object-cover rounded-full"
-            />
-          </button>
-          {openCyberDefenseClub ? (
-            <Popup
-              text="Our goal is to expose our members to a wide range of topics in cyber security by discussing current events, hosting guest speakers, and providing hands-on labs to enhance and develop our students’ skills. We participate in various cyber defense competitions, although students who join the club are not required to compete."
-              title="Cyber Defense Club"
-              closePopup={() => setOpenCyberDefenseClub(false)}
-            />
-          ) : null}
-          <h3 className="font-semibold">Cyber Defense Club</h3>
-        </div>
-
-        <div className="about-member text-center ">
-          <button onClick={() => setOpenCompetitionTeam(true)}>
-            <img
-              src={image2}
-              alt="Competition Team"
-              className="h-80 w-80 object-cover rounded-full"
-            />
-          </button>
-          {openCompetitionTeam ? (
-            <Popup
-              text="Welcome to the heart of our Cyber Defense Club – the Competition Team! As the driving force behind our competitive edge, this team is dedicated to preparing students for a thrilling journey through various cybersecurity competitions. From beginners eager to dip their toes into the realm of cyber defense to seasoned veterans seeking advanced challenges, our competitions cater to all skill levels."
-              title="Competition Team"
-              closePopup={() => setOpenCompetitionTeam(false)}
-            />
-          ) : null}
-          <h3 className="font-semibold">Competition Team</h3>
-        </div>
-
-        <div className="about-member text-center ">
-          <button onClick={() => setOpenMembers(true)}>
-            <img
-              src={image3}
-              alt="Danny"
-              className="h-80 w-80 object-cover rounded-full"
-            />
-          </button>
-          {openMembers ? (
-            <Popup
-              text="At the heart of our Cyber Defense Club is a vibrant and growing community of individuals who share a common passion for cybersecurity. Whether you're just stepping into the world of cyber or bringing years of experience, our club is a welcoming space where enthusiasts converge to learn, collaborate, and explore the ever-evolving landscape of cybersecurity."
-              title="Members"
-              closePopup={() => setOpenMembers(false)}
-            />
-          ) : null}
-          <h3 className="font-semibold">Members</h3>
-        </div>
-        <div className="about-member text-center ">
-          <button onClick={() => setOpenLeadership(true)}>
-            <img
-              src={image4}
-              alt="Mitch Sneckenberger"
-              className="h-80 w-80 object-cover rounded-full"
-            />
-          </button>
-          {openLeadership ? (
-            <Popup
-              text="Our Cyber Defense Club is not just a collection of members; it's a collaborative community driven by passionate leaders dedicated to fostering growth and success. If you're someone who enjoys taking charge, planning events, and ensuring the smooth execution of club activities, our leadership team is the perfect place for you."
-              title="Leadership"
-              closePopup={() => setOpenLeadership(false)}
-            />
-          ) : null}
-          <h3 className="font-semibold">Leadership</h3>
-        </div>
-      </section>
+    <div className="h-full w-full overflow-auto">
+      <HeroWrapper>
+        <HeroMediaBackdrop>
+          <video autoPlay muted loop className="w-full h-full object-cover">
+            <source src={vid1} type="video/mp4" />
+          </video>
+        </HeroMediaBackdrop>
+        <HeroContent>
+          <HeroTitle>About Our Cyber Club</HeroTitle>
+          <HeroDescription>
+            Our goal is to expose our members to a wide range of topics in cyber
+            security by discussing current events, hosting guest speakers, and
+            providing hands-on labs to enhance and develop our students' skills.
+            We participate in various cyber defense competitions, although
+            students who join the club are not required to compete.
+          </HeroDescription>
+        </HeroContent>
+      </HeroWrapper>
 
       <div className="grid grid-flow-col grid-cols-3 space-x-3 px-12 mb-12">
         <Card>
@@ -145,21 +75,93 @@ export default function About() {
         </Card>
         <Card>
           <CardHeader>
-          <CardTitle>Club Activities</CardTitle>
-            </CardHeader>
+            <CardTitle>Club Activities</CardTitle>
+          </CardHeader>
           <CardContent>
             <p>
-            Towson Cyber Defense Club engages in a variety of activities,
-            events, and projects to enhance members' skills and knowledge in
-            cybersecurity. From weekly meetings and tryouts to participating in
-            regional competitions like CCDC and CPTC, the club provides a
-            platform for hands-on learning and skill development. Members also
-            benefit from guest speakers, workshops, and collaborative projects
-            that contribute to a dynamic learning environment.
-          </p>
+              Towson Cyber Defense Club engages in a variety of activities,
+              events, and projects to enhance members' skills and knowledge in
+              cybersecurity. From weekly meetings and tryouts to participating
+              in regional competitions like CCDC and CPTC, the club provides a
+              platform for hands-on learning and skill development. Members also
+              benefit from guest speakers, workshops, and collaborative projects
+              that contribute to a dynamic learning environment.
+            </p>
           </CardContent>
         </Card>
       </div>
+      <section className="flex flex-wrap justify-center gap-x-24 my-12">
+        <div className="about-member text-center">
+          <button onClick={() => setOpenCyberDefenseClub(true)}>
+            <img
+              src={image1}
+              alt="Kaden Pirmonhamed"
+              className="h-60 w-60 object-cover rounded-full"
+            />
+          </button>
+          {openCyberDefenseClub ? (
+            <Popup
+              text="Our goal is to expose our members to a wide range of topics in cyber security by discussing current events, hosting guest speakers, and providing hands-on labs to enhance and develop our students’ skills. We participate in various cyber defense competitions, although students who join the club are not required to compete."
+              title="Cyber Defense Club"
+              closePopup={() => setOpenCyberDefenseClub(false)}
+            />
+          ) : null}
+          <h3 className="font-semibold">Cyber Defense Club</h3>
+        </div>
+
+        <div className="about-member text-center ">
+          <button onClick={() => setOpenCompetitionTeam(true)}>
+            <img
+              src={image2}
+              alt="Competition Team"
+              className="h-60 w-60 object-cover rounded-full"
+            />
+          </button>
+          {openCompetitionTeam ? (
+            <Popup
+              text="Welcome to the heart of our Cyber Defense Club – the Competition Team! As the driving force behind our competitive edge, this team is dedicated to preparing students for a thrilling journey through various cybersecurity competitions. From beginners eager to dip their toes into the realm of cyber defense to seasoned veterans seeking advanced challenges, our competitions cater to all skill levels."
+              title="Competition Team"
+              closePopup={() => setOpenCompetitionTeam(false)}
+            />
+          ) : null}
+          <h3 className="font-semibold">Competition Team</h3>
+        </div>
+
+        <div className="about-member text-center ">
+          <button onClick={() => setOpenMembers(true)}>
+            <img
+              src={image3}
+              alt="Danny"
+              className="h-60 w-60 object-cover rounded-full"
+            />
+          </button>
+          {openMembers ? (
+            <Popup
+              text="At the heart of our Cyber Defense Club is a vibrant and growing community of individuals who share a common passion for cybersecurity. Whether you're just stepping into the world of cyber or bringing years of experience, our club is a welcoming space where enthusiasts converge to learn, collaborate, and explore the ever-evolving landscape of cybersecurity."
+              title="Members"
+              closePopup={() => setOpenMembers(false)}
+            />
+          ) : null}
+          <h3 className="font-semibold">Members</h3>
+        </div>
+        <div className="about-member text-center ">
+          <button onClick={() => setOpenLeadership(true)}>
+            <img
+              src={image4}
+              alt="Mitch Sneckenberger"
+              className="h-60 w-60 object-cover rounded-full"
+            />
+          </button>
+          {openLeadership ? (
+            <Popup
+              text="Our Cyber Defense Club is not just a collection of members; it's a collaborative community driven by passionate leaders dedicated to fostering growth and success. If you're someone who enjoys taking charge, planning events, and ensuring the smooth execution of club activities, our leadership team is the perfect place for you."
+              title="Leadership"
+              closePopup={() => setOpenLeadership(false)}
+            />
+          ) : null}
+          <h3 className="font-semibold">Leadership</h3>
+        </div>
+      </section>
 
       <section className="mb-8 text-center border p-4 rounded-md shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
         <h2 className="font-semibold">Achievements</h2>

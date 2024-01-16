@@ -3,6 +3,13 @@ import vid1 from "@/assets/backVideo.mp4";
 import bg1 from "@/assets/tuCLUBBG3.jpg";
 import bg2 from "@/assets/tuBg.jpeg";
 import "./animation.css";
+import {
+  HeroContent,
+  HeroDescription,
+  HeroMediaBackdrop,
+  HeroTitle,
+  HeroWrapper,
+} from "../ui/hero";
 
 export default function NewHome() {
   const [aboutVisible, setAboutVisible] = useState(false);
@@ -18,37 +25,21 @@ export default function NewHome() {
 
   return (
     <main>
-      <div
-        className="relative pt-16 flex content-center items-center justify-center"
-        style={{ minHeight: "75vh" }}
-      >
-        <div
-          className="absolute top-0 left-0 w-full h-full"
-          style={{ overflow: "hidden" }}
-        >
-          {/* Only one video (vid1) */}
+      <HeroWrapper>
+        <HeroMediaBackdrop>
           <video autoPlay muted loop className="w-full h-full object-cover">
             <source src={vid1} type="video/mp4" />
           </video>
-        </div>
-        <div className="container relative mx-auto">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <div className="pr-12 pb-24">
-                <h1 className="text-white font-semibold text-5xl">
-                  Towson Cyber Defense Club
-                </h1>
-
-                <p className="mt-4 text-lg text-gray-300">
-                  We are a diverse group of passionate students from Towson
-                  University dedicated to exploring and advancing cybersecurity.
-                  Join us in our mission to learn, collaborate and teach.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </HeroMediaBackdrop>
+        <HeroContent>
+          <HeroTitle>Towson Cyber Defense Club</HeroTitle>
+          <HeroDescription>
+            We are a diverse group of passionate students from Towson University
+            dedicated to exploring and advancing cybersecurity. Join us in our
+            mission to learn, collaborate and teach.
+          </HeroDescription>
+        </HeroContent>
+      </HeroWrapper>
 
       <section className="relative bottom-40">
         <div className="container mx-auto px-4">
