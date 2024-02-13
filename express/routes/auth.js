@@ -1,13 +1,13 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 const router = express.Router();
-const saltRounds = 10;
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const secretKey = process.env.JWT_SECRET_KEY;
 const User = require("../models/User");
 const Token = require("../models/token.model");
 const decodeToken = require("../middlewares/auth/decodeToken");
-const { default: mongoose } = require("mongoose");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 const message = {
   userNotFound: "User not found",
@@ -30,6 +30,8 @@ const message = {
   accessForbidden: "Access Forbidden",
 };
 
+//passport.use(new LocalStrategy(User.authenticate()));
+
 router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -43,17 +45,13 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ error: message.emptyFields });
     }
 
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const userId = new mongoose.Types.ObjectId();
     const newUser = new User({
       username,
       email,
-      password: hashedPassword,
-      userId: userId,
+      userId: new mongoose.Types.ObjectId(),
+      password,
     });
-
-    await newUser.save();
+    await User.register(newUser, password);
 
     res.json({ message: message.userCreatedSuccessfully });
   } catch (error) {
@@ -62,78 +60,79 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
+router.post("/signin", (req, res, next) => {
+  passport.authenticate("local", { session: false }, async (err, user) => {
+    try {
+      if (err || !user) {
+        return res.status(401).json({ error: message.incorrectPassword });
+      }
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: message.userNotFound });
+      const payload = {
+        email: user.email,
+        role: user.role,
+        username: user.username,
+      };
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+        expiresIn: "1h",
+      });
+
+      const refreshToken = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: "1hr",
+        },
+      );
+
+      const newToken = new Token({
+        user: user._id,
+        refreshToken,
+        accessToken: token,
+      });
+
+      await newToken.save();
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 3600000,
+        path: "/",
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 3600000,
+        path: "/",
+      });
+
+      res.cookie("user", JSON.stringify(payload), {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 3600000,
+        path: "/",
+      });
+
+      return res.status(200).json({
+        token: token,
+        user: payload,
+        message: message.accessGiven,
+      });
+    } catch (error) {
+      console.error(`${message.errorSigningIn} ${error}`);
+      res.status(500).json({ error: message.tokenRefreshFailed });
     }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: message.incorrectPassword });
-    }
-
-    const payload = {
-      email: user.email,
-      role: user.role,
-    };
-
-    const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
-    const refreshToken = jwt.sign({ UserId: user._id }, secretKey, {
-      expiresIn: "1hr",
-    });
-
-    const newToken = new Token({
-      user: user._id,
-      refreshToken,
-      accessToken: token,
-    });
-
-    await newToken.save();
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 3600000,
-      path: "/",
-    });
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 3600000,
-      path: "/",
-    });
-
-    res.cookie("user", JSON.stringify(payload), {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 3600000,
-      path: "/",
-    });
-
-    res.status(200).json({
-      token: token,
-      user: payload,
-      message: message.accessGiven,
-    });
-  } catch (error) {
-    console.error(`${message.errorSigningIn} ${error}`);
-    res.status(500).json({ error: message.tokenRefreshFailed });
-  }
+  })(req, res, next);
 });
 
 router.put("/user/:id", decodeToken, async (req, res) => {
   try {
     const { username } = req.body;
-    const userEmail = req.userId;
+    const userEmail = req.user.email;
 
     const result = await User.updateOne(
       { email: userEmail },
@@ -153,11 +152,11 @@ router.put("/user/:id", decodeToken, async (req, res) => {
   }
 });
 
-router.get("/username", decodeToken, async (req, res) => {
+router.get("/username", async (req, res) => {
   try {
-    const userEmail = req.userId;
-    const user = await User.findOne({ email: userEmail });
-
+    const userEmail = req.body;
+    const user = await User.findOne(userEmail);
+    console.log(user);
     if (user.username) {
       return res.json({ message: user.username });
     } else {

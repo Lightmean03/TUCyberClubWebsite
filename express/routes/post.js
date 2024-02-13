@@ -59,16 +59,27 @@ router.get("/posts", async (req, res) => {
   }
 });
 
+router.get("/post/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Delete post based on id and Admin role
 router.delete("/post/:id", async (req, res) => {
   try {
     const postId = req.params.id;
-    const token = req.headers.authorization.split(" ")[1];
-    console.log("token", token);
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const userEmail = decoded.email;
-    console.log("userEmail", userEmail);
-    const user = await User.findOne({ email: userEmail });
+    const { userEmail } = req.body;
+    const user = await User.findOne({ userEmail });
     console.log("user", user);
 
     if (!user) {

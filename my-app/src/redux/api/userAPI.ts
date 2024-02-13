@@ -1,8 +1,9 @@
-import { API, handleErrors } from "../api/utilis";
+import { API, handleErrors } from "./utilis";
+import Cookies from 'js-cookie'
 
 export const getUsername = async () => {
   try {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = Cookies.get("token"); 
     const response = await API.get("/auth/username", {
       withCredentials: true,
       headers: {
@@ -28,7 +29,7 @@ export const userData = async () => {
   }
 };
 
-export const getUsersByRole = async (role) => {
+export const getUsersByRole = async (role: string) => {
   try {
     const response = await API.get(`/auth/users/${role}`);
     const data = response.data;

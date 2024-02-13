@@ -1,43 +1,43 @@
 import React from "react";
-// import Cyber1 from "../Images/pico.png";
-// import Cyber2 from "../Images/pwn.png";
-// import Cyber3 from "../Images/Sql.png";
-// import Cyber4 from "../Images/HackTheBox.png";
-// import Cyber5 from "../Images/c+.png";
+import Cyber1 from "../../assets/pico.png";
+import Cyber2 from  "../../assets/pwn.png";
+import Cyber3 from "../../assets/Sql.png";
+import Cyber4 from  "../../assets/HackTheBox.png";
+import Cyber5 from  "../../assets/c+.png";
 import ResourceCard from "./ResourceCard";
 
 export default function Resources() {
   const resources = [
     {
-      // img: Cyber1,
+       img: Cyber1,
       title: "PicoCTF",
       description:
         "Pico CTF is a great resource for beginners to learn the basics of cyber security.",
       link: "https://picoctf.org/",
     },
     {
-      // img: Cyber2,
+      img: Cyber2,
       title: "Pwn College",
       description:
         "Pwn College is a great resource for beginners to learn the basics of cyber security. It is a free online competition that is held every year.",
       link: "https://pwn.college/",
     },
     {
-      // img: Cyber3,
+      img: Cyber3,
       title: "Codecademy SQL",
       description:
         "Codeacademy is a great resource for beginners to learn the basics of cyber security. It is a free online competition that is held every year.",
       link: "https://www.codecademy.com/learn/learn-sql",
     },
     {
-      // img: Cyber4,
+      img: Cyber4,
       title: "Hack The Box",
       description:
         "Hack The Box is a great resource for beginners to learn the basics of cyber security. It is a free online competition that is held every year. ",
       link: "https://www.hackthebox.com/",
     },
     {
-      // img: Cyber5,
+      img: Cyber5,
       title: "C++",
       description:
         "C++ is a great resource for beginners to learn the basics of cyber security as it teaches you how to write scripts. This is a free online resource used to teach C++.",

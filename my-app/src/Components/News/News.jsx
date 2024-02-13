@@ -81,6 +81,8 @@ const News = () => {
         >
           Export Calendar
         </button>
+
+        <button onClick={handleUpdates}>Update</button>
       </div>
     </div>
   );

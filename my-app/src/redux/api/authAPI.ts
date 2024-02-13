@@ -1,4 +1,4 @@
-import { API, handleErrors } from "../api/utilis";
+import { API, handleErrors } from "./utilis";
 
 export const signIn = async (formData) => {
   try {
@@ -8,6 +8,7 @@ export const signIn = async (formData) => {
       },
     });
     const token = response.data.token;
+    console.log("token", token);
     localStorage.setItem("token", response.data.token);
     const data = response.data;
     console.log("data", data.user);

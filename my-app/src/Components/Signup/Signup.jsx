@@ -3,6 +3,7 @@ import { isEmail } from "validator";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../redux/actions/authActions";
 import "./Signup.css";
+import { useNavigate } from "react-router-dom";
 
 const Signup = ({ showSignup, setShowSignup }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const error = useSelector((state) => state?.authReducer?.errors);
 
@@ -63,6 +65,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   // Sign-up function
   const handleSignUp = () => {
     dispatch(signupUser(form));
+    navigate("/home")
   };
 
   useEffect(() => {

@@ -10,16 +10,16 @@ import {
   SIGNUP_USER_FAILURE,
   SET_ACCESS_TOKEN,
   SET_REFRESH_TOKEN,
-} from "../actions/actionTypes";
+} from "./actionTypes";
 
-export const initializeAuth = () => async (dispatch) => {
+export const initializeAuth = () => async (dispatch: any) => {
   try {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const accessToken = storedUser?.accessToken;
     const refreshToken = storedUser?.refreshToken;
 
     if (accessToken && refreshToken) {
-      const isValid = isValidToken();
+      const isValid = isValidToken(accessToken);
 
       if (isValid) {
         dispatch(loginSuccess({ accessToken, refreshToken }));
@@ -45,21 +45,21 @@ export const initializeAuth = () => async (dispatch) => {
 
 console.log("initializeAuth", initializeAuth);
 
-export const setAccessToken = (accessToken) => async (dispatch) => {
+export const setAccessToken = (accessToken: string) => async (dispatch: any) => {
   dispatch({
     type: SET_ACCESS_TOKEN,
     payload: { accessToken },
   });
 };
 
-export const setRefreshToken = (refreshToken) => async (dispatch) => {
+export const setRefreshToken = (refreshToken: string) => async (dispatch: any) => {
   dispatch({
     type: SET_REFRESH_TOKEN,
     payload: { refreshToken },
   });
 };
 
-export const loginSuccess = (userData) => ({
+export const loginSuccess = (userData: any) => ({
   type: LOGIN_USER_SUCCESS,
   payload: {
     user: userData,
@@ -68,17 +68,17 @@ export const loginSuccess = (userData) => ({
   },
 });
 
-export const loginFailure = (error) => ({
+export const loginFailure = (error: string) => ({
   type: LOGIN_USER_FAILURE,
   payload: error,
 });
 
-export const signupSuccess = (userData) => ({
+export const signupSuccess = (userData: string) => ({
   type: SIGNUP_USER_SUCCESS,
   payload: userData,
 });
 
-export const signupFailure = (error) => ({
+export const signupFailure = (error: string) => ({
   type: SIGNUP_USER_FAILURE,
   payload: error,
 });
@@ -87,12 +87,12 @@ export const logoutSuccess = () => ({
   type: LOGOUT_USER_SUCCESS,
 });
 
-export const logoutFailure = (error) => ({
+export const logoutFailure = (error: string) => ({
   type: LOGOUT_USER_FAILURE,
   payload: error,
 });
 
-export const loginUser = (formData) => async (dispatch) => {
+export const loginUser = (formData: any) => async (dispatch: any) => {
   try {
     const response = await signIn(formData);
     const token = response.data.token;
@@ -100,14 +100,14 @@ export const loginUser = (formData) => async (dispatch) => {
     console.log("token", token);
     dispatch({ type: "SET_TOKEN", payload: { token } });
     dispatch({ type: "SET_USER_DATA", payload: { user } });
-    dispatch(loginSuccess(user, token));
+    dispatch(loginSuccess(user));
     return { error: null, data: response.data };
   } catch (error) {
     dispatch(loginFailure(error));
   }
 };
 
-export const signupUser = (formData) => async (dispatch) => {
+export const signupUser = (formData: any) => async (dispatch: any) => {
   try {
     const { error, data } = await signUp(formData);
 

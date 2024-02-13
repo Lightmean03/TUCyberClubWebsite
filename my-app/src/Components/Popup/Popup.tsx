@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import React from "react";
 import "./Popup.css";
 
 export default function Popup({

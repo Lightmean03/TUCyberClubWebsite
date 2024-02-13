@@ -20,7 +20,7 @@ const initialState = {
   error: null,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action: { payload: any; type?: any; }) => {
   const { type, payload } = action;
   console.log("authReducer", action);
   console.log("type", type);

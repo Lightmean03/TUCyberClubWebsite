@@ -1,11 +1,12 @@
+import React from "react";
 import { useState } from "react";
 import image1 from "@/assets/TUClubPic3.png";
 import image2 from "@/assets/loyala.jpg";
 import image3 from "@/assets/ccdc.jpg";
 import image4 from "@/assets/Mitch.png";
 import vid1 from "@/assets/backVideo.mp4";
-import Popup from "@/components/Popup/Popup";
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import Popup from "../Popup/Popup";
+import { Card, CardHeader, CardContent, CardTitle } from "../ui/card";
 import {
   HeroContent,
   HeroDescription,

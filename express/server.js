@@ -1,4 +1,6 @@
 require("dotenv").config();
+const passport = require("passport");
+const expressSession = require("express-session");
 const authRoutes = require("./routes/auth");
 const contactRoutes = require("./routes/contact");
 const calendar = require("./routes/Calendar");
@@ -8,11 +10,12 @@ const express = require("express");
 const cors = require("cors");
 const { connectDB } = require("./config/db");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
 const path = require("path");
-
+const secretKey = process.env.JWT_SECRET_KEY;
+const User = require("./models/User");
 const app = express();
 const port = 9000;
+
 connectDB();
 
 const corsOptions = {
@@ -30,10 +33,25 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
+/*&app.use(passport.initialize());
 require("./config/passport.js");
+*/
+app.use(
+  expressSession({
+    secret: secretKey,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 }, // 1 hour
+  }),
+);
 
-// Serve the React app
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/auth", authRoutes);
@@ -43,7 +61,6 @@ app.use("/post", post);
 app.use("/tokens", token);
 //app.use('/dashboard', dashboard);
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

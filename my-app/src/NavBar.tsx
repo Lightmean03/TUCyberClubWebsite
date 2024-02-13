@@ -2,18 +2,19 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "./redux/actions/authActions";
-import { useUser } from "./components/Signin/UserContext";
 import { FaRegUser } from "react-icons/fa";
 import React from "react";
+import { RootState } from "./types/types";
+
 
 export default function Navbar({ logo }: { logo?: string }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const userLoggedIn = useSelector((state) => state?.auth?.user);
+  const userLoggedIn = useSelector((state: RootState) => state.auth.user);
+  console.log(userLoggedIn)
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   console.log("user", userLoggedIn);
 
   const toggleMobileMenu = () => {
@@ -25,23 +26,11 @@ export default function Navbar({ logo }: { logo?: string }) {
       dispatch(logoutUser());
       navigate("/signin");
     
-      const response = await axios.post(
-        `${API_URL}/auth/signout`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${userLoggedIn.accessToken}`,
-          },
-        }
-      );
-      console.log("Logout response:", response.data);
-      logout();
-      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
+
 
   return (
     <nav className="px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-1">
@@ -120,7 +109,7 @@ const UserDropdown = ({
   isMobileMenuOpen: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state) => state?.authReducer?.user);
+  const user = useSelector((state: RootState) => state?.auth?.user);
 
   console.log("mobile", isMobileMenuOpen);
   console.log("open", isOpen);
