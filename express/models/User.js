@@ -14,10 +14,6 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   role: {
     type: String,
     enum: ["admin", "user"],
@@ -38,6 +34,7 @@ const userSchema = new Schema({
 
 userSchema.plugin(passportLocalMongoose, {
   usernameField: "email",
+  passwordField: "password",
 });
 
 const User = mongoose.model("User", userSchema, "users");

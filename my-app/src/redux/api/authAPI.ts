@@ -1,6 +1,6 @@
 import { API, handleErrors } from "./utilis";
 
-export const signIn = async (formData) => {
+export const signIn = async (formData: any) => {
   try {
     const response = await API.post("/auth/signin", formData, {
       headers: {
@@ -19,7 +19,7 @@ export const signIn = async (formData) => {
   }
 };
 
-export const signUp = async (formData) => {
+export const signUp = async (formData: any) => {
   try {
     const response = await API.post("/auth/Signup", formData);
     const data = response.data;
