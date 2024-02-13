@@ -49,7 +49,6 @@ router.post("/signup", async (req, res) => {
       username,
       email,
       userId: new mongoose.Types.ObjectId(),
-      password,
     });
     await User.register(newUser, password);
 
