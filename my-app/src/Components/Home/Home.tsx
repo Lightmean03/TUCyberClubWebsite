@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import vid1 from "@/assets/backVideo.mp4";
 import bg1 from "@/assets/tuCLUBBG3.jpg";
@@ -10,6 +11,7 @@ import {
   HeroTitle,
   HeroWrapper,
 } from "../ui/hero";
+
 
 export default function NewHome() {
   const [aboutVisible, setAboutVisible] = useState(false);

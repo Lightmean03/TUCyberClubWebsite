@@ -16,7 +16,7 @@ const initialState = {
   error: null,
 };
 
-const postReducer = (state = initialState, action) => {
+const postReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case CREATE_POST_REQUEST:
     case FETCH_POSTS_REQUEST:

@@ -10,9 +10,8 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
   const userLoggedIn = useSelector((state) => state?.auth?.username);
+  console.log(userLoggedIn);
   const error = useSelector((state) => state?.auth?.error);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
 
 
   const getUserName = async () => {
@@ -26,7 +25,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserName();
-  }, [dispatch]);
+  }, []);
 
   console.log("fetchedUsername", fetchedUsername);
 
@@ -72,14 +71,6 @@ const Profile = () => {
                   value={email}
                   readOnly
                 />
-              </div>
-              <div className="form-group focused">
-                <label
-                  htmlFor="input-first-name"
-                  className="form-control-label"
-                >
-                  First name
-                </label>
               </div>
             </div>
           </form>

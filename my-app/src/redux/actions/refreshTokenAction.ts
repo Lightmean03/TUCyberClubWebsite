@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REFRESH_TOKEN_SUCCESS } from "../actions/actionTypes";
+import { REFRESH_TOKEN_SUCCESS } from "./actionTypes";
 
 const API = axios.create({
   baseURL: process.env.REACT_API_URL,

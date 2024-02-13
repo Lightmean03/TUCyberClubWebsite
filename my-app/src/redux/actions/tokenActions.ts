@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SAVE_TOKEN_SUCCESS, SAVE_TOKEN_FAILURE } from "./tokenTypes";
 
-export const saveTokenToDatabase = (token) => async (dispatch) => {
+export const saveTokenToDatabase = (token: string) => async (dispatch: any) => {
   try {
     const response = await axios.post("/tokens", { token });
     dispatch({

@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { getUsers} from '../../redux/actions/userActions';
+import { API_URL } from "../../lib/constants";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -29,7 +30,7 @@ const AdminPanel = () => {
 
         const data = response.data;
         setAuthenticated(true);
-        dispatch(userLoggedIn(data)); // Dispatch as an action
+        dispatch(userLoggedIn(data));
       } catch (error) {
         console.error("Error verifying token:", error);
         removeCookie("token");

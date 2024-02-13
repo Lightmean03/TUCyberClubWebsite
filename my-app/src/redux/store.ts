@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./reducers";
 import tokenMiddleware from "../middlewares/tokenMiddleWare";
-import { initializeAuth } from "../redux/actions/authActions";
+import { initializeAuth } from "./actions/authActions";
 import thunk from "redux-thunk";
-import authReducer from "./reducers/auth";
 
 const createAppStore = async () => {
   try {

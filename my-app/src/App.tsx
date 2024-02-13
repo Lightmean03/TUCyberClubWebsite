@@ -1,26 +1,24 @@
 import createAppStore from "./redux/store";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
 import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import About from "./components/About/About";
-import Home from "./components/Home/Home";
+import About from "./Components/About/About";
+import Home from "./Components/Home/Home";
 import Signin from "./components/Signin/Signin";
 import Resources from "./components/Resources/Resources";
 import News from "./components/News/News";
 import Contact from "./components/Contact/Contact";
 import Signup from "./components/Signup/Signup";
-import Layout from "./components/Layout";
+import Layout from "./Components/Layout";
 import { Footer } from "./components/Footer/footer";
-import Dashboard from "./components/Dashboard/Dashboard";
 import AdminPanel from "./components/Admin/Admin";
-import Post from "./components/Post/Post";
+import Post from "./Components/Post/Post";
 import Profile from "./components/Profile/Profile";
+import PostPage from "./Components/Post/PostPages";
 
 function App() {
   const [store, setStore] = useState(null);
-  const [persistor, setPersistor] = useState(null);
 
   useEffect(() => {
     const initializeStore = async () => {
@@ -36,13 +34,11 @@ function App() {
   }, []);
 
   if (!store) {
-    // If store is not yet initialized, you might want to render a loading indicator
     return <div>Loading...</div>;
   }
   return (
     <Provider store={store}>
       <>
-        <a></a>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
@@ -108,6 +104,14 @@ function App() {
             element={
               <Layout>
                 <Post />
+              </Layout>
+            }
+          />
+          <Route
+            path="/posts/:postId"
+            element={
+              <Layout>
+               <PostPage />
               </Layout>
             }
           />

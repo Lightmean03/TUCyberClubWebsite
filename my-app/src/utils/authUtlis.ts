@@ -1,4 +1,4 @@
-const isValidToken = (token) => {
+const isValidToken = (token: string | undefined) => {
   if (!token) {
     return false;
   }

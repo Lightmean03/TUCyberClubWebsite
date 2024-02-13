@@ -5,7 +5,7 @@ const initialState = {
   error: null,
 };
 
-const tokenReducer = (state = initialState, action) => {
+const tokenReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case SAVE_TOKEN_SUCCESS:
       return {

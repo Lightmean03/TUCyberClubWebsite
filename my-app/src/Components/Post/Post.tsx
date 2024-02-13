@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import Cookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
-import { createPost, deletePost, fetchPosts } from "../../redux/actions/postActions"; // Adjust the path accordingly
+import { createPost, deletePost, fetchPosts } from "../../redux/actions/postActions";
+import { RootState } from "../../types/types";
+import { useNavigate } from "react-router-dom";
+import { HeroWrapper } from "../ui/hero";
 
 const Post = () => {
   const [post, setPost] = useState({
     title: "",
     content: "",
   });
-  const dispatch = useDispatch();
-  const [posts, setPosts] = useState([]);
-  const [allPosts, setAllPosts] = useState([]);
+  const dispatch = useDispatch<any>();
+  const allPosts = useSelector((state: RootState) => state.post.posts);
   const [showPosts, setShowPosts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState("");
-  const userLoggedIn = useSelector((state) => state?.auth?.user);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
@@ -29,14 +29,15 @@ const Post = () => {
     setShowPosts(!showPosts);
   };
 
-  const handlePosts = async (e) => {
+  const handlePosts = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(createPost(post));
+      await dispatch(createPost(post));
       setPost({
         title: "",
         content: "",
       });
+      await fetchPost();
     } catch (error) {
       console.error("Error creating post:", error);
       if (error.response && error.response.status === 401) {
@@ -48,9 +49,7 @@ const Post = () => {
   const fetchPost = async () => {
     setIsLoading(true);
     try {
-      const action = await dispatch(fetchPosts());
-      console.log("action", action); 
-      setAllPosts(action.payload?.data); 
+      await dispatch(fetchPosts(currentPage, postsPerPage));
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -62,23 +61,21 @@ const Post = () => {
     fetchPost();
   }, [currentPage, postsPerPage]);
 
-  console.log("posts", posts);
-
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (event: any, newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const handlePostsPerPageChange = (event) => {
+  const handlePostsPerPageChange = (event: any) => {
     const newPostsPerPage = parseInt(event.target.value, 10);
     setPostsPerPage(newPostsPerPage);
     setCurrentPage(1);
+    fetchPost();
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
-      dispatch(deletePost(id));
-      const newPosts = posts.filter((post) => post._id.toString() !== id.toString());
-      setPosts(newPosts);
+      await dispatch(deletePost(id));
+      await fetchPost();
     } catch (error) {
       console.error("Error deleting post:", error);
       if (error.response && error.response.status === 401) {
@@ -87,10 +84,15 @@ const Post = () => {
     }
   };
 
+  const handlePostClick = (postId: string) => {
+    console.log(`Clicked on post with ID: ${postId}`);
+    navigate(`/posts/${postId}`)
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <div className="max-w-3xl mx-auto p-6">
-        <div className="bg-white p-6 rounded-md shadow-md mb-8">
+        <div className=" p-6 rounded-md shadow-md mb-8">
           <h1 className="text-3xl font-bold mb-4">Create a Post</h1>
           <form onSubmit={handlePosts}>
             <div className="mb-4">
@@ -124,65 +126,55 @@ const Post = () => {
             </button>
           </form>
         </div>
-        <div className="bg-white p-6 rounded-md shadow-md">
-          <button
-            onClick={handleShowPosts}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-          >
-            {showPosts ? "Hide Posts" : "Get Posts"}
-          </button>
-          {showPosts && (
-  <>
-    <ul className="mt-4">
-      {allPosts.map((post) => (
-        <li
-          key={post._id} // Adjust this based on the actual key property
-          className="mb-4 bg-white p-4 rounded-md shadow-md"
-        >
-          <div className="flex items-start">
-            <div className="flex-1">
-              <div className="flex items-center mb-2">
-                <p className="font-bold text-black mr-2">
-                  {post.username}
-                </p>
-              </div>
-              <h3 className="text-xl font-bold text-black mb-2">
-                {post.title}
-              </h3>
-              <p className="text-gray-700">{post.content}</p>
-              <button
-                onClick={() => handleDelete(post._id)}
-                className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
-              >
-                x
-              </button>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
-    <Stack spacing={2} mt={4}>
-      <Pagination
-        count={Math.ceil(allPosts.length / postsPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        color="primary"
-      />
-    </Stack>
-  </>
-)}
-          {errors && (
-            <div
-              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
-              role="alert"
-            >
-              <strong className="font-bold">Error:</strong>
-              <span className="block sm:inline"> {errors}</span>
-            </div>
-          )}
-        </div>
-
-        <div className="flex justify-center mt-4">
+        <div className="p-6 rounded-md shadow-md">
+  <button
+    onClick={handleShowPosts}
+    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+  >
+    {showPosts ? "Hide Posts" : "Get Posts"}
+  </button>
+  {showPosts && (
+    <>
+      <table className="w-full border-collapse mt-4">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 p-2">Username</th>
+            <th className="border border-gray-400 p-2">Title</th>
+            <th className="border border-gray-400 p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allPosts.map((post: any) => (
+            <tr key={post._id} className="hover:bg-gray-100">
+              <td className="border border-gray-400 p-2">{post.username || "No Username"}</td>
+              <td className="border border-gray-400 p-2">{post.title || "No Title"}</td>
+              <td className="border border-gray-400 p-2">
+                <button
+                  onClick={() => handlePostClick(post._id)}
+                  className="text-blue-500 hover:text-blue-600 focus:outline-none focus:ring focus:border-blue-300 mr-2"
+                >
+                  View
+                </button>
+                <button
+                  onClick={() => handleDelete(post._id)}
+                  className="text-red-500 hover:text-red-600 focus:outline-none focus:ring focus:border-blue-300"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Stack spacing={2} mt={4}>
+        <Pagination
+          count={Math.ceil(allPosts.length / postsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
+      <div className="flex justify-center mt-4">
           <label className="text-gray-700 text-sm font-bold mr-2">
             Posts per page:
           </label>
@@ -196,8 +188,22 @@ const Post = () => {
             <option value={20}>20</option>
           </select>
         </div>
-      </div>
+    </>
+  )}
     </div>
+          {errors && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
+              role="alert"
+            >
+              <strong className="font-bold">Error:</strong>
+              <span className="block sm:inline"> {errors}</span>
+            </div>
+          )}
+        </div>
+        
+      </div>
+   
   );
 };
 
