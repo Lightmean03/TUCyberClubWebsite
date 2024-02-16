@@ -9,14 +9,14 @@ const Profile = () => {
   const [fetchedUsername, setFetchedUsername] = useState("");
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
-  const userLoggedIn = useSelector((state) => state?.auth?.username);
+  const userLoggedIn = useSelector((state: any) => state?.auth?.username);
   console.log(userLoggedIn);
-  const error = useSelector((state) => state?.auth?.error);
+  const error = useSelector((state: any) => state?.auth?.error);
 
 
   const getUserName = async () => {
     try {
-       dispatch(getUsername());
+       dispatch<any>(getUsername());
       setFetchedUsername(userLoggedIn);
     } catch (error) {
       console.error("Error getting username:", error);

@@ -5,7 +5,14 @@ import { signupUser } from "../../redux/actions/authActions";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 
-const Signup = ({ showSignup, setShowSignup }) => {
+interface SignupForm {
+  username: string;
+  email: string;
+  password: string;
+
+}
+
+const Signup = () => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     username: "",
@@ -13,10 +20,10 @@ const Signup = ({ showSignup, setShowSignup }) => {
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Partial<SignupForm>>({});
   const navigate = useNavigate();
 
-  const error = useSelector((state) => state?.authReducer?.errors);
+  const error = useSelector((state: any) => state?.authReducer?.errors);
 
   // Validation state
   const [validated, setValidated] = useState(false);
@@ -38,33 +45,33 @@ const Signup = ({ showSignup, setShowSignup }) => {
   };
 
   // Validation function
-  const validateForm = () => {
-    let newErrors = {};
+const validateForm = () => {
+  let newErrors: Partial<SignupForm> = {};
 
-    if (!form.email) {
-      newErrors.email = "required";
-    } else if (!isEmail(form.email)) {
-      newErrors.email = "invalid";
-    }
+  if (!form.username) {
+    newErrors.username = "required";
+  }
 
-    if (!form.username) {
-      newErrors.username = "required";
-    }
+  if (!form.email) {
+    newErrors.email = "required";
+  } else if (!isEmail(form.email)) {
+    newErrors.email = "invalid";
+  }
 
-    if (!form.password) {
-      newErrors.password = "required";
-    } else if (form.password.length < MIN_PASSWORD_LENGTH) {
-      newErrors.password = "minLength";
-    }
+  if (!form.password) {
+    newErrors.password = "required";
+  } else if (form.password.length < MIN_PASSWORD_LENGTH) {
+    newErrors.password = "minLength";
+  }
 
-    setErrors(newErrors);
-    setValidated(true);
-    return Object.keys(newErrors).length === 0;
-  };
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+
+};
 
   // Sign-up function
   const handleSignUp = () => {
-    dispatch(signupUser(form));
+    dispatch<any>(signupUser(form));
     navigate("/home")
   };
 
@@ -95,7 +102,7 @@ const Signup = ({ showSignup, setShowSignup }) => {
   };
 
   // Input change handler
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
