@@ -25,7 +25,8 @@ const News = () => {
   }, []);
 
   const handleExport = () => {
-    const calendarElement = document.querySelector(".fc");
+    const calendarElement = document.querySelector(".fc") as HTMLElement; 
+
     html2canvas(calendarElement).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
 
@@ -71,9 +72,7 @@ const News = () => {
           initialView="dayGridMonth"
           weekends={false}
           events={events}
-          onClick={(info) => {
-            info.style.backgroundColor = "red";
-          }}
+          
         />
         <button
           className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -82,7 +81,7 @@ const News = () => {
           Export Calendar
         </button>
 
-        <button onClick={handleUpdates}>Update</button>
+        <button onClick={() => handleUpdates(null, null, null)}>Update</button>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const Signin = () => {
     const timeout = setTimeout(() => {
       setLoadingText("This is taking longer than usual...");
     }, 1000);
-    const response = dispatch(loginUser(formData));
+    const response = await dispatch<any>(loginUser(formData));
     console.log("response", response);
     response
       .then((res) => {
@@ -40,7 +40,7 @@ const Signin = () => {
       });
   };
 
-  const errors = useSelector((state) => state?.authReducer?.errors);
+  const errors = useSelector((state: any) => state?.authReducer?.errors);
   //const success = useSelector((state) => state?.authReducer.success);
 
   const handleMessage = () => {

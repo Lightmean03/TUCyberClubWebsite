@@ -2,19 +2,26 @@ import React, { useState, useEffect } from "react";
 import "./Contact.css";
 import { isEmail } from "validator";
 
+interface ContactForm {
+  submitter_name: string;
+  submitter_email: string;
+  submitter_phone: string;
+  submitter_message: string;
+}
+
 const Contact = () => {
   const [validated, setValidated] = useState(false);
-  const [newContact, setNewContact] = useState({
+  const [newContact, setNewContact] = useState<ContactForm>({
     submitter_name: "",
     submitter_email: "",
     submitter_phone: "",
     submitter_message: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Partial<ContactForm>>({});
 
   useEffect(() => {
     const validateForm = () => {
-      let newErrors = {};
+      let newErrors: Partial<ContactForm> = {};
 
       if (!newContact.submitter_name) {
         newErrors.submitter_name = "Please provide a name.";
@@ -46,13 +53,13 @@ const Contact = () => {
     validateForm();
   }, [newContact]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewContact({ ...newContact, [name]: value });
     setErrors({ ...errors, [name]: undefined });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
 

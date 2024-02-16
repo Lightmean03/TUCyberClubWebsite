@@ -16,8 +16,10 @@ const AdminPanel = () => {
   const [authenticated, setAuthenticated] = useState(true);
   const [userList, setUserList] = useState([]);
   const dispatch = useDispatch();
+  const token = cookies.token;
 
-  const userLoggedIn = useSelector((state) => state?.auth?.user);
+
+  const userLoggedIn = useSelector((state: any) => state?.auth?.user);
 
   useEffect(() => {
     const fetchAdminInfo = async () => {
@@ -38,21 +40,18 @@ const AdminPanel = () => {
       }
     };
 
-    const fetchUserData = async () => {
+    const fetchUserData = async (token: any) => {
+
       try {
-        const { error, data: userResponse } =  getUsers();
-        if (!error) {
-          setUserList(userResponse.data);
-        } else {
-          console.error("Error fetching data:", error);
-        }
+        const userResponse: any = getUsers(token);
+        setUserList(userResponse);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchAdminInfo();
-    fetchUserData();
+    fetchUserData(token);
   }, [cookies.token, dispatch, userLoggedIn]);
 
   const userColumns = [
