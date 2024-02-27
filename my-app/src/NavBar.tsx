@@ -35,7 +35,7 @@ export default function Navbar({ logo }: { logo?: string }) {
   return (
     <nav className="px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-1">
       <div className="flex-grow flex items-center justify-between">
-        <div className="hidden md:flex space-x-4 pl-2">
+        <div className="hidden md:flex space-x-4 pl-2 text-black font-sans font-medium ">
           <CustomLink href="/home">Home</CustomLink>
           <CustomLink href="/about">About</CustomLink>
           <CustomLink href="/news">News</CustomLink>

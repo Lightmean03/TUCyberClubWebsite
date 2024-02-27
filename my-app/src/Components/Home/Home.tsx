@@ -34,8 +34,8 @@ export default function NewHome() {
           </video>
         </HeroMediaBackdrop>
         <HeroContent>
-          <HeroTitle>Towson Cyber Defense Club</HeroTitle>
-          <HeroDescription>
+          <HeroTitle className="font-extrabold">Towson Cyber Defense Club</HeroTitle>
+          <HeroDescription className="font-bold">
             We are a diverse group of passionate students from Towson University
             dedicated to exploring and advancing cybersecurity. Join us in our
             mission to learn, collaborate and teach.
@@ -44,50 +44,51 @@ export default function NewHome() {
       </HeroWrapper>
 
       <section className="relative bottom-40">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap">
-            <div className="lg:pt-12 pt-6 w-full md:w-6/12 px-4 text-center">
-              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                <div className="px-4 py-5 flex-auto">
-                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400"></div>
-                  <h6 className="text-xl font-semibold text-black">
-                    Join Us For Weekly Meetings
-                  </h6>
-                  <p className="mt-2 mb-4  text-black">
-                    We meet every wensday at 6:00 pm in the Cyber Center room
-                    364 for Cyber Defense Club. Our Competition Team meets every
-                    friday at 4:00 pm. Meetings are open to all students.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:pt-12 pt-6 w-full md:w-6/12 px-4 text-center">
-              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                <div className="px-4 py-5 flex-auto">
-                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
-                    <i className="fas fa-award"></i>
-                  </div>
-                  <h6 className="text-xl font-semibold text-black">
-                    Join Our Discord
-                  </h6>
-                  <p className="mt-2 mb-4  text-black">
-                    Discord is our main platform for communication. Our Discord
-                    server is where we post announcements,chat and share
-                    resources. join here:{" "}
-                    <a
-                      style={{ color: "red", fontWeight: "bold" }}
-                      href="https://discord.gg/xyXHht3trw"
-                    >
-                      {" "}
-                      Discord Link
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="container mx-auto px-4">
+  <div className="flex flex-wrap">
+    <div className="lg:pt-12 pt-6 w-full md:w-6/12 px-4 text-center">
+      <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg h-full">
+        <div className="px-4 py-5 flex-auto">
+          <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 "></div>
+          <h6 className="text-xl font-semibold text-black">
+            Join Us For Weekly Meetings
+          </h6>
+          <p className="mt-2 mb-4  text-black">
+            We meet every Wednesday at 6:00 pm in the Cyber Center room 364
+            for Cyber Defense Club. Our Competition Team meets every Friday at
+            4:00 pm. Meetings are open to all students.
+          </p>
         </div>
+      </div>
+    </div>
+
+    <div className="lg:pt-12 pt-6 w-full md:w-6/12 px-4 text-center">
+      <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg h-full">
+        <div className="px-4 py-5 flex-auto">
+          <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5  ">
+            <i className="fas fa-award"></i>
+          </div>
+          <h6 className="text-xl font-semibold text-black">
+            Join Our Discord
+          </h6>
+          <p className="mt-2 mb-4  text-black">
+            Discord is our main platform for communication. Our Discord server
+            is where we post announcements, chat and share resources. Join
+            here:{" "}
+            <a
+              style={{ color: "red", fontWeight: "bold" }}
+              href="https://discord.gg/xyXHht3trw"
+            >
+              {" "}
+              Discord Link
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </section>
       <section
         style={{ ...sectionStyle, backgroundImage: `url(${bg1})` }}
@@ -97,7 +98,7 @@ export default function NewHome() {
         id="about-section"
       >
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">About Us</h2>
+          <h2 className="text-4xl font-extrabold mb-4 color ">About Us</h2>
           <p className="text-lg mb-8">
             Learn more about our Cyber Defense Club
           </p>
@@ -120,7 +121,7 @@ export default function NewHome() {
         id="about-section"
       >
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">Towson</h2>
+          <h2 className="text-4xl font-bold mb-4 font-extrabold">Towson</h2>
           <p className="text-lg mb-8">Learn more about Towson University</p>
           <a
             href="https://www.towson.edu/"
