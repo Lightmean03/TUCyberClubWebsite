@@ -34,7 +34,7 @@ export default function NewHome() {
           </video>
         </HeroMediaBackdrop>
         <HeroContent>
-          <HeroTitle className="font-extrabold">Towson Cyber Defense Club</HeroTitle>
+          <HeroTitle className="font-extrabold text-white">Towson Cyber Defense Club</HeroTitle>
           <HeroDescription className="font-bold">
             We are a diverse group of passionate students from Towson University
             dedicated to exploring and advancing cybersecurity. Join us in our
@@ -121,7 +121,7 @@ export default function NewHome() {
         id="about-section"
       >
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4 font-extrabold">Towson</h2>
+          <h2 className="text-4xl mb-4 font-extrabold">Towson</h2>
           <p className="text-lg mb-8">Learn more about Towson University</p>
           <a
             href="https://www.towson.edu/"
