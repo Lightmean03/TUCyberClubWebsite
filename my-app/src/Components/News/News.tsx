@@ -5,9 +5,15 @@ import html2canvas from "html2canvas";
 import axios from "axios";
 import jsPDF from "jspdf";
 import { API_URL } from "../../lib/constants";
+import Modal from "antd/es/modal/Modal";
 
 const News = () => {
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState('');
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,24 +46,29 @@ const News = () => {
     });
   };
 
-  const handleUpdates = (update, changed, deleted) => {
-    if (changed) {
-      const id = Object.keys(changed)[0];
-      const updates = changed[id];
-      axios.put(`/api/events/${id}`, updates).catch((error) => {
-        console.log(error);
-      });
-    } else if (deleted) {
-      axios.delete(`/api/events/${deleted._id}`).catch((error) => {
-        console.log(error);
-      });
-    } else if (update) {
-      axios.post("/api/events/createEvent", update).catch((error) => {
-        console.log(error);
-      });
-    }
-  };
+const handleAddEvent = async () => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/calendar/events`,
+      {
+        title,
+        start,
+        end,
+      }
+    );
+    console.log("response", response);
+    setEvents([...events, response.data]);
+    setShowModal(false);
+  } catch (error) {
+    console.error("Error adding event:", error);
+  }
+};
 
+
+
+
+
+  
   return (
     <div
       className="relative pt-16 pb-32 flex content-center items-center justify-center"
@@ -80,9 +91,14 @@ const News = () => {
         >
           Export Calendar
         </button>
+  <button 
+    className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700 transition-colors ml-4"
+    onClick={() => setShowModal(true)}
+  > Add Event</button>
+</div>
+      
 
-        <button onClick={() => handleUpdates(null, null, null)}>Update</button>
-      </div>
+
     </div>
   );
 };

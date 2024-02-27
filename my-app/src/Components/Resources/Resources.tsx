@@ -48,7 +48,7 @@ export default function Resources() {
   return (
     <div className="relative pt-16 pb-32" style={{ minHeight: "100vh" }}>
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Resources Page</h1>
+        <h1 className="text-4xl font-black mb-4">Resources Page</h1>
         <p className="text-gray-600">Explore our curated list of resources.</p>
       </header>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-8">
