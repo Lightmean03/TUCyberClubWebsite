@@ -22,7 +22,7 @@ export default function About() {
   const [openLeadership, setOpenLeadership] = useState(false);
 
   return (
-    <div className="h-full w-full overflow-auto">
+    <div className="h-full w-full">
       <HeroWrapper>
        {/* <HeroMediaBackdrop>
           <video autoPlay muted loop className="w-full h-full object-cover">
@@ -173,40 +173,41 @@ export default function About() {
       </div>
       <div className="md:w-1/2">
         <HeroTitle className="text-2xl mb-9 font-black">Club Leader</HeroTitle>
-        <h3 className="text-gray-800 dark:text-gray-400 font-sans text-7xl font-extrabold mb-7">
+        <h3 className="text-black dark:text-gray-400 font-sans text-7xl font-extrabold mb-7">
            Kaden <br />
           Pirmonhamed
           </h3>
-        <HeroContent className="text-lg text-gray-700">
-        <p className="text-lg text-gray-800 leading-relaxed -tracking-wider">
+        <HeroContent>
+          <p className="text-lg text-black-50 relaxed-tracking-wider">
             Hello, my name is Kaden Pirmonhamed and I am the President of the Towson Cyber Defense Club. I am a sophomore at Towson University majoring in Computer Science with a concentration in Cyber Security. I have been a member of the club since my freshman year and have been involved in various competitions and events. I am passionate about cyber security and enjoy learning and sharing knowledge with others. I am excited to lead the club and help members grow and succeed in the field of cyber security.
-          </p>
+            </p>
         </HeroContent>
       </div>
     </div>
   </section>
 
-  <section className="mb-8 text-center p-4 bg-white  "> 
-    <HeroTitle className="font-black text-2xl mb-4">Club Activities</HeroTitle>
-    <div className="flex flex-col md:flex-row gap-4 ">
-    <HeroContent className="text-lg">
-      Towson Cyber Defense Club actively engages in a variety of activities
-      and events to foster learning and collaboration: - Weekly Meetings:
-      Join us every week for informative sessions, discussions, and updates.
-      - Competitions: We participate in various competitions, including CPTC
-      and NCL, to challenge and enhance our skills. - Workshops: The club
-      conducts regular workshops to provide hands-on experience and share
-      knowledge on cybersecurity tools and techniques.z - Guest Speakers:
-      Industry professionals and experts are invited to share insights and
-      experiences with our members. - Community Engagement: We actively
-      contribute to the cybersecurity community by organizing and
-      participating in events.
-      <br />
-      Whether you are a beginner or an experienced cybersecurity enthusiast,
-      our club offers a welcoming environment for all levels of expertise.
+  <section className="mb-8 text-center p-4 bg-white">
+  <HeroTitle className="font-black text-2xl mb-4">Club Activities</HeroTitle>
+  <div className="flex flex-col md:flex-row gap-4">
+    <HeroContent>
+      <p className="text-lg text-black relaxed-tracking-wider">
+        Towson Cyber Defense Club actively engages in a variety of activities and events to foster learning and collaboration:
+        <br />
+        - Weekly Meetings: Join us every week for informative sessions, discussions, and updates.
+        <br />
+        - Competitions: We participate in various competitions, including CPTC and NCL, to challenge and enhance our skills.
+        <br />
+        - Workshops: The club conducts regular workshops to provide hands-on experience and share knowledge on cybersecurity tools and techniques.
+        <br />
+        - Guest Speakers: Industry professionals and experts are invited to share insights and experiences with our members.
+        <br />
+        - Community Engagement: We actively contribute to the cybersecurity community by organizing and participating in events.
+        <br />
+        Whether you are a beginner or an experienced cybersecurity enthusiast, our club offers a welcoming environment for all levels of expertise.
+      </p>
     </HeroContent>
-    </div>
-    </section>
+  </div>
+</section>
   </div>        
           
   );
