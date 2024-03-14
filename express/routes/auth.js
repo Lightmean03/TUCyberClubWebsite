@@ -59,7 +59,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", (req, res, next) => {
+router.post("/signin", async (req, res, next) => {
   passport.authenticate("local", { session: false }, async (err, user) => {
     try {
       if (err || !user) {
@@ -153,9 +153,9 @@ router.put("/user/:id", decodeToken, async (req, res) => {
 
 router.get("/username", async (req, res) => {
   try {
-    const userEmail = req.body;
+    const userEmail = req.user;
     const user = await User.findOne(userEmail);
-    console.log(user);
+    console.log(user.username);
     if (user.username) {
       return res.json({ message: user.username });
     } else {
@@ -164,29 +164,6 @@ router.get("/username", async (req, res) => {
   } catch (error) {
     console.error("Error getting username:", error);
     res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-router.post("/refresh", async (req, res) => {
-  const { refreshToken } = req.body;
-
-  try {
-    const user = await Token.findOne({ refreshToken });
-
-    if (!user) {
-      return res.status(401).json({ message: message.tokenRefreshFailed });
-    }
-
-    const newAccessToken = jwt.sign(
-      { email: user.email, role: user.role },
-      secretKey,
-      { expiresIn: "1h" },
-    );
-
-    res.status(200).json({ accessToken: newAccessToken });
-  } catch (error) {
-    console.error(`${message.errorRefreshingToken} ${error}`);
-    res.status(500).json({ message: message.tokenRefreshFailed });
   }
 });
 

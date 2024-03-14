@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
-import { useSelector, useDispatch } from "react-redux";
-import { getUsername } from "../../redux/actions/userActions";
+import axios from "axios";
+import { useUser } from "../../utils/userContext";
+import { API_URL } from "../../lib/constants";
+import { useCookies } from 'react-cookie';
+
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user } = useUser(); 
+
   const [fetchedUsername, setFetchedUsername] = useState("");
   const [email, setEmail] = useState("");
-  const dispatch = useDispatch();
-  const userLoggedIn = useSelector((state: any) => state?.auth?.username);
-  console.log(userLoggedIn);
-  const error = useSelector((state: any) => state?.auth?.error);
-
-
-  const getUserName = async () => {
-    try {
-       dispatch<any>(getUsername());
-      setFetchedUsername(userLoggedIn);
-    } catch (error) {
-      console.error("Error getting username:", error);
-    }
-  };
+  const [error, setError] = useState("");
+  const [cookies, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
+    const getUserName = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/auth/username`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        console.log("response", response.data);
+        setFetchedUsername(response.data.username);
+        setEmail(response.data.email);
+      } catch (error) {
+        console.error("Error getting username:", error);
+        setError(error.message);
+      }
+    };
+
     getUserName();
   }, []);
 
   console.log("fetchedUsername", fetchedUsername);
 
-
-  console.log("user", userLoggedIn);
-
- 
   return (
     <div className="main-content">
       <div className="card">
         <div className="card-profile-image"></div>
         <div className="card-body">
           <div className="text-center">
-            <h3>Signed In As: {fetchedUsername}</h3>
+            <h3>Sign in As: {user.username}</h3> 
           </div>
         </div>
       </div>
@@ -56,7 +59,7 @@ const Profile = () => {
                   type="text"
                   id="input-username"
                   className="form-control form-control-alternative"
-                  value={fetchedUsername}
+                  value={user.username}
                   readOnly
                 />
               </div>
@@ -78,7 +81,7 @@ const Profile = () => {
       </div>
       {error && (
         <div className="alert alert-danger" role="alert">
-          {error.message}
+          {error}
         </div>
       )}
     </div>

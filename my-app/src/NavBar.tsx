@@ -2,30 +2,29 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "./redux/actions/authActions";
 import { FaRegUser } from "react-icons/fa";
 import React from "react";
-import { RootState } from "./types/types";
-
+import axios from "axios";
+import { useUser } from "./utils/userContext";
+import { API_URL } from "./lib/constants";
 
 export default function Navbar({ logo }: { logo?: string }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const userLoggedIn = useSelector((state: RootState) => state.auth.user);
-  console.log(userLoggedIn)
   const navigate = useNavigate();
-  const dispatch = useDispatch<any>();
-  console.log("user", userLoggedIn);
-
+  const { user } = useUser();
+  console.log("user", user);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const handleLogout = async () => {
     try {
-      dispatch(logoutUser());
+      axios.post(`${API_URL}/auth/signout`,{
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       navigate("/signin");
-    
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -44,9 +43,9 @@ export default function Navbar({ logo }: { logo?: string }) {
           <CustomLink href="/post">Post</CustomLink>
         </div>
         <div className="flex items-center space-x-4">
-          {userLoggedIn ? (
+          {user ? (
             <UserDropdown
-              user={userLoggedIn.name}
+              user={user.name}
               onLogout={handleLogout}
               isMobileMenuOpen={isMobileMenuOpen}
             />
@@ -103,13 +102,13 @@ const CustomLink = React.forwardRef<
 const UserDropdown = ({
   onLogout,
   isMobileMenuOpen,
+  user,
 }: {
   user: any;
   onLogout: () => void;
   isMobileMenuOpen: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state: RootState) => state?.auth?.user);
 
   console.log("mobile", isMobileMenuOpen);
   console.log("open", isOpen);

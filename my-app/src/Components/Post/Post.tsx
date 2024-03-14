@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useSelector, useDispatch } from "react-redux";
-import { createPost, deletePost, fetchPosts } from "../../redux/actions/postActions";
-import { RootState } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { HeroWrapper } from "../ui/hero";
 
@@ -12,16 +10,15 @@ const Post = () => {
     title: "",
     content: "",
   });
-  const dispatch = useDispatch<any>();
-  const allPosts = useSelector((state: RootState) => state.post.posts);
   const [showPosts, setShowPosts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState("");
+  const [allPosts, setAllPosts] = useState([]);
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
@@ -29,15 +26,11 @@ const Post = () => {
     setShowPosts(!showPosts);
   };
 
-  const handlePosts = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePosts = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createPost(post));
-      setPost({
-        title: "",
-        content: "",
-      });
-      await fetchPost();
+      await axios.post("/post", post);
+      fetchPost();
     } catch (error) {
       console.error("Error creating post:", error);
       if (error.response && error.response.status === 401) {
@@ -49,7 +42,8 @@ const Post = () => {
   const fetchPost = async () => {
     setIsLoading(true);
     try {
-      await dispatch(fetchPosts(currentPage, postsPerPage));
+      const response = await axios.get("/post/posts");
+      setAllPosts(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -61,21 +55,21 @@ const Post = () => {
     fetchPost();
   }, [currentPage, postsPerPage]);
 
-  const handlePageChange = (event: any, newPage: number) => {
+  const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-  const handlePostsPerPageChange = (event: any) => {
+  const handlePostsPerPageChange = (event) => {
     const newPostsPerPage = parseInt(event.target.value, 10);
     setPostsPerPage(newPostsPerPage);
     setCurrentPage(1);
     fetchPost();
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     try {
-      await dispatch(deletePost(id));
-      await fetchPost();
+      await axios.delete(`/post/${id}`);
+      fetchPost();
     } catch (error) {
       console.error("Error deleting post:", error);
       if (error.response && error.response.status === 401) {
@@ -84,7 +78,7 @@ const Post = () => {
     }
   };
 
-  const handlePostClick = (postId: string) => {
+  const handlePostClick = (postId) => {
     console.log(`Clicked on post with ID: ${postId}`);
     navigate(`/posts/${postId}`)
   };
