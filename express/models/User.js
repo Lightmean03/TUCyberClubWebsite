@@ -24,18 +24,9 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  tokens: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Token",
-    },
-  ],
+  
 });
 
-userSchema.plugin(passportLocalMongoose, {
-  usernameField: "email",
-  passwordField: "password",
-});
-
+userSchema.plugin(passportLocalMongoose);
 const User = mongoose.model("User", userSchema, "users");
 module.exports = User;

@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Table } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { getUsers} from '../../redux/actions/userActions';
 import { API_URL } from "../../lib/constants";
 
 const { SubMenu } = Menu;
@@ -15,24 +13,22 @@ const AdminPanel = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [authenticated, setAuthenticated] = useState(true);
   const [userList, setUserList] = useState([]);
-  const dispatch = useDispatch();
   const token = cookies.token;
 
 
-  const userLoggedIn = useSelector((state: any) => state?.auth?.user);
 
   useEffect(() => {
     const fetchAdminInfo = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get(`${API_URL}/auth/admin`, {
+        const response = await axios.get(`/auth/admin`, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
 
         const data = response.data;
+        console.log("data", data);
         setAuthenticated(true);
-        dispatch(userLoggedIn(data));
       } catch (error) {
         console.error("Error verifying token:", error);
         removeCookie("token");
@@ -41,10 +37,15 @@ const AdminPanel = () => {
     };
 
     const fetchUserData = async (token: any) => {
-
       try {
-        const userResponse: any = getUsers(token);
-        setUserList(userResponse);
+        const response = await axios.get(`/auth/users`, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        });
+
+        const data = response.data;
+        setUserList(data);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,7 +53,7 @@ const AdminPanel = () => {
 
     fetchAdminInfo();
     fetchUserData(token);
-  }, [cookies.token, dispatch, userLoggedIn]);
+  }, []);
 
   const userColumns = [
     {

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { isEmail } from "validator";
 import { useDispatch, useSelector } from "react-redux";
-import { signupUser } from "../../redux/actions/authActions";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../lib/constants";
+
+import axios from "axios";
+
 
 interface SignupForm {
   username: string;
@@ -13,7 +16,6 @@ interface SignupForm {
 }
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -22,8 +24,6 @@ const Signup = () => {
 
   const [errors, setErrors] = useState<Partial<SignupForm>>({});
   const navigate = useNavigate();
-
-  const error = useSelector((state: any) => state?.authReducer?.errors);
 
   // Validation state
   const [validated, setValidated] = useState(false);
@@ -71,14 +71,17 @@ const validateForm = () => {
 
   // Sign-up function
   const handleSignUp = () => {
-    dispatch<any>(signupUser(form));
-    navigate("/home")
+    try {
+      axios.post(`${API_URL}/auth/signup`, form);
+      navigate("/signin");
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
   };
 
   useEffect(() => {
     if (errors) {
-      // Handle errors as needed
-      console.error("Signup error:", errors);
+    
     }
   }, [errors]);
 

@@ -9,6 +9,7 @@ const tokenSchema = new mongoose.Schema({
   refreshToken: {
     type: String,
     required: true,
+    expires: 30 * 60, // 30 minutes
   },
   accessToken: {
     type: String,

@@ -1,99 +1,100 @@
 import React, { useState } from "react";
 import "./Signin.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/authActions";
+import { useUser } from "../../utils/userContext";
+import axios from "axios";
+import { TextField, Button } from "@mui/material"; // Importing TextField and Button from Material-UI
+import { API_URL } from "../../lib/constants";
+import { useCookies } from "react-cookie";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const cookies = useCookies();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("");
   const [error, setError] = useState("");
-  
-  const dispatch = useDispatch();
+  const authToken = cookies["authToken"]
+  const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setLoadingText("Signing in...");
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    const timeout = setTimeout(() => {
-      setLoadingText("This is taking longer than usual...");
-    }, 1000);
-    const response = await dispatch<any>(loginUser(formData));
-    console.log("response", response);
-    response
-      .then((res) => {
-        if (!res) {
-          setIsLoading(false);
-          clearTimeout(timeout);
-          setError("Incorrect email or password.")
-          return;
-        }
-        setIsLoading(false);
-        clearTimeout(timeout);
-        navigate("/home");
+
+    try {
+      const response = await axios.post(`${API_URL}/auth/signin`, {
+        email,
+        password,
       });
-  };
-
-  const errors = useSelector((state: any) => state?.authReducer?.errors);
-  //const success = useSelector((state) => state?.authReducer.success);
-
-  const handleMessage = () => {
-    dispatch({ type: "CLEAR_ERRORS" });
+      console.log("response", response);
+      localStorage.setItem("token", response.data.token);
+      if (!response.data) {
+        setIsLoading(false);
+        setError("Incorrect email or password.");
+        return;
+      }
+      setUser(response.data);
+      setIsLoading(false);
+      navigate("/home");
+    } catch (error) {
+      setIsLoading(false);
+      setError("An error occurred while signing in.");
+      console.error("Error signing in:", error);
+    }
   };
 
   return (
-    <>
-      <div className="bg">
-        <div className="sign-container">
-          <h3 className="signin-title">LOGIN</h3>
-          <div className="signin-form">
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2 border rounded-md text-black"
-                />
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-2 border rounded-md text-black"
-                />
-              </div>
-              {error}
-              <button
-                type="submit"
-                className="signin-submit-btn"
-                disabled={isLoading}
-              >
-                {isLoading ? "Signing in..." : "Submit"}
-              </button>
-              <button type="reset" className="signin-reset-btn">
-                Reset
-              </button>
-            </form>
-            <div className="signin-signup-link">
-              Don't have an account?
-              <button type="button" className="signin-signup-btn">
-                <a href="/signup"> Sign Up</a>
-              </button>
+    <div className="min-h-screen flex items-center justify-center bg">
+      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-md">
+        <h3 className="text-2xl font-bold mb-4 text-center text-black">LOGIN</h3>
+        <div className="signin-form">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border  rounded-md focus:outline-none text-black"
+              />
             </div>
+  
+            <div className="mb-4">
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"
+              />
+            </div>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <div className="flex justify-between">
+            <button
+              type="submit"
+              className="w-full bg-indigo-500 text-white py-2 rounded-md "
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing in..." : "Submit"}
+            </button>
+            <button
+              type="reset"
+              className="w-full mt-2 border  py-2 rounded-md transition duration-300  focus:text-white"
+            >
+              Reset
+            </button>
+            </div>
+          </form>
+          <div className="text-center mt-4 text-black">
+            Don't have an account?{" "}
+            <a href="/signup" className="text-indigo-500 hover:underline">
+              Sign Up
+            </a>
           </div>
-        </div>
+          </div>
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default Signin;

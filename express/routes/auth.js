@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const secretKey = process.env.JWT_SECRET_KEY;
 const User = require("../models/User");
 const Token = require("../models/token.model");
@@ -59,71 +58,32 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", (req, res, next) => {
-  passport.authenticate("local", { session: false }, async (err, user) => {
+router.post('/signin', async (req, res, next) => {
+  passport.authenticate('local', { session: false }, async (err, info) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email});
     try {
       if (err || !user) {
-        return res.status(401).json({ error: message.incorrectPassword });
+        return res.status(404).json({ error: 'User not found' });
       }
 
-      const payload = {
-        email: user.email,
-        role: user.role,
-        username: user.username,
-      };
+      req.login(user, { session: false }, async (error) => {
+        if (error) {
+          return next(error);
+        }
 
-      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-        expiresIn: "1h",
-      });
+        const payload = {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        };
 
-      const refreshToken = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET_KEY,
-        {
-          expiresIn: "1hr",
-        },
-      );
-
-      const newToken = new Token({
-        user: user._id,
-        refreshToken,
-        accessToken: token,
-      });
-
-      await newToken.save();
-
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 3600000,
-        path: "/",
-      });
-
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 3600000,
-        path: "/",
-      });
-
-      res.cookie("user", JSON.stringify(payload), {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 3600000,
-        path: "/",
-      });
-
-      return res.status(200).json({
-        token: token,
-        user: payload,
-        message: message.accessGiven,
+        const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+        return res.json({ message: 'Access granted', token });
       });
     } catch (error) {
-      console.error(`${message.errorSigningIn} ${error}`);
-      res.status(500).json({ error: message.tokenRefreshFailed });
+      console.log(error);
+      return res.status(500).json({ error: 'Error signing in' });
     }
   })(req, res, next);
 });
@@ -153,9 +113,9 @@ router.put("/user/:id", decodeToken, async (req, res) => {
 
 router.get("/username", async (req, res) => {
   try {
-    const userEmail = req.body;
+    const userEmail = req.user;
     const user = await User.findOne(userEmail);
-    console.log(user);
+    console.log(user.username);
     if (user.username) {
       return res.json({ message: user.username });
     } else {
@@ -164,29 +124,6 @@ router.get("/username", async (req, res) => {
   } catch (error) {
     console.error("Error getting username:", error);
     res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-router.post("/refresh", async (req, res) => {
-  const { refreshToken } = req.body;
-
-  try {
-    const user = await Token.findOne({ refreshToken });
-
-    if (!user) {
-      return res.status(401).json({ message: message.tokenRefreshFailed });
-    }
-
-    const newAccessToken = jwt.sign(
-      { email: user.email, role: user.role },
-      secretKey,
-      { expiresIn: "1h" },
-    );
-
-    res.status(200).json({ accessToken: newAccessToken });
-  } catch (error) {
-    console.error(`${message.errorRefreshingToken} ${error}`);
-    res.status(500).json({ message: message.tokenRefreshFailed });
   }
 });
 

@@ -1,23 +1,23 @@
-import createAppStore from "./redux/store";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import About from "./Components/About/About";
 import Home from "./Components/Home/Home";
-import Signin from "./components/Signin/Signin";
-import Resources from "./components/Resources/Resources";
-import News from "./components/News/News";
-import Contact from "./components/Contact/Contact";
-import Signup from "./components/Signup/Signup";
+import Signin from "./Components/Signin/Signin";
+import Resources from "./Components/Resources/Resources";
+import News from "./Components/News/News";
+import Contact from "./Components/Contact/Contact";
+import Signup from "./Components/Signup/Signup";
 import Layout from "./Components/Layout";
 import { Footer } from "./components/Footer/footer";
-import AdminPanel from "./components/Admin/Admin";
+import AdminPanel from "./Components/Admin/Admin";
 import Post from "./Components/Post/Post";
-import Profile from "./components/Profile/Profile";
+import Profile from "./Components/Profile/Profile";
 import PostPage from "./Components/Post/PostPages";
 
 function App() {
+  /*
   const [store, setStore] = useState(null);
 
   useEffect(() => {
@@ -35,9 +35,8 @@ function App() {
 
   if (!store) {
     return <div>Loading...</div>;
-  }
+  }*/
   return (
-    <Provider store={store}>
       <>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
@@ -134,7 +133,6 @@ function App() {
         </Routes>
         <Footer />
       </>
-    </Provider>
   );
 }
 
