@@ -5,13 +5,16 @@ import { useUser } from "../../utils/userContext";
 import axios from "axios";
 import { TextField, Button } from "@mui/material"; // Importing TextField and Button from Material-UI
 import { API_URL } from "../../lib/constants";
+import { useCookies } from "react-cookie";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const cookies = useCookies();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const authToken = cookies["authToken"]
   const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
