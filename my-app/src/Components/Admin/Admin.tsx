@@ -2,65 +2,55 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Table } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useCookies } from "react-cookie";
+import { useAuth } from "../../utils/authContext";
 import axios from "axios";
 import { API_URL } from "../../lib/constants";
+import { useNavigate } from "react-router-dom";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 const AdminPanel = () => {
-  const [cookies, , removeCookie] = useCookies(["token"]);
   const [authenticated, setAuthenticated] = useState(true);
   const [userList, setUserList] = useState([]);
-  const token = cookies.token;
-
-
+  const { user } = useAuth();
 
   useEffect(() => {
-    const fetchAdminInfo = async () => {
-      try {
-        const token = cookies.token;
-        const response = await axios.get(`/auth/admin`, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        });
-
-        const data = response.data;
-        console.log("data", data);
+    const isAdmin = () => {
+      if (user.role === 'admin') {
         setAuthenticated(true);
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        removeCookie("token");
+      } else {
         setAuthenticated(false);
       }
     };
 
-    const fetchUserData = async (token: any) => {
-      try {
-        const response = await axios.get(`/auth/users`, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        });
-
-        const data = response.data;
-        setUserList(data);
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const getUsers = async () => {
+      if (authenticated) {
+        try {
+          const token = user.access;
+          const response = await axios.get(`${API_URL}/api/users/`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          });
+          setUserList(response.data.users);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
-    fetchAdminInfo();
-    fetchUserData(token);
-  }, []);
+    isAdmin();
+    getUsers();
+  }, [authenticated, user]);
 
   const userColumns = [
     {
-      title: "ID",
-      dataIndex: "_id",
-      key: "_id",
-      render: (_id) => `${_id}`,
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id) => `${id}`
     },
     {
       title: "Email",
@@ -73,6 +63,12 @@ const AdminPanel = () => {
       dataIndex: "role",
       key: "role",
       render: (role) => `${role}`,
+    },
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
+      render: (username) => `${username}`,
     },
   ];
 
@@ -102,7 +98,10 @@ const AdminPanel = () => {
               <Breadcrumb items={[{ title: "Home" }]} />
               <Breadcrumb items={[{ title: "Admin Panel" }]} className="pl-4" />
             </Breadcrumb>
-            <Table dataSource={userList} columns={userColumns} />
+            <Table
+              columns={userColumns}
+              dataSource={userList}
+            />
           </Content>
         </Layout>
       </Layout>
