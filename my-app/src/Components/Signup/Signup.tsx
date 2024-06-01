@@ -1,223 +1,167 @@
-import React, { useState, useEffect } from "react";
-import { isEmail } from "validator";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import "./Signup.css";
-import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../lib/constants";
-
-import axios from "axios";
-
+import { useAuthStore } from "../../utils/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon";
 
 interface SignupForm {
   username: string;
   email: string;
   password: string;
-
+  confirmPassword: string;
 }
 
-const Signup = () => {
-  const [form, setForm] = useState({
+const Signup: React.FC = () => {
+  const { handleSignUp } = useAuthStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState<SignupForm>({
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
-  const [errors, setErrors] = useState<Partial<SignupForm>>({});
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // Validation state
-  const [validated, setValidated] = useState(false);
-  const MIN_PASSWORD_LENGTH = 8;
-
-  // Error messages
-  const errorMessages = {
-    username: {
-      required: "Please provide a username.",
-    },
-    email: {
-      required: "Please provide an email address.",
-      invalid: "Please provide a valid email address.",
-    },
-    password: {
-      required: "Please provide a password.",
-      minLength: "Password must be at least 8 characters long.",
-    },
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Validation function
-const validateForm = () => {
-  let newErrors: Partial<SignupForm> = {};
-
-  if (!form.username) {
-    newErrors.username = "required";
-  }
-
-  if (!form.email) {
-    newErrors.email = "required";
-  } else if (!isEmail(form.email)) {
-    newErrors.email = "invalid";
-  }
-
-  if (!form.password) {
-    newErrors.password = "required";
-  } else if (form.password.length < MIN_PASSWORD_LENGTH) {
-    newErrors.password = "minLength";
-  }
-
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-
-};
-
-  // Sign-up function
-  const handleSignUp = () => {
-    try {
-      axios.post(`${API_URL}/auth/signup`, form);
-      navigate("/signin");
-    } catch (error) {
-      console.error("Signup error:", error);
-    }
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.username) newErrors.username = "Username is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
+    if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    return newErrors;
   };
 
-  useEffect(() => {
-    if (errors) {
-    
-    }
-  }, [errors]);
-
-  // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateForm()) {
-      handleSignUp();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
-  };
 
-  // Form reset function
-  const handleReset = () => {
-    setForm({
-      username: "",
-      email: "",
-      password: "",
-    });
-    setErrors({});
-    setValidated(false);
-  };
-
-  // Input change handler
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({ ...prevForm, [name]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
+    setLoading(true);
+    try {
+      await handleSignUp(formData);
+      navigate("/signin");
+    } catch (err) {
+      console.error("Sign up error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="bg2">
-      <div className="modal">
-        <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title signup-title">SIGN UP</h5>
-            </div>
-            <div className="modal-body">
-              <div className="signup-container">
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group mb-3">
-                      <label htmlFor="username" className="username">
-                        Username:
-                      </label>
-                      <input
-                        type="username"
-                        name="username"
-                        value={form.username}
-                        onChange={handleChange}
-                        required
-                        className={`form-control ${
-                          validated && errors.email ? "is-invalid" : ""
-                        }`}
-                      />
-                    </div>
+    <form onSubmit={handleSubmit}>
+      <div className="bg2">
+        <div className="modal">
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title signup-title">SIGN UP</h5>
+              </div>
+              <div className="modal-body">
+                <div className="signup-container">
+                  <div className="form-group mb-3">
+                    <label htmlFor="username" className="username">
+                      Username:
+                    </label>
+                    <input
+                      type="text"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                    />
+                    {errors.username && (
+                      <div className="invalid-feedback">{errors.username}</div>
+                    )}
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group mb-3">
-                      <label htmlFor="email" className="email">
-                        Email Address:
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                        className={`form-control ${
-                          validated && errors.email ? "is-invalid" : ""
-                        }`}
-                      />
-                      {validated && errors.email && (
-                        <div className="invalid-feedback">
-                          {errorMessages.email[errors.email]}
-                        </div>
-                      )}
-                    </div>
+                  <div className="form-group mb-3">
+                    <label htmlFor="email" className="email">
+                      Email Address:
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                    />
+                    {errors.email && (
+                      <div className="invalid-feedback">{errors.email}</div>
+                    )}
                   </div>
-                  <div className="col">
-                    <div className="form-group mb-5">
-                      <label htmlFor="password" className="password">
-                        Password:
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        value={form.password}
-                        required
-                        className={`form-control ${
-                          validated && errors.password ? "is-invalid" : ""
-                        }`}
-                      />
-                      {validated && errors.password && (
-                        <div className="invalid-feedback">
-                          {errorMessages.password[errors.password]}
-                        </div>
-                      )}
-                      <small className="form-text text-muted">
-                        Password must be at least 8 characters long.
-                      </small>
-                    </div>
+
+                  <div className="form-group mb-3">
+                    <label htmlFor="password" className="password">
+                      Password:
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                    />
+                    {errors.password && (
+                      <div className="invalid-feedback">{errors.password}</div>
+                    )}
+                    <small className="form-text text-muted">
+                      Password must be at least 8 characters long.
+                    </small>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label htmlFor="confirmPassword" className="confirmPassword">
+                      Confirm Password:
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
+                    />
+                    {errors.confirmPassword && (
+                      <div className="invalid-feedback">{errors.confirmPassword}</div>
+                    )}
+                  </div>
+
+                  <div className="d-flex justify-content-between">
+                    <SignupButton loading={loading} />
+                  </div>
+                  <div className="text-center mt-3">
+                    <Link to="/signin">Already have an account? Sign in</Link>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-primary signup-submit-btn"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary signup-reset-btn"
-                  onClick={handleReset}
-                >
-                  Reset
-                </button>
-                <button>
-                  <a
-                    href="/signin"
-                    className="signup-close-btn flex justify-start items-start text-left text-1.8rem mt-2rem text-white"
-                  >
-                    x
-                  </a>
-                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
+
+const SignupButton: React.FC<{ loading: boolean }> = ({ loading }) => {
+  return (
+    <button
+      type="submit"
+      className="mt-6 w-full bg-blue-500 text-white text-sm font-medium py-3 rounded-md"
+      disabled={loading}
+    >
+      {loading ? "Signing up..." : "Sign up"} <ArrowRightIcon className="h-4 w-4 inline" />
+    </button>
+  );
+};
+
 export default Signup;

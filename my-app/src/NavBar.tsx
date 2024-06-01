@@ -4,48 +4,43 @@ import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import React from "react";
-import axios from "axios";
-import { useUser } from "./utils/userContext";
-import { API_URL } from "./lib/constants";
+import { useAuthStore } from "./utils/authStore";
+
 
 export default function Navbar({ logo }: { logo?: string }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { user } = useUser();
-  console.log("user", user);
+
+  const { user, handleSignOut } = useAuthStore();
+  console.log("user", user)
+
+  const handleLogout = async () => {
+    try {
+      handleSignOut();
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleLogout = async () => {
-    try {
-      axios.post(`${API_URL}/auth/signout`,{
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      navigate("/signin");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
-
-
   return (
-    <nav className="px-4 py-4 flex-row items-center z-0 bg-[#E8B019] mb-1">
+    <nav className="px-4 py-4 flex-row items-center z-0 bg-[#d29b04]">
       <div className="flex-grow flex items-center justify-between">
-        <div className="hidden md:flex space-x-4 pl-2 text-black font-sans font-medium ">
+        <div className="hidden md:flex space-x-4 pl-2 text-white font-sans font-medium ">
           <CustomLink href="/home">Home</CustomLink>
           <CustomLink href="/about">About</CustomLink>
           <CustomLink href="/news">News</CustomLink>
           <CustomLink href="/resources">Resources</CustomLink>
-          <CustomLink href="/contact">Contact</CustomLink>
-          <CustomLink href="/post">Post</CustomLink>
+          <CustomLink href="/posts">Scoreboard</CustomLink>
         </div>
         <div className="flex items-center space-x-4">
           {user ? (
             <UserDropdown
-              user={user.name}
+              user={user.username}
               onLogout={handleLogout}
               isMobileMenuOpen={isMobileMenuOpen}
             />
@@ -77,11 +72,9 @@ export default function Navbar({ logo }: { logo?: string }) {
           <CustomLink href="/resources" className="hover:bg-black">
             Resources
           </CustomLink>
-          <CustomLink href="/contact" className="hover:bg-black">
-            Contact
-          </CustomLink>
-          <CustomLink href="/post" className="hover:bg-black">
-            Post
+          
+          <CustomLink href="/posts" className="hover:bg-black">
+            Posts
           </CustomLink>
         </div>
       )}
