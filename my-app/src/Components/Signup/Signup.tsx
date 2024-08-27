@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Signup.css";
 import { useAuthStore } from "../../utils/authStore";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon";
@@ -50,117 +49,137 @@ const Signup: React.FC = () => {
     setLoading(true);
     try {
       await handleSignUp(formData);
-      navigate("/signin");
-    } catch (err) {
-      console.error("Sign up error:", err);
+      navigate("/");
+    } catch (error) {
+      console.error("Signup error:", error);
+      setErrors({ general: "An error occurred during signup. Please try again." });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="bg2">
-        <div className="modal">
-          <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title signup-title">SIGN UP</h5>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-8 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-4 text-center text-3xl font-extrabold text-black">
+          Create your account
+        </h2>
+      </div>
+
+      <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-6 px-4 shadow sm:rounded-lg sm:px-8">
+          <form className="space-y-4 text-black" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-black">
+                Username
+              </label>
+              <div className="mt-1">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={formData.username}
+                  onChange={handleChange} 
+                />
               </div>
-              <div className="modal-body">
-                <div className="signup-container">
-                  <div className="form-group mb-3">
-                    <label htmlFor="username" className="username">
-                      Username:
-                    </label>
-                    <input
-                      type="text"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      className={`form-control ${errors.username ? "is-invalid" : ""}`}
-                    />
-                    {errors.username && (
-                      <div className="invalid-feedback">{errors.username}</div>
-                    )}
-                  </div>
+              {errors.username && <p className="mt-1 text-sm text-red-600">{errors.username}</p>}
+            </div>
 
-                  <div className="form-group mb-3">
-                    <label htmlFor="email" className="email">
-                      Email Address:
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                    />
-                    {errors.email && (
-                      <div className="invalid-feedback">{errors.email}</div>
-                    )}
-                  </div>
-
-                  <div className="form-group mb-3">
-                    <label htmlFor="password" className="password">
-                      Password:
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                    />
-                    {errors.password && (
-                      <div className="invalid-feedback">{errors.password}</div>
-                    )}
-                    <small className="form-text text-muted">
-                      Password must be at least 8 characters long.
-                    </small>
-                  </div>
-
-                  <div className="form-group mb-3">
-                    <label htmlFor="confirmPassword" className="confirmPassword">
-                      Confirm Password:
-                    </label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
-                    />
-                    {errors.confirmPassword && (
-                      <div className="invalid-feedback">{errors.confirmPassword}</div>
-                    )}
-                  </div>
-
-                  <div className="d-flex justify-content-between">
-                    <SignupButton loading={loading} />
-                  </div>
-                  <div className="text-center mt-3">
-                    <Link to="/signin">Already have an account? Sign in</Link>
-                  </div>
-                </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-black">
+                Email address
+              </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
               </div>
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-black">
+                Password
+              </label>
+              <div className="mt-1">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </div>
+              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+            </div>
+
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-black">
+                Confirm Password
+              </label>
+              <div className="mt-1">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                disabled={loading}
+              >
+                {loading ? "Signing up..." : "Sign up"}
+                <ArrowRightIcon className="ml-2 h-4 w-4" />
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-black">
+                  Already have an account?
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <Link
+                to="/signin"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50"
+              >
+                Sign in
+              </Link>
             </div>
           </div>
         </div>
       </div>
-    </form>
-  );
-};
-
-const SignupButton: React.FC<{ loading: boolean }> = ({ loading }) => {
-  return (
-    <button
-      type="submit"
-      className="mt-6 w-full bg-blue-500 text-white text-sm font-medium py-3 rounded-md"
-      disabled={loading}
-    >
-      {loading ? "Signing up..." : "Sign up"} <ArrowRightIcon className="h-4 w-4 inline" />
-    </button>
+    </div>
   );
 };
 

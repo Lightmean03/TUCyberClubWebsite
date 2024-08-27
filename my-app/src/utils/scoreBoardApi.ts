@@ -1,57 +1,56 @@
-import { API_URL } from '../lib/constants';
-import Cookies from 'js-cookie';
 import axios from 'axios';
+import { API_URL } from '../lib/constants'
 
-
-export const getScoreBoard = async (params) => {
-    try {
-        const response = await axios.get(`${API_URL}/post/posts/`, {
-            params,
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export const createScoreboard  = async (formData: any) => {
-    try {
-        const response = await axios.post(`${API_URL}/post/posts/create/`, formData, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': Cookies.get('csrftoken'),
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export const updateScore = async (id: number, formData: any) => {
-    try {
-        const response = await axios.put(`${API_URL}/post/posts/update/${id}`, formData, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': Cookies.get('csrftoken'),
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+export const getScoreBoard = async (page, pageSize) => {
+  try {
+    const response = await axios.get(`${API_URL}/scoreboard/scoreboard/get_scoreboard/?page=${page}&page_size=${pageSize}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching scoreboard:", error);
+    throw error;
+  }
 };
 
-
-export const deleteScore = async (id: number) => {
-    try {
-        const response = await axios.delete(`${API_URL}/post/posts/delete/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+export const createScoreboard = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/scoreboard/scoreboard/create`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating scoreboard entry:", error);
+    throw error;
+  }
 };
 
+export const updateScoreboardEntry = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_URL}/scoreboard/scoreboard/${id}/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating scoreboard entry:", error);
+    throw error;
+  }
+};
 
-
-
+export const deleteScoreboardEntry = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/scoreboard/scoreboard/${id}/delete/`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting scoreboard entry:", error);
+    throw error;
+  }
+};

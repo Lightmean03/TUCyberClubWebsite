@@ -12,6 +12,7 @@ import AdminPanel from "./Components/Admin/Admin";
 import Profile from "./Components/Profile/Profile";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import PostList from "./Components/Scoreboard/PostList";
+import Attendance from "./Components/Attendence/Attendance";
 import { useAuthStore } from "./utils/authStore";
 import { useEffect } from "react";
 
@@ -72,6 +73,14 @@ function App() {
             }
           />
           <Route
+            path="/attendance"
+            element={
+              <Layout>
+                <Attendance />
+              </Layout>
+            }
+          />
+          <Route
             path="/posts"
             element={
               <Layout>
@@ -85,7 +94,7 @@ function App() {
           </Layout>}>
           <Route path="/dashboard" element={<AdminPanel />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/post" element={<PostList />}/>
+          <Route path="/scoreboard" element={<PostList />}/>
           </Route>
         </Routes>
         <Footer />

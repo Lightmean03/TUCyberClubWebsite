@@ -51,6 +51,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gold: "#d29b04",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -73,5 +74,23 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: "#d29b04",
+          "primary-focus": "#E6C200",
+          "primary-content": "#000000",
+          secondary: "#f6d860",
+          accent: "#37cdbe",
+          neutral: "#3d4451",
+          "base-100": "#1f2937",
+          "base-200": "#111827",
+          "base-300": "#0f172a",
+          "base-content": "#ffffff",
+        },
+      },
+    ],
+  },
 };

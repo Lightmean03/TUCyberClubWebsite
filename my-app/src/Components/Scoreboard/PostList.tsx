@@ -1,202 +1,177 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  Table,
-  Header,
-  HeaderRow,
-  Body,
-  Row,
-  HeaderCell,
-  Cell,
-} from "@table-library/react-table-library/table";
-import { usePagination } from "@table-library/react-table-library/pagination";
 import { useNavigate } from "react-router-dom";
-import { getScoreBoard } from "../../utils/scoreBoardApi";
-import Post from "./Post";
+import { getScoreBoard, deleteScoreboardEntry } from "../../utils/scoreBoardApi";
+import PostComponent from "./Post";
 import { useAuth } from "../../utils/authContext";
+import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from "@table-library/react-table-library/table";
 
 type PostType = {
   id: number;
-  content: string;
+  username: string;
   score: number;
   ranking: number;
   teamname: string;
-  user: number;
 };
 
 type PageInfoType = {
-  total: number;
-  startSize: number;
-  endSize: number;
-  totalPages: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
 };
 
 type DataType = {
   nodes: PostType[];
-  pageInfo?: PageInfoType;
+  pageInfo: PageInfoType | null;
 };
 
-const LIMIT = 10; 
-
 const PostList: React.FC = () => {
-  const [data, setData] = useState<DataType>({ nodes: [] });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<string>("");
-  const [createPost, setCreatePost] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [data, setData] = useState<DataType>({ nodes: [], pageInfo: null });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const { user, isAuthenticated } = useAuth();
+  const Admin = user?.role === "admin";
   const navigate = useNavigate();
-  const { user } = useAuth();
 
-  const fetchData = useCallback(async (params: { offset: number; limit: number }) => {
+  const fetchData = useCallback(async () => {
     try {
-      setIsLoading(true);
-      const response = await getScoreBoard(params);
+      const result = await getScoreBoard(page, pageSize);
       setData({
-        nodes: response ?? [],
+        nodes: result.results,
         pageInfo: {
-          total: response.length,
-          startSize: params.offset + 1,
-          endSize: params.offset + response.length,
-          totalPages: Math.ceil(response.length / LIMIT)
-        }
+          count: result.count,
+          next: result.next,
+          previous: result.previous,
+        },
       });
     } catch (error) {
-      setErrors(error.toString());
-    } finally {
-      setIsLoading(false);
+      console.error("Error fetching data:", error);
+      setData({ nodes: [], pageInfo: null });
     }
-  }, []);
+  }, [page, pageSize]);
 
   useEffect(() => {
-    fetchData({
-      offset: 0,
-      limit: LIMIT,
-    });
+    fetchData();
   }, [fetchData]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+  const handleCreatePost = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else {
+      setSelectedPost(null);
+      setShowModal(true);
+    }
   };
 
-  const filteredPosts = data.nodes.filter((post) =>
-    post.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleUpdatePost = (post: PostType) => {
+    setSelectedPost(post);
+    setShowModal(true);
+  };
 
- 
-  const pagination = usePagination(
-    { nodes: filteredPosts },
-    {
-      state: { page: 0, size: LIMIT },
-      onChange: (action, state) => {
-        fetchData({
-          offset: state.page * LIMIT,
-          limit: LIMIT,
-        });
-      },
-    },
-    {
-      isServer: true,
+  const handleDeletePost = async (id: number) => {
+    if (window.confirm("Are you sure you want to delete this entry?")) {
+      try {
+        await deleteScoreboardEntry(id);
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting entry:", error);
+      }
     }
-  );
+  };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (errors) {
-    return <div>{errors}</div>;
-  }
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedPost(null);
+    fetchData();
+  };
 
   return (
-    <div className="p-4 min-h-[75vh]">
-      <h2 className="text-2xl font-bold mb-4">Posts</h2>
-      <div className="bg-white shadow-md rounded-lg p-4 text-black">
-        <h2 className="text-xl font-bold mb-4">Scoreboard</h2>
-        <div className="flex justify-end mb-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="px-2 py-1 border rounded-md"
-          />
-        </div>
-        <div className="overflow-x-auto">
-          <Table data={{ nodes: filteredPosts }} pagination={pagination}>
-            {(tableList) => (
-              <>
-                <Header>
-                  <HeaderRow>
-                    <HeaderCell className="">Team Name</HeaderCell>
-                    <HeaderCell className="">Score</HeaderCell>
-                    <HeaderCell className="">Ranking</HeaderCell>
-                    <HeaderCell className="">Content</HeaderCell>
-                    <HeaderCell className="">Actions</HeaderCell>
-                  </HeaderRow>
-                </Header>
-                <Body>
-                  {tableList.map((post: PostType) => (
-                    <Row key={post.id} item={post} className="border-t border-gray-300">
-                      <Cell className="">{post.teamname}</Cell>
-                      <Cell className="">{post.score}</Cell>
-                      <Cell className="">{post.ranking}</Cell>
-                      <Cell className="">{post.content}</Cell>
-                      <Cell>
-                        {user && (
-                          <button
-                            onClick={() => navigate(`/edit/${post.user}`)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3"
-                          >
-                            Edit
-                          </button>
-                        )}
+    <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col min-w-min">
+      <h1 className="text-3xl font-bold mb-6 text-black">Scoreboard</h1>
+      <div className="flex-grow bg-white rounded-lg shadow-md overflow-hidden">
+        <Table data={{ nodes: data.nodes }} className="overflow-x-auto">
+          {(tableList: PostType[]) => (
+            <>
+              <Header>
+                <HeaderRow>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Ranking</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/4">Team Name</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/4">Username</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Score</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Actions</HeaderCell>
+                </HeaderRow>
+              </Header>
+              <Body>
+                {tableList.length > 0 ? (
+                  tableList.map((item) => (
+                    <Row key={item.id} item={item}>
+                      <Cell className="py-2 px-4 border-b text-black">{item.ranking}</Cell>
+                      <Cell className="py-2 px-4 border-b text-black">{item.teamname}</Cell>
+                      <Cell className="py-2 px-4 border-b text-black">{item.username}</Cell>
+                      <Cell className="py-2 px-4 border-b text-black">{item.score}</Cell>
+                      {Admin && (
+                      <Cell className="py-2 px-4 border-b text-black">
+                        <button
+                          onClick={() => handleUpdatePost(item)}
+                          className="mr-2 text-blue-500 hover:text-blue-700"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeletePost(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          Delete
+                        </button>
                       </Cell>
+                      )}
                     </Row>
-                  ))}
-                </Body>
-              </>
-            )}
-          </Table>
-          {user && (
-            <button
-              onClick={() => setCreatePost(true)}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3 ml-2"
-            >
-              Create Post
-            </button>
+                  ))
+                ) : (
+                  <Row item={null}>
+                    <Cell colSpan={5} className="py-4 text-center text-gray-500">No data available</Cell>
+                  </Row>
+                )}
+              </Body>
+            </>
           )}
-        </div>
+        </Table>
+      </div>
 
+      <div className="mt-6 flex justify-between items-center">
+        <button
+          onClick={handleCreatePost}
+          className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+        >
+          Create Post
+        </button>
         {data.pageInfo && (
-          <div className="flex justify-center mt-4">
-            <div className="flex items-center space-x-2">
-            <span>
-              Rows per page: {data.pageInfo.startSize} out of {data.pageInfo.total}
-              </span>
-  
-              <button
-                type="submit"
-                disabled={pagination.state.page + 1 === data.pageInfo?.totalPages}
-                onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-              >
-                Next Page
-              </button>
-
-              <button
-                type="submit"
-                disabled={pagination.state.page === 0}
-                onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
-              >
-                Prev Page
-              </button>
-            
-            </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-black">
+              Page {page} of {Math.ceil(data.pageInfo.count / pageSize)}
+            </span>
+            <button
+              type="button"
+              disabled={!data.pageInfo.previous}
+              onClick={() => setPage(page - 1)}
+              className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-1 px-2 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              disabled={!data.pageInfo.next}
+              onClick={() => setPage(page + 1)}
+              className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-1 px-2 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         )}
       </div>
 
-      {createPost && <Post onClose={() => setCreatePost(false)} />}
+      {showModal && <PostComponent onClose={handleCloseModal} initialData={selectedPost} />}
     </div>
   );
 };

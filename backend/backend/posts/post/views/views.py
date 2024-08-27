@@ -1,14 +1,14 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser, MultiPartParser
 from ...models import Post
 from .serializer import PostSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import api_view, parser_classes
+from rest_framework import viewsets
 
 
 
-class PostViewSet:
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 

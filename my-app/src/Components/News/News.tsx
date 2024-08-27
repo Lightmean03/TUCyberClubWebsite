@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import html2canvas from "html2canvas";
 import axios from "axios";
-import jsPDF from "jspdf";
+import { createEvents } from 'ics';
 import { API_URL } from "../../lib/constants";
-import Modal from "antd/es/modal/Modal";
 
 const News = () => {
   const [events, setEvents] = useState([]);
@@ -14,13 +12,10 @@ const News = () => {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/calendar/events`,
-        );
+        const response = await axios.get(`${API_URL}/calendar/events`);
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -31,76 +26,87 @@ const News = () => {
   }, []);
 
   const handleExport = () => {
-    const calendarElement = document.querySelector(".fc") as HTMLElement; 
+    const icsEvents = events.map(event => ({
+      start: new Date(event.start),
+      end: new Date(event.end),
+      title: event.title,
+      description: event.description || '',
+    }));
 
-    html2canvas(calendarElement).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.text("Calendar", 20, 20);
-      pdf.save("calendar.pdf");
+    createEvents(icsEvents.map(event => ({
+      ...event,
+      start: [event.start.getFullYear(), event.start.getMonth() + 1, event.start.getDate()],
+      end: [event.end.getFullYear(), event.end.getMonth() + 1, event.end.getDate()]
+    })), (error, value) => {
+      if (error) {
+        console.error("Error creating ICS events:", error);
+        return;
+      }
+      const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', 'events.ics');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   };
 
-const handleAddEvent = async () => {
-  try {
-    const response = await axios.post(
-      `${API_URL}/calendar/events`,
-      {
+  const handleAddEvent = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/calendar/events`, {
         title,
         start,
         end,
-      }
-    );
-    console.log("response", response);
-    setEvents([...events, response.data]);
-    setShowModal(false);
-  } catch (error) {
-    console.error("Error adding event:", error);
-  }
-};
+      });
+      setEvents([...events, response.data]);
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
+  };
 
-
-
-
-
-  
   return (
-    <div
-      className="relative pt-16 pb-32 flex content-center items-center justify-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div
-        className="max-w-2xl mx-auto p-2 hover: cursor-pointer"
-        style={{ height: "1000px", width: "1000px" }}
-      >
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          weekends={false}
-          events={events}
-          
-        />
-        <button
-          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleExport}
-        >
-          Export Calendar
-        </button>
-  <button 
-    className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700 transition-colors ml-4"
-    onClick={() => setShowModal(true)}
-  > Add Event</button>
-</div>
-      
+    <div className="min-h-screen bg-white pt-16 pb-32">
+      <div className="container mx-auto px-4">
+        <h1 className="text-5xl font-bold mb-8 text-center">Club Calendar</h1>
+        <div className="card bg-white shadow-xl">
+          <div className="card-body text-black">
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              weekends={false}
+              events={events}
+              headerToolbar={{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+              }}
+            />
+            <div className="card-actions justify-end mt-4">
+            <button className="btn btn-primary" onClick={handleExport}>Export to Calendar</button>
+              <button className="btn btn-secondary" onClick={() => setShowModal(true)}>Add Event</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-
+      {showModal && (
+        <div className="modal modal-open text-black" >
+          <div className="modal-box bg-white">
+            <h3 className="font-bold text-lg">Add New Event</h3>
+            <input type="text" placeholder="Event Title" className="input input-bordered w-full mt-4 text-black" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type="date" className="input input-bordered w-full mt-4 text-black" value={start} onChange={(e) => setStart(e.target.value)} />
+            <input type="date" className="input input-bordered w-full mt-4 text-black" value={end} onChange={(e) => setEnd(e.target.value)} />
+            <div className="modal-action bg-white">
+              <button className="btn text-black" onClick={() => setShowModal(false)}>Cancel</button>
+              <button className="btn btn-primary text-black" onClick={handleAddEvent}>Add Event</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default News;
