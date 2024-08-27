@@ -6,44 +6,59 @@ import { useAuth } from "../../utils/authContext";
 import axios from "axios";
 import { API_URL } from "../../lib/constants";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../utils/authStore";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 const AdminPanel = () => {
-  const [authenticated, setAuthenticated] = useState(true);
   const [userList, setUserList] = useState([]);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const { refreshAccessToken } = useAuthStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const isAdmin = () => {
-      if (user.role === 'admin') {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-      }
-    };
-
     const getUsers = async () => {
-      if (authenticated) {
+      if (user && user.role === 'admin' && token) {
         try {
-          const token = user.access;
-          const response = await axios.get(`${API_URL}/api/users/`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            }
-          });
+          const response = await fetchUsers(token);
           setUserList(response.data.users);
         } catch (error) {
-          console.error(error);
+          console.error('Error fetching users:', error);
+          if (error.response && error.response.status === 401) {
+            try {
+              await refreshAccessToken();
+              const newToken = localStorage.getItem('token');
+              if (newToken) {
+                const response = await fetchUsers(newToken);
+                setUserList(response.data.users);
+              } else {
+                navigate('/signin');
+              }
+            } catch (refreshError) {
+              console.error('Error refreshing token:', refreshError);
+              navigate('/signin');
+            }
+          } else {
+            navigate('/signin');
+          }
         }
+      } else {
+        navigate('/signin');
       }
     };
+    
+    const fetchUsers = async (token) => {
+      return axios.get(`${API_URL}/api/users/`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+    };
 
-    isAdmin();
     getUsers();
-  }, [authenticated, user]);
+  }, [user, token, refreshAccessToken, navigate]);
 
   const userColumns = [
     {
@@ -72,7 +87,7 @@ const AdminPanel = () => {
     },
   ];
 
-  if (!authenticated) {
+  if (!user || !token) {
     return <Link to="/signin" />;
   }
 

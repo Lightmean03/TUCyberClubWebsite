@@ -11,6 +11,11 @@ class CustomUser(AbstractUser):
     )
 
     role = models.CharField(max_length=5, choices=Roles, default='user')
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    role = models.CharField(max_length=5, choices=Roles, default='user')
     def __str__(self):
         return self.username
     

@@ -26,18 +26,19 @@ def signin(request):
     if serializer.is_valid():
         username = serializer.validated_data['username']
         password = serializer.validated_data['password']
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             refresh = RefreshToken.for_user(user)
-            return Response({'success': 'User logged in successfully', 
-                             'username': user.username,
-                             'role': user.role,
-                             'user_id': user.id,
-                             'access': str(refresh.access_token),
-                            'refresh': str(refresh)
-                             }, status=200)
-        return Response({'error': 'Invalid credentials'}, status=400)
+            return Response({
+                'success': 'User logged in successfully',
+                'username': user.username,
+                'role': user.role,
+                'user_id': user.id,
+                'access': str(refresh.access_token),
+                'refresh': str(refresh)
+            }, status=200)
+        return Response({'error': 'Invalid credentials'}, status=401)
     return Response(serializer.errors, status=400)
     
 
@@ -82,16 +83,30 @@ def update_user_role(request, user_id):
         return Response({'error': str(e)}, status=400)
 
 
-@api_view(['GET'])
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_all_users(request):
     try:
-        if(request.user.role != 'admin'):
-            return Response({'error': 'You are not authorized to view this page'}, status=400)
+        if not request.user.is_authenticated or request.user.role != 'admin':
+            return Response({'error': 'You are not authorized to view this page'}, status=403)
         users = CustomUser.objects.all()
         serializer = CustomUserSerializer(users, many=True)
         return Response({'users': serializer.data}, status=200)
     except Exception as e:
         return Response({'error': str(e)}, status=400)
     
-       
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def update_user_password(request):
+    try:
+        user = request.user
+        serializer = CustomUserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success': 'Password updated successfully'}, status=200)
+        return Response(serializer.errors, status=400)
+    except Exception as e:
+        return Response({'error': str(e)}, status=400)
+

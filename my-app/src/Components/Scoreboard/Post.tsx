@@ -1,69 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { createScoreboard } from "../../utils/scoreBoardApi";
+import React, { useState } from "react";
+import { createScoreboard, updateScoreboardEntry } from "../../utils/scoreBoardApi";
 import { useAuth } from "../../utils/authContext";
 
 interface Post {
-  content: string;
+  id?: number;
   score: string;
-  ranking: string;
   teamname: string;
-  user: number;
 }
 
-const PostComponent = ({onClose}) => {
-  const { user } = useAuth();
-  const [post, setPost] = useState<Post>({
-    content: "",
+const PostComponent = ({ onClose, initialData = null }) => {
+  const [post, setPost] = useState<Post>(initialData || {
     score: "",
-    ranking: "",
     teamname: "",
-    user: user.user_id,
   });
-  const navigate = useNavigate();
-  
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createScoreboard(post);
-      navigate("/posts");
+      if (!user) {
+        throw new Error("You must be logged in to create or update a post");
+      }
+      if (post.id) {
+        await updateScoreboardEntry(post.id, post);
+      } else {
+        await createScoreboard(post);
+      }
+      onClose();
     } catch (error) {
       console.error("Post error:", error);
+      setError(error.message);
     }
   };
 
-
-
   return (
-    <div className="absolute top-0 left-0 z-10 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white shadow-md rounded-lg p-6 relative">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <h2 className="text-2xl text-black font-bold mb-4">Create Post</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center overflow-y-auto">
+      <div className="bg-white rounded-lg p-8 max-w-md w-full">
+        <h2 className="text-2xl font-bold mb-4 text-black">
+          {post.id ? "Update" : "Create"} Scoreboard Entry
+        </h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="ranking" className="text-black">Ranking</label>
-            <input
-              type="text"
-              id="ranking"
-              name="ranking"
-              value={post.ranking}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 mt-2 text-black"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="teamname" className="text-black">Team Name</label>
+          <div className="mb-4">
+            <label htmlFor="teamname" className="block text-sm font-medium text-black">
+              Team Name
+            </label>
             <input
               type="text"
               id="teamname"
@@ -71,39 +57,36 @@ const PostComponent = ({onClose}) => {
               value={post.teamname}
               onChange={handleChange}
               required
-              className="w-full border rounded-md p-2 mt-2 text-black"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-black"
             />
           </div>
-
-          <div>
-            <label htmlFor="score" className="text-black">Score</label>
+          <div className="mb-4">
+            <label htmlFor="score" className="block text-sm font-medium text-black">
+              Score
+            </label>
             <input
-              type="text"
+              type="number"
               id="score"
               name="score"
               value={post.score}
               onChange={handleChange}
               required
-              className="w-full border rounded-md p-2 mt-2 text-black"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-black"
             />
           </div>
-
-          
-          
-          <div>
-            <label htmlFor="content" className="text-black">Content</label>
-            <textarea
-              id="content"
-              name="content"
-              value={post.content}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 text-black"
-            />
-          </div>
-          <div className="mt-4 flex justify-center">
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3">
-              Submit
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="mr-2 px-4 py-2 text-sm font-medium text-black bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            >
+              {post.id ? "Update" : "Create"}
             </button>
           </div>
         </form>
@@ -111,6 +94,5 @@ const PostComponent = ({onClose}) => {
     </div>
   );
 };
-
 
 export default PostComponent;

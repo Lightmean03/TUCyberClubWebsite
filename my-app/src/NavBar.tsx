@@ -1,19 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaRegUser } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa";
 import React from "react";
 import { useAuthStore } from "./utils/authStore";
 
-
 export default function Navbar({ logo }: { logo?: string }) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
   const { user, handleSignOut } = useAuthStore();
-  console.log("user", user)
-
+  
   const handleLogout = async () => {
     try {
       handleSignOut();
@@ -22,141 +17,58 @@ export default function Navbar({ logo }: { logo?: string }) {
       console.log(error);
     }
   };
-  
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+
+  const Admin = user && user.role === 'admin';
 
   return (
-    <nav className="px-4 py-4 flex-row items-center z-0 bg-[#d29b04]">
-      <div className="flex-grow flex items-center justify-between">
-        <div className="hidden md:flex space-x-4 pl-2 text-white font-sans font-medium ">
-          <CustomLink href="/home">Home</CustomLink>
-          <CustomLink href="/about">About</CustomLink>
-          <CustomLink href="/news">News</CustomLink>
-          <CustomLink href="/resources">Resources</CustomLink>
-          <CustomLink href="/posts">Scoreboard</CustomLink>
-        </div>
-        <div className="flex items-center space-x-4">
-          {user ? (
-            <UserDropdown
-              user={user.username}
-              onLogout={handleLogout}
-              isMobileMenuOpen={isMobileMenuOpen}
-            />
-          ) : (
-            <CustomLink href="/signin">
-              <FaRegUser className="text-gray-500" />
-            </CustomLink>
-          )}
-
-          <button onClick={toggleMobileMenu} className="md:hidden text-white">
-            {isMobileMenuOpen ? <IoMdClose /> : <FaBars />}
-          </button>
-        </div>
-      </div>
-      {isMobileMenuOpen && (
-        <div className="md:hidden flex flex-col gap-4 justify-center items-center">
-          <CustomLink href="/home" className="hover:bg-black">
-            Home
-          </CustomLink>
-          <CustomLink href="/signin" className="hover:bg-black">
-            Sign-In
-          </CustomLink>
-          <CustomLink href="/about" className="hover:bg-black">
-            About
-          </CustomLink>
-          <CustomLink href="/news" className="hover:bg-black">
-            News
-          </CustomLink>
-          <CustomLink href="/resources" className="hover:bg-black">
-            Resources
-          </CustomLink>
-          
-          <CustomLink href="/posts" className="hover:bg-black">
-            Posts
-          </CustomLink>
-        </div>
-      )}
-    </nav>
-  );
-}
-
-const CustomLink = React.forwardRef<
-  HTMLAnchorElement,
-  React.AnchorHTMLAttributes<HTMLAnchorElement>
->(({ className, href, ...props }, ref) => (
-  <Link to={href as string} ref={ref} {...props}>
-    {props.children}
-  </Link>
-));
-
-
-const UserDropdown = ({
-  onLogout,
-  isMobileMenuOpen,
-  user,
-}: {
-  user: any;
-  onLogout: () => void;
-  isMobileMenuOpen: boolean;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  console.log("mobile", isMobileMenuOpen);
-  console.log("open", isOpen);
-
-  return (
-    <div className="relative z-1">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 focus:outline-none"
-      >
-        <span className="text-sm font-medium">{user?.name}</span>
-        <FaRegUser className="text-gray-500" />
-      </button>
-      {isOpen && (
-        <div
-          className={`absolute mt-2 w-48 min-w-0 max-w-screen bg-white border border-gray-300 rounded-md shadow-lg z-30 
-          ${isMobileMenuOpen && isOpen ? "left-0" : "right-0"}
-          `}
-        >
-          <ul>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-black overflow-auto">
-              <CustomLink href="/profile">Profile</CustomLink>
-            </li>
-            <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-black  overflow-auto"
-              onClick={onLogout}
-            >
-              Logout
-            </li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer overflow-auto text-black">
-              <CustomLink href="/dashboard">Dashboard</CustomLink>
-            </li>
+    <div className="navbar bg-gold text-black">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+          </label>
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><Link to="/home">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/news">News</Link></li>
+            <li><Link to="/resources">Resources</Link></li>
+            <li><Link to="/scoreboard">Scoreboard</Link></li>
           </ul>
         </div>
-      )}
+        <Link to="/home" className="btn btn-ghost normal-case text-xl">CyberClub</Link>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/news">News</Link></li>
+          <li><Link to="/resources">Resources</Link></li>
+          <li><Link to="/scoreboard">Scoreboard</Link></li>
+          <li><Link to="/attendance">Attendance</Link></li>
+        </ul>
+      </div>
+      <div className="navbar-end">
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <FaRegUser className="w-6 h-6 m-2" />
+              </div>
+            </label>
+            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-black rounded-box w-52">
+              <div className="text-white">
+              <li><Link to="/profile">Profile</Link></li>
+              {Admin && <li><Link to="/dashboard">Dashboard</Link></li>}
+              <li><a onClick={handleLogout}>Logout</a></li>
+              </div>
+            </ul>
+          </div>
+        ) : (
+          <Link to="/signin" className="btn btn-ghost btn-circle">
+            <FaRegUser className="w-5 h-5" />
+          </Link>
+        )}
+      </div>
     </div>
   );
-};
-
-  function CustomLinkWithHoverableDropdown({ label, children }) {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const handleMouseEnter = () => {
-      setIsDropdownOpen(true);
-    };
-    const handleMouseLeave = () => {
-      setIsDropdownOpen(false);
-    };
-
-    return (
-      <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        {!isDropdownOpen && (
-          <button className="btn dropdown-label">{label}</button>
-        )}
-        {isDropdownOpen && <ul className="submenu">{children}</ul>}
-      </li>
-    );
-  }
-
+}

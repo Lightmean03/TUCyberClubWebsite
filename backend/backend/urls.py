@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),   
     path('api/', include('backend.authentication.api.urls')),
     path('post/', include('backend.posts.post.urls')),
+    path('attendance/', include('backend.attendance.attendance.urls')),
+    path('scoreboard/', include('backend.scoreboard.scoreboard.urls')),
 ]
