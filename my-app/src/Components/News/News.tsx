@@ -15,7 +15,7 @@ const News = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/calendar/events`);
+        const response = await axios.get(`${API_URL}/calander/calendar/`);
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -54,7 +54,7 @@ const News = () => {
 
   const handleAddEvent = async () => {
     try {
-      const response = await axios.post(`${API_URL}/calendar/events`, {
+      const response = await axios.post(`${API_URL}/calendar/calendar/create`, {
         title,
         start,
         end,
@@ -95,11 +95,11 @@ const News = () => {
         <div className="modal modal-open text-black" >
           <div className="modal-box bg-white">
             <h3 className="font-bold text-lg">Add New Event</h3>
-            <input type="text" placeholder="Event Title" className="input input-bordered w-full mt-4 text-black" value={title} onChange={(e) => setTitle(e.target.value)} />
-            <input type="date" className="input input-bordered w-full mt-4 text-black" value={start} onChange={(e) => setStart(e.target.value)} />
-            <input type="date" className="input input-bordered w-full mt-4 text-black" value={end} onChange={(e) => setEnd(e.target.value)} />
+            <input type="text" placeholder="Event Title" className="input w-full mt-4 text-black bg-white" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type="date" className="input w-full mt-4 text-black bg-white" value={start} onChange={(e) => setStart(e.target.value)} />
+            <input type="date" className="input w-full mt-4 text-black bg-white" value={end} onChange={(e) => setEnd(e.target.value)} />
             <div className="modal-action bg-white">
-              <button className="btn text-black" onClick={() => setShowModal(false)}>Cancel</button>
+              <button className="btn text-black btn-primary" onClick={() => setShowModal(false)}>Cancel</button>
               <button className="btn btn-primary text-black" onClick={handleAddEvent}>Add Event</button>
             </div>
           </div>

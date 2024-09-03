@@ -29,8 +29,10 @@ SECRET_KEY = 'django-insecure-9@=i+*arekpk6w&hs!vlwpaqnk9%aufqw*onm&r)d95f524p2y
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    #'localhost',
-   # '127.0.0.1:8000'
+    'localhost',
+   '127.0.0.1',
+   'db.tucyber.club',
+   '0.0.0.0', 
 ]
 
 
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'backend.posts',
     'backend.attendance',
     'backend.scoreboard',
+    'backend.calendar',
 ]
 
 REST_FRAMEWORK = {

@@ -7,7 +7,7 @@ import Resources from "./Components/Resources/Resources";
 import News from "./Components/News/News";
 import Signup from "./Components/Signup/Signup";
 import Layout from "./Components/Layout";
-import { Footer } from "./components/Footer/footer";
+import { Footer } from "./Components/Footer/footer";
 import AdminPanel from "./Components/Admin/Admin";
 import Profile from "./Components/Profile/Profile";
 import ProtectedRoute from "./Components/ProtectedRoute";
