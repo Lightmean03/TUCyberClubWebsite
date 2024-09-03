@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/', include('backend.authentication.api.urls')),
     path('attendance/', include('backend.attendance.attendance.urls')),
     path('scoreboard/', include('backend.scoreboard.scoreboard.urls')),
+    path('calendar/', include('backend.calendar.calendar.urls')),
+    
 ]
