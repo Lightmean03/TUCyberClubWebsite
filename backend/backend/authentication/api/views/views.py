@@ -46,9 +46,11 @@ def signin(request):
 def signout(request):
     try:
         refresh_token = request.data.get('refresh')
+        print(refresh_token, 'refresh_token')
         print(f"Received refresh token: {refresh_token}")
         if not refresh_token:
             return Response({'error': 'Please provide refresh token'}, status=400)
+        token = RefreshToken(refresh_token)     
         try:
             token = RefreshToken(refresh_token)
             token.blacklist()
@@ -60,6 +62,8 @@ def signout(request):
     except Exception as e:
         print(f"Unexpected error in signout: {str(e)}")
         return Response({'error': str(e)}, status=400)
+    
+    
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

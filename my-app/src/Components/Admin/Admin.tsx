@@ -15,6 +15,7 @@ const AdminPanel = () => {
   const [userList, setUserList] = useState([]);
   const { user, token } = useAuth();
   const { refreshAccessToken } = useAuthStore();
+  const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,25 +66,25 @@ const AdminPanel = () => {
       title: 'id',
       dataIndex: 'id',
       key: 'id',
-      render: (id) => `${id}`
+      render: (id: number) => `${id}`
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (email) => `${email}`,
+      render: (email: string) => `${email}`,
     },
     {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      render: (role) => `${role}`,
+      render: (role: string) => `${role}`,
     },
     {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      render: (username) => `${username}`,
+      render: (username: string)=> `${username}`,
     },
   ];
 
@@ -91,19 +92,21 @@ const AdminPanel = () => {
     return <Link to="/signin" />;
   }
 
+ 
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout>
         <Sider width={200} className="bg-gray-900">
           <Menu
-            theme="dark"
             mode="inline"
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
+            style={{ height: "100%", borderRight: 0 , backgroundColor: "#d29b04", color: '#fff', }}
+            
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="User Data">
-              <Menu.Item key="1">Users</Menu.Item>
+              <Menu.Item key="1" className=" hover:bg-black text-white">Users</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
