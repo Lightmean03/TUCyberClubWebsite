@@ -63,54 +63,58 @@ export default function About() {
       <section className="w-full max-w-6xl px-6 my-16 mx-auto">
   <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Club Events</h2>
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={clubmeeting} alt="clubmeeting" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">Club Meeting</span>
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={clubmeeting} alt="clubmeeting" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">Club Meeting</span>
       </div>
     </div>
-    
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={loyala} alt="loyala" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">Loyola Event</span>
+
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={loyala} alt="loyala" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">Loyola Event</span>
       </div>
     </div>
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={cptc} alt="loyala" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">CPTC</span>
+
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={cptc} alt="cptc" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">CPTC</span>
       </div>
     </div>
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={maccdc} alt="loyala" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">Mid-Atlantic Collegiate Cyber Defense Competition</span>
+
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={maccdc} alt="maccdc" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">Mid-Atlantic Collegiate Cyber Defense Competition</span>
       </div>
     </div>
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={cybermaryland} alt="loyala" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">Cyber Maryland</span>
+
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={cybermaryland} alt="cybermaryland" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">Cyber Maryland</span>
       </div>
     </div>
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <img src={maccdc2014} alt="loyala" className="w-full h-auto object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-      <div className="absolute inset-0 flex items-end p-6">
-        <span className="text-white text-xl font-semibold">Mid-Atlantic Collegiate Cyber Defense Competition 2014</span>
+
+    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+      <img src={maccdc2014} alt="maccdc2014" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
+      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
+        <span className="text-white text-2xl font-semibold text-center">Mid-Atlantic Collegiate Cyber Defense Competition 2014</span>
       </div>
     </div>
-    
-    
   </div>
 </section>
+
+
+
 
       {/* Join Us Section */}
       <section className="w-full bg-gold py-24">
@@ -150,12 +154,12 @@ export default function About() {
               <p>Guiding the club since 2006 with expertise in network security and cryptography.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-2xl font-semibold mb-2">Kaden</h3>
+              <h3 className="text-2xl font-semibold mb-2">Kaden Pirmohamed</h3>
               <p className="text-primary font-medium mb-4">Club President</p>
               <p>Senior cybersecurity major with a focus on penetration testing and ethical hacking.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-2xl font-semibold mb-2"></h3>
+              <h3 className="text-2xl font-semibold mb-2">Josh</h3>
               <p className="text-primary font-medium mb-4">Vice President</p>
               <p>Junior computer science major specializing in malware analysis and reverse engineering.</p>
             </div>
