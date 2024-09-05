@@ -6,3 +6,5 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app 
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+
+# Modified from https://github.com/docker/awesome-compose/blob/master/django/app/Dockerfile
