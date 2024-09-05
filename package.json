@@ -19,6 +19,5 @@
     "*.{js,jsx,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.0.1"
   }
 }

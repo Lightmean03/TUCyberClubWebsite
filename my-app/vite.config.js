@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true,
+    open: false, // When true this setting causes the docker container to crash on startup
   },
   define: {
     "process.env": process.env,

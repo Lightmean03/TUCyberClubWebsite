@@ -1,0 +1,21 @@
+services:
+  my-app:
+    build:
+      context: my-app
+#      no_cache: true
+    ports:
+      - 3000:3000
+    networks:
+      internal:
+
+  backend:
+    build:
+      context: backend
+#      no_cache: true
+#    ports:
+#      - 8000:8000
+    networks:
+      internal:
+
+networks:
+  internal:
