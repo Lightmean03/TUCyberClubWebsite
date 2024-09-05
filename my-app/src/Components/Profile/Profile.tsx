@@ -7,13 +7,12 @@ const Profile = () => {
   const [error, setError] = useState("");
 
   return (
-    <div className="min-h-screen bg-base-200 text-base-content pt-16 pb-32">
+    <div className="min-h-screen bg-white text-black pt-16 pb-32">
       <div className="container mx-auto px-4">
-        <div className="card bg-base-100 shadow-xl">
+        <div className="card bg-white shadow-xl">
           <div className="card-body">
-            <h2 className="card-title text-3xl font-bold text-primary mb-6">User Profile</h2>
-            <div className="divider before:bg-primary after:bg-primary"></div>
-            
+            <h2 className="card-title text-3xl font-bold text-black mb-6">User Profile</h2>
+            <div className="divider before:bg-black after:bg-black"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="col-span-1 md:col-span-2">
                 <div className="avatar placeholder">
@@ -26,12 +25,11 @@ const Profile = () => {
               <ProfileField icon={<FaUser />} label="Username" value={user?.username} />
               <ProfileField icon={<FaEnvelope />} label="Email" value={user?.email} />
               <ProfileField icon={<FaCalendar />} label="Member Since" value={user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'} />
-              <ProfileField icon={<FaTrophy />} label="Achievements" value={`${user?.achievements?.length || 0} badges`} />
+              <ProfileField icon={<FaTrophy />} label="Points" value={`${user?.point?.length || 0} Points`} />
             </div>
-
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <button className="btn btn-primary">Edit Profile</button>
-              <button className="btn btn-outline btn-primary">Change Password</button>
+              <button className="btn bg-gold text-black hover:bg-amber-300">Edit Profile</button>
+              <button className="btn btn-outline bg-gold text-black hover:bg-amber-300">Change Password</button>
             </div>
           </div>
         </div>
@@ -44,14 +42,16 @@ const Profile = () => {
         )}
 
         <div className="mt-8">
-          <h3 className="text-2xl font-bold text-primary mb-4">Recent Activities</h3>
+          <h3 className="text-2xl font-bold text-black mb-4">Recent Activities</h3>
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
                 <tr>
+                  <div className="text-black">
                   <th>Date</th>
                   <th>Activity</th>
                   <th>Points</th>
+                  </div>
                 </tr>
               </thead>
               <tbody>
@@ -74,7 +74,7 @@ const Profile = () => {
 const ProfileField = ({ icon, label, value }) => (
   <div className="form-control">
     <label className="label">
-      <span className="label-text flex items-center">
+      <span className="label-text flex items-center text-black">
         {icon}
         <span className="ml-2">{label}</span>
       </span>
@@ -83,7 +83,7 @@ const ProfileField = ({ icon, label, value }) => (
       type="text"
       value={value}
       readOnly
-      className="input input-bordered w-full bg-base-200 text-base-content"
+      className="input input-bordered w-full bg-white text-black"
     />
   </div>
 );

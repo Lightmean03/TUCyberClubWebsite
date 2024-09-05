@@ -4,7 +4,7 @@ import { FaTwitter, FaInstagram, FaDiscord } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="text-base-content ">
+    <footer className="text-base-content">
     <div className="footer footer-center p-10 bg-gold">
         <nav className="grid grid-flow-col gap-6">
         <a

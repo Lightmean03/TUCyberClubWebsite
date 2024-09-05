@@ -139,10 +139,8 @@ CSRF_COOKIE_SECURE = False  # Set to True if your site uses HTTPS
 CSRF_COOKIE_HTTPONLY = False  # Set to True for added security
 CSRF_COOKIE_SAMESITE = 'Lax'
 
-CORS_ORIGIN_ALLOW_ALL = True
-
-
-
+#Only if you want all orgins to be allowed, not recommended. 
+#CORS_ORIGIN_ALLOW_ALL = True
 
 
 WSGI_APPLICATION = 'backend.wsgi.application'
