@@ -70,14 +70,12 @@ const PostList: React.FC = () => {
   };
 
   const handleDeletePost = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete this entry?")) {
       try {
         await deleteScoreboardEntry(id);
         fetchData();
       } catch (error) {
         console.error("Error deleting entry:", error);
       }
-    }
   };
 
   const handleCloseModal = () => {
@@ -89,17 +87,17 @@ const PostList: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col min-w-min">
       <h1 className="text-3xl font-bold mb-6 text-black">Scoreboard</h1>
-      <div className="flex-grow bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="flex-grow bg-white rounded-lg shadow-md sticky">
         <Table data={{ nodes: data.nodes }} className="overflow-x-auto">
           {(tableList: PostType[]) => (
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Ranking</HeaderCell>
-                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/4">Team Name</HeaderCell>
-                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/4">Username</HeaderCell>
-                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Score</HeaderCell>
-                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black w-1/6">Actions</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black ">Ranking</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black ">Team Name</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black ">Username</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black ">Score</HeaderCell>
+                  <HeaderCell className="py-3 px-4 bg-gray-100 font-semibold text-left text-black ">Actions</HeaderCell>
                 </HeaderRow>
               </Header>
               <Body>
@@ -142,7 +140,7 @@ const PostList: React.FC = () => {
       <div className="mt-6 flex justify-between items-center">
         <button
           onClick={handleCreatePost}
-          className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+          className="bg-gold hover:bg-gold text-black font-bold py-2 px-4 rounded"
         >
           Create Post
         </button>
@@ -155,7 +153,7 @@ const PostList: React.FC = () => {
               type="button"
               disabled={!data.pageInfo.previous}
               onClick={() => setPage(page - 1)}
-              className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-1 px-2 rounded disabled:opacity-50"
+              className="bg-gold hover:bg-gold text-black font-bold py-1 px-2 rounded disabled:opacity-50"
             >
               Previous
             </button>
@@ -163,7 +161,7 @@ const PostList: React.FC = () => {
               type="button"
               disabled={!data.pageInfo.next}
               onClick={() => setPage(page + 1)}
-              className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-1 px-2 rounded disabled:opacity-50"
+              className="bg-gold hover:bg-gold text-black font-bold py-1 px-2 rounded disabled:opacity-50"
             >
               Next
             </button>

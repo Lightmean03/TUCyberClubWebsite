@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-from django.http import HttpResponse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,6 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
+
 ]
 # Configure CSRF cookie settings
 CSRF_COOKIE_NAME = 'csrftoken'  # Change as desired
@@ -139,10 +139,8 @@ CSRF_COOKIE_SECURE = False  # Set to True if your site uses HTTPS
 CSRF_COOKIE_HTTPONLY = False  # Set to True for added security
 CSRF_COOKIE_SAMESITE = 'Lax'
 
-CORS_ORIGIN_ALLOW_ALL = True
-
-
-
+#Only if you want all orgins to be allowed, not recommended. 
+#CORS_ORIGIN_ALLOW_ALL = True
 
 
 WSGI_APPLICATION = 'backend.wsgi.application'

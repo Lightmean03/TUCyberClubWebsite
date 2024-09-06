@@ -7,11 +7,8 @@ import cptc from "@/assets/cptc.jpg"
 import maccdc from "@/assets/maccdc.jpg"
 import cybermaryland from "@/assets/cybermaryland.jpg"
 import maccdc2014 from "@/assets/maccdc_2014.jpg"
+import { FaLinkedin, FaTwitter, FaEnvelope, FaDiscord } from 'react-icons/fa';
 
-
-
-
-import { FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
 
 export default function About() {
   return (
@@ -159,7 +156,7 @@ export default function About() {
               <p>Senior cybersecurity major with a focus on penetration testing and ethical hacking.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-2xl font-semibold mb-2">Josh</h3>
+              <h3 className="text-2xl font-semibold mb-2">Josh Kimmel</h3>
               <p className="text-primary font-medium mb-4">Vice President</p>
               <p>Junior computer science major specializing in malware analysis and reverse engineering.</p>
             </div>
@@ -173,13 +170,10 @@ export default function About() {
         <div className="text-center">
           <p className="text-lg mb-4">Have questions or want to join? Reach out to us!</p>
           <p className="text-lg mb-4">Email: cyberclub@towson.edu</p>
-          <p className="text-lg mb-8">Meeting Location: Cook Library, Room 404</p>
+          <p className="text-lg mb-8">Meeting Location: Cyber Center, Room 364</p>
           <div className="flex justify-center space-x-6">
-            <a href="#" className="text-primary hover:text-primary-dark transition-colors">
-              <FaLinkedin size={24} />
-            </a>
-            <a href="#" className="text-primary hover:text-primary-dark transition-colors">
-              <FaTwitter size={24} />
+            <a href="https://discord.gg/XM85TkNXbS" className="text-primary hover:text-primary-dark transition-colors">
+              <FaDiscord size={24} />
             </a>
             <a href="mailto:cyberclub@towson.edu" className="text-primary hover:text-primary-dark transition-colors">
               <FaEnvelope size={24} />

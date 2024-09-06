@@ -1,26 +1,39 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib.auth import authenticate, login, logout
 from .serializers import RegisterSerializer, CustomUserSerializer, LoginSerializer
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.exceptions import ValidationError
+import re
 from ...models import CustomUser
 
 @api_view(['POST'])
-@csrf_exempt
 def signup(request):
+    email = request.data.get('email')
+    if email and not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return Response({'error': 'Invalid email format'}, status=400)
+
+    username = request.data.get('username')
+    role = request.data.get('role', 'user')
+
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'success': 'User created successfully'}, status=201)
-    return Response(serializer.errors, status=400)
+        if role != 'user':
+            return Response({'error': 'Only "user" role can be created'}, status=403)
+        try:
+            serializer.save()
+            return Response({'success': 'User created successfully'}, status=201)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
+    else:
+        return Response({'error': 'Permission denied', 'details': serializer.errors}, status=400)
+     
 
 
     
 
 @api_view(['POST'])
-@csrf_exempt
 def signin(request):
     serializer = LoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -62,7 +75,7 @@ def signout(request):
     except Exception as e:
         print(f"Unexpected error in signout: {str(e)}")
         return Response({'error': str(e)}, status=400)
-    
+
     
 
 @api_view(['GET'])
