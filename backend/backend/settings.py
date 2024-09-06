@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9@=i+*arekpk6w&hs!vlwpaqnk9%aufqw*onm&r)d95f524p2y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -131,6 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
+
 ]
 # Configure CSRF cookie settings
 CSRF_COOKIE_NAME = 'csrftoken'  # Change as desired

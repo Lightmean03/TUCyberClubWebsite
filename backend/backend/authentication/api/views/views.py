@@ -10,26 +10,24 @@ from ...models import CustomUser
 
 @api_view(['POST'])
 def signup(request):
-    # Validate email format
     email = request.data.get('email')
-    if email and not re.match(r"[^@]+@[^@]+.[^@]+", email):
+    if email and not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return Response({'error': 'Invalid email format'}, status=400)
 
-    # Validate username and role
     username = request.data.get('username')
     role = request.data.get('role', 'user')
-    #if role not in ['user']:
-        #return Response({'error': 'Invalid role'}, status=400)
-        
+
     serializer = RegisterSerializer(data=request.data)
-    if serializer.is_valid() and role == 'user':
+    if serializer.is_valid():
+        if role != 'user':
+            return Response({'error': 'Only "user" role can be created'}, status=403)
         try:
             serializer.save()
             return Response({'success': 'User created successfully'}, status=201)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
     else:
-        return Response(serializer.errors,'Permission denied' ,status=400)
+        return Response({'error': 'Permission denied', 'details': serializer.errors}, status=400)
      
 
 
@@ -65,18 +63,13 @@ def signout(request):
         print(f"Received refresh token: {refresh_token}")
         if not refresh_token:
             return Response({'error': 'Please provide refresh token'}, status=400)
-        
+        token = RefreshToken(refresh_token)     
         try:
             token = RefreshToken(refresh_token)
             token.blacklist()
-        except TokenError as e:
-            if 'Token is blacklisted' in str(e):
-                print(f"Token is already blacklisted: {str(e)}")
-                return Response({'success': 'User logged out successfully'}, status=200)
-            else:
-                print(f"Error blacklisting token: {str(e)}")
-                return Response({'error': f'Invalid token: {str(e)}'}, status=400)
-        
+        except Exception as e:
+            print(f"Error blacklisting token: {str(e)}")
+            return Response({'error': f'Invalid token: {str(e)}'}, status=400)
         logout(request)
         return Response({'success': 'User logged out successfully'}, status=200)
     except Exception as e:

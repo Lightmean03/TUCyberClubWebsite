@@ -25,7 +25,7 @@ export const useAuthStore = create(
         try {
           const response = await axios.post(`${API_URL}/api/signin/`, formData);
           const { access, refresh, username, role, user_id } = response.data;
-          localStorage.setItem('accessToken', access);
+          localStorage.setItem('token', access);
           localStorage.setItem('refreshToken', refresh);
           set({
             user: {
@@ -58,17 +58,14 @@ export const useAuthStore = create(
       handleSignUp: async (formData) => {
         try {
           const response = await axios.post(`${API_URL}/api/signup/`, formData);
-          const { access, refresh, username, role, user_id } = response.data;
-          localStorage.setItem('accessToken', access);
-          localStorage.setItem('refreshToken', refresh);
           set({
             user: {
-              id: user_id,
-              username: username,
-              role: role,
+              id: response.data.user_id,
+              username: response.data.username,
+              role: response.data.role,
             },
-            token: access,
-            refreshToken: refresh,
+            token: response.data.access,
+            refreshToken: response.data.refresh,
             isAuthenticated: true,
           });
         } catch (error) {
@@ -81,9 +78,7 @@ export const useAuthStore = create(
           const response = await axios.post(`${API_URL}/api/api/token/refresh/`, {
             refresh: get().refreshToken,
           });
-          const { access } = response.data;
-          localStorage.setItem('accessToken', access);
-          set({ token: access });
+          set({ token: response.data.access });
         } catch (error) {
           console.error('Token refresh error:', error);
           set({ user: null, token: null, refreshToken: null, isAuthenticated: false });
