@@ -62,8 +62,7 @@ def signout(request):
     except Exception as e:
         print(f"Unexpected error in signout: {str(e)}")
         return Response({'error': str(e)}, status=400)
-
-
+    
     
 
 @api_view(['GET'])
