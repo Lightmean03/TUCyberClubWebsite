@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../lib/constants';
+import Cookies from 'js-cookie';
 
 interface Attendee {
   id: number;
@@ -19,8 +20,15 @@ const AttendanceTracker: React.FC = () => {
   }, []);
 
   const fetchAttendees = async () => {
+    const csrfToken = Cookies.get('csrftoken');
+    const accessToken = localStorage.getItem('accessToken');
     try {
-      const response = await axios.get(`${API_URL}/attendance/attendance/`);
+      const response = await axios.get(`${API_URL}/attendance/attendance/`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'X-CSRFToken': csrfToken,
+        },
+      });
       setAttendees(response.data); 
     } catch (error) {
       console.error('Error fetching attendees:', error);
@@ -29,9 +37,17 @@ const AttendanceTracker: React.FC = () => {
   };
 
   const handleCheckIn = async (e: React.FormEvent) => {
+    const csrfToken = Cookies.get('csrftoken');
+    const accessToken = localStorage.getItem('accessToken');
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/attendance/attendance/create/`, { name });
+      await axios.post(`${API_URL}/attendance/attendance/create/`, { name },{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+          'X-CSRFToken': csrfToken,
+        },
+      });
       setName('');
       fetchAttendees();
     } catch (error) {

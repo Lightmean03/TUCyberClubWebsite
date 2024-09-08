@@ -5,10 +5,13 @@ interface AuthContextType {
   user: any;
   token: string | null;
   refreshToken: string | null;
+  csrfToken: string | null;
   isAuthenticated: boolean;
   handleSignIn: (formData: any) => Promise<void>;
   handleSignOut: () => Promise<void>;
   handleSignUp: (formData: any) => Promise<void>;
+  setCsrfToken: () => void;
+  refreshAccessToken: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

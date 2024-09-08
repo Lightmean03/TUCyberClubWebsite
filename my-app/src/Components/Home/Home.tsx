@@ -1,16 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import vid1 from "@/assets/backVideo.mp4";
 import bg1 from "@/assets/tuCLUBBG3.jpg";
 import bg2 from "@/assets/tuBg.jpeg";
 import "./animation.css";
-import {
-  HeroContent,
-  HeroDescription,
-  HeroMediaBackdrop,
-  HeroTitle,
-  HeroWrapper,
-} from "../ui/hero";
 
 
 export default function NewHome() {

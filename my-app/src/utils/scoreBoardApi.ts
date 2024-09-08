@@ -1,9 +1,17 @@
 import axios from 'axios';
 import { API_URL } from '../lib/constants'
+import Cookies from 'js-cookie';
 
-export const getScoreBoard = async (page, pageSize) => {
+export const getScoreBoard = async (page: number, pageSize: number) => {
+      const csrfToken = Cookies.get('csrftoken');
+      const accessToken = localStorage.getItem('accessToken');
   try {
-    const response = await axios.get(`${API_URL}/scoreboard/scoreboard/get_scoreboard/?page=${page}&page_size=${pageSize}`);
+    const response = await axios.get(`${API_URL}/scoreboard/scoreboard/get_scoreboard/?page=${page}&page_size=${pageSize}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'X-CSRFToken': csrfToken,
+    }});
     return response.data;
   } catch (error) {
     console.error("Error fetching scoreboard:", error);
@@ -11,12 +19,16 @@ export const getScoreBoard = async (page, pageSize) => {
   }
 };
 
-export const createScoreboard = async (data) => {
+export const createScoreboard = async (data: object) => {
+  const csrfToken = Cookies.get('csrftoken');
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('refreshToken', accessToken);
   try {
     const response = await axios.post(`${API_URL}/scoreboard/scoreboard/create`, data, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${accessToken}`,
+        'X-CSRFToken': csrfToken,
       }
     });
     return response.data;
@@ -26,12 +38,15 @@ export const createScoreboard = async (data) => {
   }
 };
 
-export const updateScoreboardEntry = async (id, data) => {
+export const updateScoreboardEntry = async (id: number, data: object) => {
+  const csrfToken = Cookies.get('csrftoken');
+  const accessToken = localStorage.getItem('accessToken');
   try {
     const response = await axios.put(`${API_URL}/scoreboard/scoreboard/${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${accessToken}`,
+        'X-CSRFToken': csrfToken,
       }
     });
     return response.data;
@@ -41,11 +56,15 @@ export const updateScoreboardEntry = async (id, data) => {
   }
 };
 
-export const deleteScoreboardEntry = async (id) => {
+export const deleteScoreboardEntry = async (id: number) => {
+    const csrfToken = Cookies.get('csrftoken');
+    const accessToken = localStorage.getItem('accessToken');
   try {
     const response = await axios.delete(`${API_URL}/scoreboard/scoreboard/${id}/delete/`, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'X-CSRFToken': csrfToken,
       }
     });
     return response.data;

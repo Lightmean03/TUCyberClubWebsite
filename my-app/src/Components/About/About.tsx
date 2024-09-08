@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./About.css";
 import clubmeeting from "@/assets/clubmeeting2021.jpg";
 import loyala from "@/assets/loyala.jpg";
@@ -7,10 +7,40 @@ import cptc from "@/assets/cptc.jpg"
 import maccdc from "@/assets/maccdc.jpg"
 import cybermaryland from "@/assets/cybermaryland.jpg"
 import maccdc2014 from "@/assets/maccdc_2014.jpg"
-import { FaLinkedin, FaTwitter, FaEnvelope, FaDiscord } from 'react-icons/fa';
+import Meeting2024 from "@/assets/1st_CyberMeet_2024.jpg"
+import Meeting2024_2 from "@/assets/2st_CyberMeet_2024.jpg"
+import Meeting2024_3 from "@/assets/3st_CyberMeet_2024.jpg"
+import Meeting2024_4 from "@/assets/4st_CyberMeet_2024.jpg"
+import Meeting2024_5 from "@/assets/5st_CyberMeet_2024.jpg"
+
+import { FaEnvelope, FaDiscord } from 'react-icons/fa';
 
 
 export default function About() {
+  const [aboutVisible, setAboutVisible] = useState(6);
+  const images = [
+    { src: clubmeeting, alt: "Club Meeting", title: "Club Meeting" },
+    { src: loyala, alt: "Loyola Event", title: "Loyola Event" },
+    { src: cptc, alt: "CPTC", title: "CPTC" },
+    { src: maccdc, alt: "Mid-Atlantic Collegiate Cyber Defense Competition", title: "Mid-Atlantic Collegiate Cyber Defense Competition" },
+    { src: cybermaryland, alt: "Cyber Maryland", title: "Cyber Maryland" },
+    { src: maccdc2014, alt: "Mid-Atlantic Collegiate Cyber Defense Competition 2014", title: "Mid-Atlantic Collegiate Cyber Defense Competition 2014" },
+    { src: Meeting2024, alt: "First CyberMeet of 2024", title: "First CyberMeet of 2024" },
+    { src: Meeting2024_2, alt: "Second CyberMeet of 2024", title: "Second CyberMeet of 2024" },
+    { src: Meeting2024_3, alt: "Third CyberMeet of 2024", title: "Third CyberMeet of 2024" },
+    { src: Meeting2024_4, alt: "Fourth CyberMeet of 2024", title: "Fourth CyberMeet of 2024" },
+    { src: Meeting2024_5, alt: "Fifth CyberMeet of 2024", title: "Fifth CyberMeet of 2024" },
+  ];
+
+  const handleShowMore = () => {
+    setAboutVisible(prevCount => Math.min(prevCount + 6, images.length));
+  };
+
+  const handleShowLess = () => {
+    setAboutVisible(prevCount => Math.max(prevCount - 6, 6));
+  };
+
+
   return (
     <div className="relative font-sans min-h-screen bg-white text-black flex flex-col items-center">
       {/* Hero Section */}
@@ -39,7 +69,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Weekly Meetings</h3>
-              <p>Every Thursday, we host hands-on workshops covering various cybersecurity topics.</p>
+              <p>Every Wednesdays and Thursdays, we host hands-on workshops covering various cybersecurity topics.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Guest Speakers</h3>
@@ -58,60 +88,41 @@ export default function About() {
       </section>
 
       <section className="w-full max-w-6xl px-6 my-16 mx-auto">
-  <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Club Events</h2>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={clubmeeting} alt="clubmeeting" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">Club Meeting</span>
-      </div>
-    </div>
-
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={loyala} alt="loyala" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">Loyola Event</span>
-      </div>
-    </div>
-
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={cptc} alt="cptc" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">CPTC</span>
-      </div>
-    </div>
-
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={maccdc} alt="maccdc" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">Mid-Atlantic Collegiate Cyber Defense Competition</span>
-      </div>
-    </div>
-
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={cybermaryland} alt="cybermaryland" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">Cyber Maryland</span>
-      </div>
-    </div>
-
-    <div className="relative h-64 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
-      <img src={maccdc2014} alt="maccdc2014" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 hover:opacity-70"></div>
-      <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 hover:opacity-100">
-        <span className="text-white text-2xl font-semibold text-center">Mid-Atlantic Collegiate Cyber Defense Competition 2014</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
+        <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Club Events</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {images.slice(0, aboutVisible).map((image, index) => (
+            <div key={index} className="relative group">
+              <img src={image.src} alt={image.alt} className="w-full h-64 object-cover rounded-lg" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70"></div>
+              <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                <span className="text-white text-2xl font-semibold text-center">{image.title}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {aboutVisible < images.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={handleShowMore}
+              className="px-4 py-2 btn btn-primary text-white rounded-lg hover:bg-amber-400 transition-colors"
+            >
+              Show More
+            </button>
+            
+          </div>
+        )}
+        {aboutVisible > 6 && (
+          <div className="text-center mt-8">
+            <button
+              onClick={handleShowLess}
+              className="px-4 py-2 btn btn-primary text-white rounded-lg hover:bg-amber-400 transition-colors"
+            >
+              Show Less
+            </button>
+          </div>
+        )}
+      </section>
+      
 
       {/* Join Us Section */}
       <section className="w-full bg-gold py-24">
@@ -153,12 +164,12 @@ export default function About() {
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <h3 className="text-2xl font-semibold mb-2">Kaden Pirmohamed</h3>
               <p className="text-primary font-medium mb-4">Club President</p>
-              <p>Senior cybersecurity major with a focus on penetration testing and ethical hacking.</p>
+              <p>Junior cybersecurity major with a focus on penetration testing and ethical hacking.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <h3 className="text-2xl font-semibold mb-2">Josh Kimmel</h3>
               <p className="text-primary font-medium mb-4">Vice President</p>
-              <p>Junior computer science major specializing in malware analysis and reverse engineering.</p>
+              <p>Junior Information Technology major interest in networking.</p>
             </div>
           </div>
         </div>
