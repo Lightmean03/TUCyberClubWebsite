@@ -1,24 +1,30 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.decorators import api_view, permission_classes as rest_decorators
 from rest_framework.response import Response
+from rest_framework_simplejwt import serializers as jwt_serializers, views as jwt_views, exceptions as jwt_exceptions
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from django.contrib.auth import authenticate, login, logout
-from .serializers import RegisterSerializer, CustomUserSerializer, LoginSerializer
 from rest_framework.exceptions import ValidationError
-import re
+from rest_framework import exceptions as rest_exceptions, decorators as rest_decorators, permissions as rest_permissions
+from django.middleware import csrf
+from django.contrib.auth import authenticate
+from .serializers import RegisterSerializer, CustomUserSerializer, LoginSerializer
 from ...models import CustomUser
+from django.conf import settings
+from django_ratelimit.decorators import ratelimit
 
-@api_view(['POST'])
+def get_user_tokens(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'access': str(refresh.access_token),
+        'refresh': str(refresh)
+    }
+
+@rest_decorators.api_view(["POST"])
+@rest_decorators.permission_classes([])
+@ratelimit(key='ip', rate='1/m', method='POST', block=True)
 def signup(request):
-    email = request.data.get('email')
-    if email and not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        return Response({'error': 'Invalid email format'}, status=400)
-
-    username = request.data.get('username')
-    role = request.data.get('role', 'user')
-
     serializer = RegisterSerializer(data=request.data)
-    if serializer.is_valid():
+    role = request.data.get('role', 'user')
+    if serializer.is_valid(raise_exception=True):
         if role != 'user':
             return Response({'error': 'Only "user" role can be created'}, status=403)
         try:
@@ -26,60 +32,55 @@ def signup(request):
             return Response({'success': 'User created successfully'}, status=201)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
-    else:
-        return Response({'error': 'Permission denied', 'details': serializer.errors}, status=400)
-     
+    return Response({'error': 'Permission denied', 'details': serializer.errors}, status=400)
 
-
-    
-
-@api_view(['POST'])
+@rest_decorators.api_view(["POST"])
+@rest_decorators.permission_classes([])
 def signin(request):
     serializer = LoginSerializer(data=request.data)
-    if serializer.is_valid():
-        username = serializer.validated_data['username']
-        password = serializer.validated_data['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'success': 'User logged in successfully',
-                'username': user.username,
-                'role': user.role,
-                'user_id': user.id,
-                'access': str(refresh.access_token),
-                'refresh': str(refresh)
-            }, status=200)
-        return Response({'error': 'Invalid credentials'}, status=401)
-    return Response(serializer.errors, status=400)
-    
+    serializer.is_valid(raise_exception=True)
 
-@api_view(['POST'])
+    username = serializer.validated_data["username"]
+    password = serializer.validated_data["password"]
+
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        tokens = get_user_tokens(user)
+        response = Response()
+        response.set_cookie(key=settings.SIMPLE_JWT['AUTH_COOKIE'], value=tokens["access"], httponly=True)
+        response.set_cookie(key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], value=tokens["refresh"], httponly=True)
+
+        response.data = {
+            "access": tokens["access"],
+            "refresh": tokens["refresh"],
+            "csrftoken": csrf.get_token(request),
+            "user": user.username,
+            "role": user.role,
+            "email": user.email,
+        }
+        return response
+    raise Exception.AuthenticationFailed("Email or Password is incorrect!")
+
+@rest_decorators.api_view(["POST"])
+@rest_decorators.permission_classes([])
 def signout(request):
-    try:
-        refresh_token = request.data.get('refresh')
-        print(refresh_token, 'refresh_token')
-        print(f"Received refresh token: {refresh_token}")
-        if not refresh_token:
-            return Response({'error': 'Please provide refresh token'}, status=400)
-        token = RefreshToken(refresh_token)     
-        try:
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-        except Exception as e:
-            print(f"Error blacklisting token: {str(e)}")
-            return Response({'error': f'Invalid token: {str(e)}'}, status=400)
-        logout(request)
-        return Response({'success': 'User logged out successfully'}, status=200)
-    except Exception as e:
-        print(f"Unexpected error in signout: {str(e)}")
-        return Response({'error': str(e)}, status=400)
+    response = Response()
+    response.delete_cookie(key=settings.SIMPLE_JWT['AUTH_COOKIE'])
+    response.delete_cookie(key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+    response.data = {
+        "success": "Logged out successfully"
+    }
+    return response
 
-    
+
+
+
+
+
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@rest_decorators.permission_classes([rest_permissions.IsAuthenticated])
 def user(request):
     try:
         user = request.user
@@ -89,8 +90,39 @@ def user(request):
         return Response({'error': str(e)}, status=400)
     
 
+class CookieTokenRefreshSerializer(jwt_serializers.TokenRefreshSerializer):
+    refresh = None
+
+    def validate(self, attrs):
+        attrs['refresh'] = self.context['request'].COOKIES.get('refreshToken')
+        if attrs['refresh']:
+            return super().validate(attrs)
+        else:
+            raise jwt_exceptions.InvalidToken(
+                'No valid token found in cookie \'refresh\'')
+
+
+class CookieTokenRefreshView(jwt_views.TokenRefreshView):
+    serializer_class = CookieTokenRefreshSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if response.data.get("refresh"):
+            response.set_cookie(
+                key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
+                value=response.data['refresh'],
+                expires=settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'],
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+                httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+                samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+            )
+
+            del response.data["refresh"]
+        response["X-CSRFToken"] = request.COOKIES.get("csrftoken")
+        return super().finalize_response(request, response, *args, **kwargs)
+    
+
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated, IsAdminUser])
+@rest_decorators.permission_classes([rest_permissions.IsAuthenticated])
 def update_user_role(request, user_id):
     try:
         user = CustomUser.objects.get(id=user_id)
@@ -107,7 +139,6 @@ def update_user_role(request, user_id):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_all_users(request):
     try:
         if not request.user.is_authenticated or request.user.role != 'admin':
@@ -120,7 +151,7 @@ def get_all_users(request):
     
 
 @api_view(['POST'])
-@permission_classes([IsAdminUser])
+@rest_decorators.permission_classes([rest_permissions.IsAuthenticated])
 def update_user_password(request):
     try:
         user = request.user

@@ -57,9 +57,15 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'backend.authentication.api.views.authenticate.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', ## Change to IsAuthenticated after testing as AllowAny allows all requests. 
     ),
     
 }
+
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,6 +97,7 @@ TEMPLATES = [
     },
 ]
 
+"""
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -105,14 +112,93 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+"""
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+
+    # custom
+
+    'AUTH_COOKIE': 'access',
+    # Cookie name. Enables cookies if value is set.
+    'AUTH_COOKIE_REFRESH': 'refresh',
+    # A string like "example.com", or None for standard domain cookie.
+    'AUTH_COOKIE_DOMAIN': None,
+    # Whether the auth cookies should be secure (https:// only).
+    'AUTH_COOKIE_SECURE': False, 
+    # Http only cookie flag.It's not fetch by javascript.
+    'AUTH_COOKIE_HTTP_ONLY': True, 
+    'AUTH_COOKIE_PATH': '/',        # The path of the auth cookie.
+    # Whether to set the flag restricting cookie leaks on cross-site requests. This can be 'Lax', 'Strict', or None to disable the flag.
+    'AUTH_COOKIE_SAMESITE': "None", # TODO: Modify to Lax
+}
+
+
 
 CORS_ALLOW_CREDENTIALS = True
-
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
+# Configure CSRF cookie settings
+CSRF_COOKIE_NAME = 'csrftoken'  # Change as desired
+CSRF_COOKIE_SECURE = False  # Set to True if your site uses HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Set to True for added security
+CSRF_COOKIE_SAMESITE = 'None'  # Set to 'Strict' once you have configured your site for HTTPS
+CORS_ALLOW_HEADERS = [
+  "content-type",
+   "authorization",
+    "X-CSRFToken",
+    
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken", "Authorization"]
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+
+
+
+
+
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -122,25 +208,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 
-#CORS_ALLOW_HEADERS = [
- #   "access-control-allow-credentials",
-  #  "content-type",
-   # "X-Csrftoken"
-    # Add any other headers you need to allow here
-#]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
 
-]
-# Configure CSRF cookie settings
-CSRF_COOKIE_NAME = 'csrftoken'  # Change as desired
-CSRF_COOKIE_SECURE = False  # Set to True if your site uses HTTPS
-CSRF_COOKIE_HTTPONLY = False  # Set to True for added security
-CSRF_COOKIE_SAMESITE = 'Lax'
-
-#Only if you want all orgins to be allowed, not recommended. 
-#CORS_ORIGIN_ALLOW_ALL = True
 
 
 WSGI_APPLICATION = 'backend.wsgi.application'
@@ -155,8 +224,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-AUTH_USER_MODEL = 'authentication.CustomUser'
 
 
 # Password validation

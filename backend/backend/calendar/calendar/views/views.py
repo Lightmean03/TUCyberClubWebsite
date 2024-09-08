@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 class CalendarViewSet(viewsets.ModelViewSet):
     queryset = Calendar.objects.all()
@@ -19,11 +20,13 @@ def get_calendar(request):
 
 @api_view(['POST'])
 def create_calendar_event(request):
+    if request.user.role != 'admin':
+        return Response({'error': 'Permission denied'}, status=403)
     serializer = CalendarSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+    
 
 
 @api_view(['PUT'])
