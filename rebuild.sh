@@ -1,5 +1,4 @@
 #!/bin/bash
-docker stop tucyberclubwebsite-backend tucyberclubwebsite-my-app
 image_names=("tucyberclubwebsite-backend" "tucyberclubwebsite-my-app")
 
 for image_name in "${image_names[@]}"; do
