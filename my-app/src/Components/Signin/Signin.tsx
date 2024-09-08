@@ -78,7 +78,7 @@ const Signin: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="mt-6 w-full rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400"
+            className="mt-6 w-full rounded-lg btn btn-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-amber-400"
           >
             Log in
           </button>
