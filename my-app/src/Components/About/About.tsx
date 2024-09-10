@@ -60,7 +60,7 @@ export default function About() {
           Our mission is to provide a platform for students to explore, learn, and excel in the field of cybersecurity. 
           We aim to bridge the gap between academic knowledge and real-world applications, preparing our members for successful careers in this dynamic field.
         </p>
-        <h3>Join the discord to stay informed: https://discord.gg/jmR4gysYxB </h3>
+<h3>Join the discord to stay informed: <a href="https://discord.gg/jmR4gysYxB" target="_blank">https://discord.gg/jmR4gysYxB</a></h3>
       </section>
   
       {/* Activities and Events Section */}
