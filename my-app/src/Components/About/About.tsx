@@ -69,7 +69,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Weekly Meetings</h3>
-              <p>Every Wednesdays and Thursdays, we host hands-on workshops covering various cybersecurity topics.</p>
+              <p>Every Wednesdays at 5pm, and every Friday at 4pm. in the cyber center room 364</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Guest Speakers</h3>
@@ -77,7 +77,7 @@ export default function About() {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Competitions</h3>
-              <p>We participate in CCDC, CPTC, and other national cybersecurity competitions.</p>
+              <p>We participate in CCDC, CPTC,NCL,HIVESTORM and other national cybersecurity competitions.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold mb-4">Networking Events</h3>
